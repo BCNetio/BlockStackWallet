@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>E69A28E9-0B59-4E8A-8B8B-5264F42F2409</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="100%" x2="50%" y2="0%" id="linearGradient-1">
+            <stop stop-color="#29B311" offset="0%"></stop>
+            <stop stop-color="#57D841" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="dappy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icons" transform="translate(-355.000000, -150.000000)">
+            <g id="Group" transform="translate(355.000000, 150.000000)">
+                <rect id="Checkbox" fill="url(#linearGradient-1)" x="0" y="0" width="16" height="16" rx="4"></rect>
+                <path d="M11.3135,5.29325 C10.9225,4.90225 10.2895,4.90225 9.8995,5.29325 L6.5355,8.65725 L5.7065,7.82925 C5.3165,7.43825 4.6835,7.43825 4.2925,7.82925 C3.9025,8.21925 3.9025,8.85225 4.2925,9.24325 L5.8285,10.77825 C6.2185,11.16925 6.8515,11.16925 7.2425,10.77825 L11.3135,6.70725 C11.7045,6.31725 11.7045,5.68425 11.3135,5.29325" id="Tick" fill="#FFFFFF"></path>
+            </g>
+        </g>
+    </g>
+</svg>

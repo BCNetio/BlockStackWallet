@@ -1,0 +1,23 @@
+{
+  "presets": [["env", { "targets": { "node": "current" } }], ["react"], ["stage-2"]],
+  "env": {
+    "development": {
+      "plugins": [
+        ["babel-plugin-transform-react-jsx"],
+        ["fbjs-scripts/babel-6/dev-expression"],
+        ["transform-runtime"]
+      ]
+    },
+    "production": {
+      "plugins": [
+        [
+          "transform-react-remove-prop-types",
+          {
+            "mode": "wrap",
+            "ignoreFilenames": ["node_modules"]
+          }
+        ]
+      ]
+    }
+  }
+}
