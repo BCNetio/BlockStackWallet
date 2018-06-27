@@ -22,7 +22,8 @@ mv * /your/public/server/folder
 
 ```
 app/Providers/config.js - apiKeys and config.exchangeApiKeys
-app/AppConfig.js - config.nodes 
+app/AppConfig.js - config.bsNodeProfile (url of blockstack profile) needed in case you run local node
+app/AppConfig.js - config.nodes (list of ethereum like nodes)
 ```
 
 ## Manifest file

@@ -11,6 +11,8 @@ export const curNames = {
 
 export const config = {};
 
+config.bsNodeProfile = 'https://browser.blockstack.org/profiles';
+
 config.avCurrencyes = new Map([
   [curNames.BTC, { name: 'Bitcoin', abbr: 'BTC', sysName: curNames.BTC }],
   [curNames.BCH, { name: 'Bitcoin cash', abbr: 'BCH', sysName: curNames.BCH }],

@@ -2,14 +2,13 @@ import React from 'react';
 import { signUserOut, loadUserData, Person } from 'blockstack';
 import styled from 'styled-components';
 import Logo from '../images/dappy-logo.svg';
-import { StyledButton, Scroll, ScrollableItem, Filter, InputSearch, AddButton } from '../Views';
 import ReactDOM from 'react-dom';
 import IconSupport from '../images/common/icon-support.svg';
 import IconArrowDown from '../images/common/icon-arrow-down.svg';
 import IconProfile from '../images/common/icon-profile.svg';
 import IconLogOut from '../images/common/icon-log-out.svg';
-import IconCur from '../images/ic-eth.svg';
 import Fiat from '../Fiat/Fiat';
+import { config } from '../AppConfig';
 
 const LogoWrapper = styled.div`
   width: 15%;
@@ -280,7 +279,7 @@ class ProfilePopUp extends React.Component {
                 <li>
                   <a
                     className="profile"
-                    href="https://browser.blockstack.org/profiles"
+                    href={config.bsNodeProfile}
                     target="_blank"
                   >
                     Blockstack profile

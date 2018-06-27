@@ -1,13 +1,11 @@
 import React from 'react';
 import Card from '@material-ui/core/Card';
 import RemoveIcon from '@material-ui/icons/Remove';
-import Close from '@material-ui/icons/KeyboardArrowUp';
 import Open from '@material-ui/icons/KeyboardArrowDown';
 import styled from 'styled-components';
 import { v4 } from 'uuid';
 import { head } from 'ramda';
 import { Scroll, ScrollableItem } from '../Views';
-
 const styles = {
   card: {
     width: '100%',
