@@ -34,7 +34,6 @@ function* createWallet(action) {
 function* updateWalletByWID(action) {
   const { wallet } = action.payload;
   const { kpList } = yield call(getWalletList);
-  console.log(kpList, action.payload)
   const newWalletList = yield setWalletList([...kpList.filter(w => w.wid !== wallet.wid), wallet]);
   yield put({type: types.MOUNT_WALLETS, payload: newWalletList});
 }

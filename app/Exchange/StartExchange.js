@@ -184,9 +184,6 @@ class StartExchange extends React.Component {
   validation = (value) => {
     const convertedValue = Number(value);
     const { balance, marketInfo, fee, gas } = this.props;
-
-    console.log(toETH(gas * 21));
-
     const checkComission = value =>
       !this.state.walletFrom.type.includes('et')
         ? toSatoshi(balance) - fee - toSatoshi(value) > 0
@@ -242,7 +239,6 @@ class StartExchange extends React.Component {
         valid: false,
         error: result.error,
       });
-    console.log(result);
   };
 
   amoutExchangeRate = amount =>

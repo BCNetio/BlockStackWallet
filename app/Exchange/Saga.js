@@ -49,7 +49,6 @@ function* fetchCheckExchange(action) {
 
 function* makeTransaction(action) {
   const { wallet, receivers } = action.payload;
-  console.log('make');
   const { data } = yield call(xhr.getUtxo, wallet.type, wallet.address);
   const hash = transactionByType.get(wallet.type)(wallet.privateKey, data, receivers, wallet.type);
   const e = yield call(xhr.broadcastTX, wallet.type, hash);

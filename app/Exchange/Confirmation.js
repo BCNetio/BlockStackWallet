@@ -126,7 +126,6 @@ class Confirmation extends React.Component {
     const { trx, exchangeDetails, balance, marketInfo } = this.props;
     this.props.mountActiveTab(2);
     this.props.fetchStatusDeposit(trx.deposit);
-    console.log(exchangeDetails.walletFrom);
     this.props.makeTransaction(
       exchangeDetails.walletFrom,
       [
@@ -140,7 +139,6 @@ class Confirmation extends React.Component {
   };
 
   render() {
-    console.log(this.state);
     const { exchangeDetails, marketInfo } = this.props;
     return (
       <Confirm>

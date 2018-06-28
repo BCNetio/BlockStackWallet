@@ -17,9 +17,9 @@ class InputForAddres extends React.Component {
   }
 
   onKeyDown = (e) => {
-    e.keyCode == 13
-      ? this.props.handleMenuItemClick({ type: 'addr', address: this.state.address })
-      : console.log('net');
+    if(e.keyCode === 13){
+      this.props.handleMenuItemClick({ type: 'addr', address: this.state.address })
+    }
   };
 
   onOpenInput = () => {
