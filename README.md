@@ -45,24 +45,24 @@ app/AppConfig.js - config.nodes (list of ethereum like nodes)
 ## Nginx example 
 ```
 server {
-	listen 443 ssl;
-	server_name app.bcnet.io;
-    ssl_certificate /etc/crypto/app.bcnet.io/fullchain.pem;
-    ssl_certificate_key /etc/crypto/app.bcnet.io/privkey.pem;
+  listen 443 ssl;
+  server_name app.bcnet.io;
+  ssl_certificate /etc/crypto/app.bcnet.io/fullchain.pem;
+  ssl_certificate_key /etc/crypto/app.bcnet.io/privkey.pem;
 
-    location / {
-        root /cdn/dappy/;
-        try_files $uri /index.html;
-        add_header Access-Control-Allow-Origin *;
-	}
+  location / {
+    root /cdn/dappy/;
+    try_files $uri /index.html;
+    add_header Access-Control-Allow-Origin *;
+  }
 }
 server {
-    if ($host = app.bcnet.io) {
-        return 301 https://$host$request_uri;
-    }
-	listen 80;
-	listen [::]:80;
-	server_name app.bcnet.io;
-    return 404;
+  if ($host = app.bcnet.io) {
+    return 301 https://$host$request_uri;
+  }
+  listen 80;
+  listen [::]:80;
+  server_name app.bcnet.io;
+  return 404;
 }
 ```
