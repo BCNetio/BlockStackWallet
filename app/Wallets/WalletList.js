@@ -2,11 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { filter } from 'ramda';
 import { withRouter } from 'react-router-dom';
+import styled from 'styled-components';
 import * as actions from './WalletList/Actions';
-import { fetchTransactions } from './Wallet/Actions';
 import Modal from '../CommonComponents/Modal';
 import { SEND } from './WalletList/RenderFunctions';
-import styled from 'styled-components';
 import IconSupport from '../images/common/icon-support.svg';
 import IconArrowDown from '../images/common/icon-arrow-down.svg';
 import { AvaliableWallets } from './WalletList/Views';
@@ -168,7 +167,7 @@ class WalletList extends React.Component {
     return props.wallets.length ? { ...state, walletList: props.wallets } : state;
   }
 
-  splitWallets = e =>
+  splitWallets = _ =>
     this.setState({
       separate: !this.state.separate,
       walletList: !this.state.separate ? this.rebuildWallets() : this.props.wallets,
@@ -192,10 +191,12 @@ class WalletList extends React.Component {
       }
       return [...acc, cur];
     }, []);
-
+  
   handleSearch = (e) => {
-    this.setState({ searchPattern: e.currentTarget.value });
-    this.setState({ walletList: this.filterWallets(e.target.value) });
+    this.setState({
+      walletList: this.filterWallets(e.currentTarget.value),
+      searchPattern: e.currentTarget.value
+    });
   };
 
   handleShowZeroBalanced = () => {
