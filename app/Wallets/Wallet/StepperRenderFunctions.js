@@ -349,7 +349,7 @@ export const SenderBlock = ({
         </div>
       </div>
     </div>
-    <Tooltip>Aviable amount: {balance}</Tooltip>
+    <Tooltip>Available amount: {balance}</Tooltip>
     <Tooltip className="error">{error}</Tooltip>
     {wallet.readOnly && <div className="wrapper">
       <span>Private key</span>
@@ -412,8 +412,6 @@ export const SendBlock = ({
   wallet,
   change,
   amount,
-  isToken,
-  filterWalletList,
   handleReciver,
   receiver,
   onOpenOptions,
@@ -426,13 +424,14 @@ export const SendBlock = ({
   balance,
   rop,
   changeROP,
+  wallets,
 }) => (
   <div>
     <SenderBlock
       wallet={wallet}
       change={change}
       amount={amount}
-      wallets={filterWalletList(wallet.type, isToken)}
+      wallets={wallets}
       handleReciver={handleReciver}
       receiver={receiver}
       error={error}

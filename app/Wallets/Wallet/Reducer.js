@@ -12,11 +12,9 @@ const initialState = {
   status: 'Pending',
 };
 
-const checkoutInitial = (state, action) => ({ ...action.payload });
-
 export const wallet = handleActions(
   {
-    [types.CHECKOUT_INITIAL]: checkoutInitial,
+    [types.CHECK_OUT_INITIAL]: (state, action) => ({ ...action.payload }),
     [types.MOUNT_DATA_FOR_CHART]: (state, action) => ({ ...state, chartData: action.payload }),
     [types.GET_WALLET]: (state, action) => ({
       ...state,

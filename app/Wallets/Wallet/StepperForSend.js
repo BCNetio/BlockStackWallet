@@ -82,10 +82,6 @@ class Stepper extends React.Component {
   calculateMinimalFee = () => this.props.fee;
 
   validate = (amount) => {
-    // const toBeSent = toSatoshi(Number(amount));
-    // const operationWeight =
-    //   toSatoshi(this.props.wallet.balance.value) - (toBeSent + this.state.options.fee);
-    // return operationWeight >= 0 && toBeSent - this.state.options.fee > this.state.options.fee;
     return true;
   };
 
@@ -114,13 +110,11 @@ class Stepper extends React.Component {
       } else {
         return [...acc, cur];
       }
-    }, []).filter((wallet) => {
-      if (isToken) {
-        return wallet.type === curNames.ETH || wallet.token !== undefined;
-      } else {
-        return wallet.type === currency;
-      }
-    });
+    }, []).filter(wallet =>
+      isToken
+        ? wallet.type === curNames.ETH || wallet.token !== undefined
+        : wallet.type === currency
+    );
 
   changeOptionsValue = (attribute, value) => {
     this.setState({ options: { ...this.state.options, [attribute]: value } });
@@ -161,7 +155,6 @@ class Stepper extends React.Component {
                 change={this.onChangeAmount}
                 amount={this.state.amount}
                 isToken={this.isToken}
-                filterWalletList={this.filterWalletList}
                 wallets={this.filterWalletList(this.props.wallet.type, this.isToken)}
                 handleReciver={this.handleReciver}
                 receiver={this.state.receiver}

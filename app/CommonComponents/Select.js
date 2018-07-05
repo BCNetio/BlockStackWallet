@@ -1,14 +1,14 @@
 import React from 'react';
 import { v4 } from 'uuid';
+import { equals, has, head } from 'ramda';
+import ReactDOM from 'react-dom';
+import styled from 'styled-components';
 import { logos } from '../images';
 import { fiats } from '../images/fiat/index';
-import { has } from 'ramda';
 import { searachFunctions } from './PopUp/config';
-import ReactDOM from 'react-dom';
 import SearchBar from './PopUp/Search';
 import InputForAddres from './PopUp/InputForAddres';
 import IconArrowGreen from '../images/common/icon-arrow-green.svg';
-import styled, { css } from 'styled-components';
 
 const DropdawnWrapper = styled.div`
   position: absolute;
@@ -87,13 +87,14 @@ const transactionInput = ({ content, action }) => (
     <div>
       { content ? <img src={logos[content.type]} /> : null}
     </div>
-    <p>{ content && content.alias ? content.alias : "--"}</p>
+    <p>{ content && content.alias ? content.alias : '--' }</p>
   </div>
 );
 
-const tranactionMenuItem = ({ content, action, index }) => (
+const transactionMenuItem = ({ content, action, index }) => (
   <div onClick={() => action(index, content)}>
-    <img src={logos[content.type]} /> <p>{has('alias', content) ? content.alias : content.type}</p>
+    <img src={logos[content.type]} />
+    <p>{has('alias', content) ? content.alias : content.type}</p>
   </div>
 );
 
@@ -153,7 +154,7 @@ const fiatMenuItem = ({ content, action, index }) => (
   </div>
 );
 const config = {
-  transactions: { input: transactionInput, menuItem: tranactionMenuItem },
+  transactions: { input: transactionInput, menuItem: transactionMenuItem },
   chart: { input: chartInput, menuItem: walletMenuItem },
   fiat: { input: fiatInput, menuItem: fiatMenuItem },
   wallet: { input: walletInput, menuItem: walletMenuItem },
@@ -183,7 +184,10 @@ class Select extends React.Component {
     document.removeEventListener('click', this.handleClickOutside, false);
   }
 
-  getSnapshotBeforeUpdate() {
+  getSnapshotBeforeUpdate(nextProps) {
+    if (!equals(this.state.list, nextProps.list)) {
+      this.setState({ list: nextProps.list });
+    }
     document.addEventListener('click', this.handleClickOutside, false);
     return null;
   }
@@ -212,7 +216,7 @@ class Select extends React.Component {
     const Input = config[this.props.config.type].input;
     return (
       <div>
-        <Input action={() => this.setState({ isOpened: true })} content={this.props.selectItem} />
+        <Input action={() => this.setState({ isOpened: true })} content={this.props.selectItem || head(this.props.list)} />
         {this.state.isOpened && (
           <DropdawnWrapper>
             {this.props.config.search && <SearchBar onSearchItem={this.onSearchItem} />}
