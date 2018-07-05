@@ -1,4 +1,5 @@
 import { put, call, takeLatest } from 'redux-saga/effects';
+import { head } from 'ramda';
 import { delay } from 'redux-saga';
 import { types } from './ActionTypes';
 import XHRProvider from '../../Providers/XHRProvider';
@@ -76,10 +77,10 @@ function* fetchTransactions(action) {
 function* btcLikeTX({ wallet, receivers, options }) {
   const { data } = yield call(xhr.getUtxo, wallet.type, wallet.address);
   const newResivers = [
-    { ...receivers[0], amount: toSatoshi(receivers[0].amount) },
+    { ...receivers[0], amount: toSatoshi(head(receivers).amount) },
     {
       key: wallet.address,
-      amount: toSatoshi(wallet.balance.value) - toSatoshi(receivers[0].amount) - options.fee,
+      amount: toSatoshi(wallet.balance.value) - toSatoshi(head(receivers).amount) - options.fee,
     },
   ];
   const hash = transactionByType.get(wallet.type)(

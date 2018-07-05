@@ -216,7 +216,10 @@ class Select extends React.Component {
     const Input = config[this.props.config.type].input;
     return (
       <div>
-        <Input action={() => this.setState({ isOpened: true })} content={this.props.selectItem || head(this.props.list)} />
+        <Input
+          action={() => this.setState({ isOpened: true })}
+          content={this.props.selectItem || head(this.props.list)}
+        />
         {this.state.isOpened && (
           <DropdawnWrapper>
             {this.props.config.search && <SearchBar onSearchItem={this.onSearchItem} />}

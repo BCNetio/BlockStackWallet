@@ -3,14 +3,15 @@ import { connect } from 'react-redux';
 import FormControl from '@material-ui/core/FormControl';
 import { v4 } from 'uuid';
 import { lensPath, view, head } from 'ramda';
-import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import { withRouter } from 'react-router-dom';
 import * as actions from './Actions';
+
 import { recoverWallet, walletGenerator } from '../../Providers/Wallets';
+
 import {
   PopupLayout,
   Popup,
@@ -19,6 +20,7 @@ import {
   TabsWrapper,
   InputGrey,
 } from '../../Views';
+
 import {
   CurrencySelect,
   ButtonControl,
@@ -26,6 +28,10 @@ import {
   WalletTypeSelect,
 } from './CreateNewWalletView';
 import { updateWalletByAddress } from '../Wallet/Actions';
+
+const CREATE = 0;
+const IMPORT = 1;
+const TOKENS = 2;
 
 const mapDispatchToProps = dispatch => ({
   deleteWallet: (walletList, wallet) => dispatch(actions.deleteWallet(walletList, wallet)),
@@ -37,17 +43,13 @@ const mapStateToProps = state => ({
   wallets: state.wallets.walletList.walletList,
 });
 
-function TabContainer(props) {
-  return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
-      {props.children}
-    </Typography>
-  );
-}
+const TabContainer = props => (
+  <Typography component="div" style={{ padding: 8 * 3 }}>
+    {props.children}
+  </Typography>
+);
 
-TabContainer.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+
 
 class CreateNewWallet extends React.Component {
   constructor(props) {
@@ -66,7 +68,7 @@ class CreateNewWallet extends React.Component {
         symbol: '',
         decimals: '',
         price: {},
-      }
+      },
     };
     this.focus = view(lensPath(['options', 'wallets']), props);
   }
@@ -77,18 +79,22 @@ class CreateNewWallet extends React.Component {
       walletPreview: null,
     });
   };
-  
+
   handleTokenChange = (target, value) => {
     this.setState({ ...this.state, token: {...this.state.token, [target]: value }});
   };
-  
+
   saveWallet = () => {
     const wallet =
       this.state.wType.wType === 'Read only'
         ? { ...this.state.walletPreview, privateKey: null, readOnly: true }
         : this.state.walletPreview;
     this.props.createWallet(this.focus ? this.focus : this.props.wallets, wallet);
-    setTimeout(() => this.props.history.push(`/wallet/${wallet.wid}`), 1000);
+    setTimeout(() => this.props.history.push({
+      pathname: `/wallet/${wallet.wid}`,
+      state: wallet,
+    }), 1000);
+    localStorage.setItem('selectWallet', wallet.wid);
     this.props.closeModal();
   };
 
@@ -118,7 +124,10 @@ class CreateNewWallet extends React.Component {
   generateWallet = () => {
     const wallet = head(walletGenerator([this.state.currency.sysName]));
     this.props.createWallet(this.focus ? this.focus : this.props.wallets, wallet);
-    setTimeout(() => this.props.history.push(`/wallet/${wallet.wid}`), 1000);
+    setTimeout(() => this.props.history.push({
+      pathname: `/wallet/${wallet.wid}`,
+      state: wallet,
+    }), 1000);
   };
 
   recoverWallet = () => {
@@ -145,7 +154,7 @@ class CreateNewWallet extends React.Component {
   };
 
   render() {
-    const { value } = this.state; // for tabs
+    const { value } = this.state;
     return (
       <PopupLayout>
         <Popup create>
@@ -159,15 +168,17 @@ class CreateNewWallet extends React.Component {
               </Tabs>
             </AppBar>
           </TabsWrapper>
-          {value === 0 && (
+          {value === CREATE && (
             <TabContainer>
               <p className="description">
                 Please select from the list below the cryptocurrency you want to create the new
                 wallet. New wallet will appear in the list of your wallets instantly.
               </p>
               <FormControl className="select-wrapper" style={{ width: '100%' }}>
-                <CurrencySelect handleChange={this.handleChange} currency={this.state.currency} />
-
+                <CurrencySelect
+                  handleChange={this.handleChange}
+                  currency={this.state.currency}
+                />
                 <ButtonControl
                   currency={this.state.currency}
                   pk={this.state.hashKey}
@@ -182,7 +193,7 @@ class CreateNewWallet extends React.Component {
               </FormControl>
             </TabContainer>
           )}
-          {value === 1 && (
+          {value === IMPORT && (
             <TabContainer>
               <p className="description">
                 Please select the currency name you want to import the existing wallet using the
@@ -210,7 +221,7 @@ class CreateNewWallet extends React.Component {
               />
             </TabContainer>
           )}
-          {value === 2 && (
+          {value === TOKENS && (
             <TabContainer>
               <p className="description">
                 {`Dappy Wallet allows the customer to register the token that Dappy doesn't support.
@@ -219,24 +230,27 @@ class CreateNewWallet extends React.Component {
                 list instantly. In order to use custom token please select the blockchain that token
                 use: Please fill in the token parameters`}
               </p>
-              <CurrencySelect handleChange={this.handleTokenChange} currency={this.state.currency} />
+              <CurrencySelect
+                handleChange={this.handleTokenChange}
+                currency={this.state.currency}
+              />
               <InputGrey
                 value={this.state.token.address}
                 type="text"
                 placeholder="Contract address"
-                onChange={(e) => this.handleTokenChange('address', e.currentTarget.value) }
+                onChange={(e) => this.handleTokenChange('address', e.currentTarget.value)}
               />
               <InputGrey
                 value={this.state.token.name}
                 type="text"
                 placeholder="Name"
-                onChange={(e) => this.handleTokenChange('name', e.currentTarget.value) }
+                onChange={(e) => this.handleTokenChange('name', e.currentTarget.value)}
               />
               <InputGrey
                 value={this.state.token.symbol}
                 type="text"
                 placeholder="Symbol"
-                onChange={(e) => this.handleTokenChange('symbol', e.currentTarget.value) }
+                onChange={(e) => this.handleTokenChange('symbol', e.currentTarget.value)}
               />
               <InputGrey
                 value={this.state.token.decimals}

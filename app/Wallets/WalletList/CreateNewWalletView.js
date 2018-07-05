@@ -1,8 +1,6 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Select from '../../CommonComponents/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import { logos } from '../../images';
 import { config } from '../../AppConfig';
 import { PopupButton } from '../../Views';
 

@@ -149,6 +149,10 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class WalletList extends React.Component {
+  static getDerivedStateFromProps(props, state) {
+    return props.wallets.length ? { ...state, walletList: props.wallets } : state;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -163,8 +167,8 @@ class WalletList extends React.Component {
     };
   }
 
-  static getDerivedStateFromProps(props, state) {
-    return props.wallets.length ? { ...state, walletList: props.wallets } : state;
+  componentDidMount() {
+    this.props.checkoutWallets();
   }
 
   splitWallets = _ =>
@@ -191,7 +195,7 @@ class WalletList extends React.Component {
       }
       return [...acc, cur];
     }, []);
-  
+
   handleSearch = (e) => {
     this.setState({
       walletList: this.filterWallets(e.currentTarget.value),
@@ -216,10 +220,6 @@ class WalletList extends React.Component {
       wallet.address.includes(searchPattern);
     return filter(filterFunc, this.props.wallets);
   };
-
-  componentDidMount() {
-    this.props.checkoutWallets();
-  }
 
   selectWallet = (wallet) => {
     localStorage.setItem('selectWallet', wallet.wid);

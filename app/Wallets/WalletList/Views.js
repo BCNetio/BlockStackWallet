@@ -1,6 +1,7 @@
 import React from 'react';
 import Card from '@material-ui/core/Card';
-import Typography from '@material-ui/core/Typography';
+import { has } from 'ramda';
+import styled from 'styled-components';
 import { withStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
@@ -8,8 +9,6 @@ import { logos } from '../../images/index';
 import { config } from '../../AppConfig';
 import LongMenu from './LongMenu';
 import CreateNewWallet from './CreateNewWallet';
-import styled from 'styled-components';
-import { has } from 'ramda';
 import { toFiat } from '../../Providers/Wallets';
 
 const styles = {
@@ -169,7 +168,7 @@ export const WalletCard = withStyles(styles)(
             <VisibilityOff className={classes.plusIcon} />
           </ReadOnlyIcon>
         ) : null}
-        <img src={logos[type]} className={classes.logo} style={{ marginRight: '15px' }} />
+        <img src={logos[type]} className={classes.logo} style={{ marginRight: '15px' }} alt={'logo'} />
         <div style={{ width: '80%' }}>
           <WalletName>{alias || config.avCurrencyes.get(type).name}</WalletName>
           <TokensDisplay>Tokens {(tokens && tokens.tokenList.length) || 0}</TokensDisplay>
