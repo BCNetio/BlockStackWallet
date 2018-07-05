@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { filter } from 'ramda';
+import { filter, equals } from 'ramda';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import * as actions from './WalletList/Actions';
@@ -150,7 +150,9 @@ const mapDispatchToProps = dispatch => ({
 
 class WalletList extends React.Component {
   static getDerivedStateFromProps(props, state) {
-    return props.wallets.length ? { ...state, walletList: props.wallets } : state;
+    return props.wallets.length && !state.walletList.length
+      ? { ...state, walletList: props.wallets }
+      : state;
   }
 
   constructor(props) {
@@ -199,7 +201,7 @@ class WalletList extends React.Component {
   handleSearch = (e) => {
     this.setState({
       walletList: this.filterWallets(e.currentTarget.value),
-      searchPattern: e.currentTarget.value
+      searchPattern: e.currentTarget.value,
     });
   };
 
@@ -217,7 +219,7 @@ class WalletList extends React.Component {
   filterWallets = (searchPattern) => {
     const filterFunc = wallet =>
       wallet.alias.toUpperCase().includes(searchPattern.toUpperCase()) ||
-      wallet.address.includes(searchPattern);
+      wallet.address.toUpperCase().includes(searchPattern.toUpperCase());
     return filter(filterFunc, this.props.wallets);
   };
 

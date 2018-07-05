@@ -20,15 +20,15 @@ class Wallet extends React.Component {
   constructor(props) {
     super(props);
     if (props.wallet.wid !== props.match.params.id) {
-      this.props.getWalletInGaia(props.match.params.id);
+      props.getWalletInGaia(props.match.params.id);
     }
     this.state = {
       modalContent: null,
       modalOptions: undefined,
     };
-    this.wallet = this.props.history.location.state
-      ? this.props.history.location.state
-      : this.props.wallet;
+    this.wallet = props.history.location.state
+      ? props.history.location.state
+      : props.wallet;
   }
 
   callModal = (Component, optionalData) => {
