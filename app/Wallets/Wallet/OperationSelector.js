@@ -1,8 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-import { makeTransaction } from './Actions';
-import { SEND } from './RenderFunctions';
 import Stepper from './StepperForSend';
 
 const styles = {
@@ -18,23 +15,6 @@ const styles = {
   },
 };
 
-class Operations extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { sendReceiveSelector: SEND };
-  }
+const Operations = ({ wallet }) => (<Stepper wallet={wallet} />);
 
-  render() {
-    return <Stepper wallet={this.props.wallet} />;
-  }
-}
-
-const mapStateToProps = state => ({
-  walletInfo: state.wallets.wallet.walletInfo,
-});
-
-const mapDispatchToProps = dispatch => ({
-  makeTransaction: (pk, address, recievers) => dispatch(makeTransaction(pk, address, recievers)),
-});
-
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Operations));
+export default withStyles(styles)(Operations);

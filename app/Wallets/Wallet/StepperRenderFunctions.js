@@ -1,11 +1,11 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { BackButton, Input } from '../../Views';
 import Select from '../../CommonComponents/Select';
 import IconArrowDown from '../../images/common/icon-arrow-down.svg';
 import IconScale from '../../images/common/icon-scale.svg';
 import config from '../../Providers/config';
-import {curNames} from "../../AppConfig";
+import { curNames } from '../../AppConfig';
 
 const Dots = styled.span``;
 
@@ -377,7 +377,7 @@ export const SenderBlock = ({
 );
 
 export const AdvancedOptions = ({ type, onChange, value }) =>
-  type.includes('et') || !curNames[type] ? (
+  type === 'etc' || type === 'ech' ? (
     <GasBlock values={value} onChange={onChange} />
   ) : (
     <FeeBlock value={value.fee} onChange={onChange} />
@@ -387,7 +387,7 @@ export const FeeBlock = ({ value, onChange }) => (
   <Hidden>
     <div className="wrapper">
       <span>Fee (Satoshi)</span>
-      <Input value={value} onChange={(e)=>onChange('fee', e.currentTarget.value)} type={'number'} style={{ width: '30%' }} />
+      <Input value={value} onChange={(e) => onChange('fee', e.currentTarget.value)} type={'number'} style={{ width: '30%' }} />
     </div>
   </Hidden>
 );
@@ -399,9 +399,9 @@ export const GasBlock = ({ values, onChange }) => {
       <div className="wrapper">
         <span>Gas price (Gwei)</span>
         <div>
-          <Input value={Number(gasPrice)} onChange={(e)=>onChange('gasPrice', e.currentTarget.value)} type={'number'} />
+          <Input value={Number(gasPrice)} onChange={(e) => onChange('gasPrice', e.currentTarget.value)} type={'number'} />
           <span>Gas limit</span>
-          <Input value={Number(gasLimit)} onChange={(e)=>onChange('gasLimit', e.currentTarget.value)} type={'number'} />
+          <Input value={Number(gasLimit)} onChange={(e) => onChange('gasLimit', e.currentTarget.value)} type={'number'} />
         </div>
       </div>
     </Hidden>

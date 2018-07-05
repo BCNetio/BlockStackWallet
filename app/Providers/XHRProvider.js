@@ -146,9 +146,6 @@ export default class XHRProvider {
   broadcastTX = (type, rawTx) =>
     axios.post(config.broadcastTX(type), { rawtx: rawTx }).then(response => response.data);
 
-  // broadcastTX = (type, rawTx) =>
-  //   axios.post(config.broadcastTX(type), { rawtx: rawTx }).then(response => response);
-
   broadcastBTCtx = rawTx =>
     axios.post(config.broadcastBTCtx, { rawtx: rawTx }).then(response => response);
 

@@ -1,14 +1,14 @@
 import React from 'react';
+import { head } from 'ramda';
 import { connect } from 'react-redux';
 import Card from '@material-ui/core/Card';
 import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import IconDirection from '../../images/common/icon-direction.svg';
 import { makeTransaction } from './Actions';
-import { toSatoshi } from '../../Providers/Wallets';
 import { Confirmation, SendBlock, StatusTransaction } from './StepperRenderFunctions';
-import {curNames} from "../../AppConfig";
+import { curNames } from '../../AppConfig';
 
 const styles = {
   card: {
@@ -31,8 +31,6 @@ const ExchangeWrapper = styled.div`
     margin: 0 auto;
   }
 `;
-
-
 
 const Title = styled.div`
   padding: 20px;
@@ -58,13 +56,13 @@ const Title = styled.div`
 class Stepper extends React.Component {
   constructor(props) {
     super(props);
-    this.isToken = curNames[props.wallet.type] ? false : true;
+    this.isToken = Boolean(curNames[props.wallet.type]);
     this.state = {
       options: { fee: this.calculateMinimalFee(), gasPrice: this.props.gas, gasLimit: '21000' },
       serviceMessage: '',
       optionsIsOpen: false,
       amount: 0,
-      receiver: this.filterWalletList(props.wallet.type, this.isToken)[0],
+      receiver: head(this.filterWalletList(props.wallet.type, this.isToken)),
       isOpenOptions: false,
       activeTabId: 1,
       valid: false,
@@ -72,9 +70,9 @@ class Stepper extends React.Component {
       readOnlyPkey: '',
     };
   }
-  
+
   componentDidMount() {
-    this.setState({receiver: this.filterWalletList(this.props.wallet.type, this.isToken)[0]})
+    this.setState({ receiver: head(this.filterWalletList(this.props.wallet.type, this.isToken)) });
   }
 
   changeROP = (e) => {
@@ -107,8 +105,8 @@ class Stepper extends React.Component {
       if (cur.tokens) {
         return [...acc, cur, ...cur.tokens.tokenList.map(t => ({
           ...cur,
-          alias: cur.alias + ' ' +t.tokenInfo.symbol,
-          balance: {...cur.balance, value: t.balance / (10 ** t.tokenInfo.decimals)},
+          alias: `${cur.alias} ${t.tokenInfo.symbol}`,
+          balance: { ...cur.balance, value: t.balance / (10 ** t.tokenInfo.decimals) },
           type: t.tokenInfo.symbol,
           token: t,
           tokens: undefined,
@@ -209,7 +207,6 @@ class Stepper extends React.Component {
 const mapStateToProps = state => ({
   walletInfo: state.wallets.wallet.walletInfo,
   walletList: state.wallets.wallet.walletList,
-  //wallet: state.wallets.wallet.wallet,
   status: state.wallets.wallet.status,
   hash: state.wallets.wallet.trxId,
   fee: state.fiat.fee,

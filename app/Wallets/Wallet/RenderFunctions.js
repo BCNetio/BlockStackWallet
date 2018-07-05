@@ -6,13 +6,8 @@ import AddIcon from '@material-ui/icons/Add';
 import Close from '@material-ui/icons/KeyboardArrowUp';
 import Open from '@material-ui/icons/KeyboardArrowDown';
 import { has } from 'ramda';
-import { config } from '../../AppConfig';
 import { ScrollableItem, TransactionHover, StyledButton, Input } from '../../Views';
-import Select from '../../CommonComponents/Select';
 import IconArrowDown from '../../images/common/icon-arrow-down.svg';
-
-export const SEND = 1;
-export const RECEIVE = 2;
 
 const SelectWrapper = styled.div`
   height: auto;
