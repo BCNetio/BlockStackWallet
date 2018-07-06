@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { filter, equals } from 'ramda';
+import { filter } from 'ramda';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import * as actions from './WalletList/Actions';
@@ -140,8 +140,8 @@ const HeaderWrapper = styled.div`
 const mapStateToProps = state => ({
   wallets: state.wallets.walletList.walletList,
   selectedWalletInfo: state.wallets.walletList.selectedWalletInfo,
-  course: state.fiat.course,
-  selectedFiat: state.fiat.selectedFiat,
+  course: state.fiat.get('course'),
+  selectedFiat: state.fiat.get('selectedFiat').toJS(),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -203,10 +203,6 @@ class WalletList extends React.Component {
       walletList: this.filterWallets(e.currentTarget.value),
       searchPattern: e.currentTarget.value,
     });
-  };
-
-  handleShowZeroBalanced = () => {
-    this.setState(({ showZeroBalanced }) => ({ showZeroBalanced: !showZeroBalanced }));
   };
 
   hideZeroBalanced = (acc, curr) => {

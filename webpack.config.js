@@ -96,7 +96,7 @@ module.exports = {
   devtool: isProd ? false : 'source-map',
 
   entry: {
-    vendor: ['redux', 'ramda', 'redux-saga', 'react-redux', 'react', 'react-dom', 'babel-polyfill'],
+    vendor: ['redux', 'ramda', 'redux-saga', 'react-redux', 'react', 'react-dom', 'babel-polyfill', 'immutable'],
     app: [
       'whatwg-fetch',
       path.resolve(srcFolder, 'index.css'),

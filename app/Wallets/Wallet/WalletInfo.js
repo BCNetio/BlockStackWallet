@@ -121,10 +121,9 @@ class WalletInfo extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  // wallet: state.wallets.wallet.wallet,
   walletInfo: state.wallets.wallet.walletInfo,
-  selectedFiat: state.fiat.selectedFiat,
-  course: state.fiat.course,
+  selectedFiat: state.fiat.get('selectedFiat').toJS(),
+  course: state.fiat.get('course'),
 });
 
 const mapDispatchToProps = dispatch => ({

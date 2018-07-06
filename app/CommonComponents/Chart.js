@@ -1,12 +1,12 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
+import styled from 'styled-components';
+import { merge, lensPath, over, __, equals, not } from 'ramda';
+import { v4 } from 'uuid';
 import Card from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
-import { merge, lensPath, over, __, equals } from 'ramda';
 import Select from './Select';
-import { v4 } from 'uuid';
 import { config, curNames } from '../AppConfig';
-import styled from 'styled-components';
 import IconArrowDown from '../images/common/icon-arrow-down.svg';
 
 const layout = {
@@ -139,10 +139,9 @@ class Chart extends React.Component {
   }
 
   getSnapshotBeforeUpdate(prevProps, prevState) {
-    (prevProps.selectedFiat !== this.props.selectedFiat ||
-      prevState.period !== this.state.period ||
-      prevState.currency !== this.state.currency) &&
+    if (not(equals(prevProps.selectedFiat, this.props.selectedFiat))) {
       this.fetchData();
+    }
     return prevState;
   }
 

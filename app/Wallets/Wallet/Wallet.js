@@ -83,7 +83,7 @@ const mapStateToProps = state => ({
   chartData: state.wallets.wallet.chartData,
   wallet: state.wallets.wallet.wallet,
   fiat: state.wallets.wallet.fiat,
-  selectedFiat: state.fiat.selectedFiat,
+  selectedFiat: state.fiat.get('selectedFiat').toJS(),
 });
 
 const mapDispatchToProps = dispatch => ({

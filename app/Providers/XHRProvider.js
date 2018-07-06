@@ -53,7 +53,6 @@ export default class XHRProvider {
       .then(response => response.data)
       .catch(error => console.log(error));
 
-  // TODO Отловить ошибку в попап
   getMarketInfo = pair =>
     axios
       .get(`${config.exchange}marketinfo/${pair}`)
@@ -113,7 +112,7 @@ export default class XHRProvider {
       datasets: [{ data: test.data }],
     };
   };
-
+  
   getChartApi = ({ currency, period, timestamp, fiat }) => {
     const params = omit(['api'], config.periodsForChart[period]);
     const request = axios

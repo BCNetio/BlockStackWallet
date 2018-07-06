@@ -49,8 +49,6 @@ const TabContainer = props => (
   </Typography>
 );
 
-
-
 class CreateNewWallet extends React.Component {
   constructor(props) {
     super(props);
@@ -61,7 +59,7 @@ class CreateNewWallet extends React.Component {
       wType: { wType: 'Read/Write' },
       walletPreview: null,
       serviceMessage: null,
-      value: 0, // active tab
+      value: CREATE, // active tab
       token: {
         address: '',
         name: '',

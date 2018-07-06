@@ -27,7 +27,7 @@ class Fiat extends React.Component {
     this.props.fetchCourseComission();
   }
 
-  handleMenuItemClick = (fiat) => {
+  handleMenuItemClick = fiat => {
     this.props.mountFiat(fiat);
     this.props.fetchCourse(fiat.abbr);
   };
@@ -45,8 +45,8 @@ class Fiat extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  selectedFiat: state.fiat.selectedFiat,
-  course: state.fiat.course,
+  selectedFiat: state.fiat.get('selectedFiat').toJS(),
+  course: state.fiat.get('course', {}),
 });
 
 const mapDispatchToProps = dispatch => ({

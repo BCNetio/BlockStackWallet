@@ -115,7 +115,6 @@ function* ethLikeTX({ wallet, receivers, options }) {
           options.gasLimit,
         );
   } catch (e) {
-    console.log(e);
     hash =
       wallet.type === curNames.ETC
         ? { transactionHash: e.toString().match(/"transactionHash"[:]\s+"([^\s,]+)"/)[1] }
