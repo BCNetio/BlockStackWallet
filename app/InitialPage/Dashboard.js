@@ -37,8 +37,8 @@ const mapStateToProps = state => ({
   selectedWallet: state.initialPage.selectedWallet,
   fiat: state.wallets.wallet.fiat,
   totalBalance: state.initialPage.totalBalance,
-  selectedFiat: state.fiat.selectedFiat,
-  course: state.fiat.course,
+  selectedFiat: state.fiat.get('selectedFiat').toJS(),
+  course: state.fiat.get('course'),
 });
 
 class Dashboard extends React.Component {
