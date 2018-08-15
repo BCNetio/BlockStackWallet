@@ -59,7 +59,7 @@ class Dashboard extends React.Component {
       }
     }, 3000);
 
-    this.pollInterval = setInterval(() => {
+    setInterval(() => {
       if (this.props.wallets.length) {
         this.props.fetchFiat(this.state.selectedCoin);
         this.props.fetchTotalBalance(this.props.wallets, this.props.course);

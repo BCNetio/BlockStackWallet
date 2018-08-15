@@ -198,12 +198,12 @@ class Stepper extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  walletInfo: state.wallets.wallet.walletInfo,
-  walletList: state.wallets.wallet.walletList,
-  status: state.wallets.wallet.status,
-  hash: state.wallets.wallet.trxId,
-  fee: state.fiat.fee,
-  gas: state.fiat.gas,
+  walletInfo: state.wallets.wallet.get('walletInfo'),
+  walletList: state.wallets.wallet.get('walletList'),
+  status: state.wallets.wallet.get('status'),
+  hash: state.wallets.wallet.get('trxId'),
+  fee: state.fiat.get('fee'),
+  gas: state.fiat.get('gas'),
 });
 
 const mapDispatchToProps = dispatch => ({

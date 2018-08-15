@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions';
-import { fromJS, setIn, merge } from 'immutable';
+import { fromJS, merge } from 'immutable';
 import { types } from './ActionTypes';
 
 const initialState = fromJS({
@@ -11,8 +11,8 @@ const initialState = fromJS({
 
 export const fiat = handleActions(
   {
-    [types.MOUNT_COURSE]: (state, { payload }) => setIn(state, ['course'], payload),
-    [types.MOUNT_FIAT]: (state, { payload }) => setIn(state, ['selectedFiat'], payload.fiat),
+    [types.MOUNT_COURSE]: (state, { payload }) => state.update('course', () => payload),
+    [types.MOUNT_FIAT]: (state, { payload }) => state.update('selectedFiat', () => fromJS(payload.fiat)),
     [types.MOUNT_COURSE_COMISSION]: (state, { payload }) =>
       merge(state, { fee: payload.fee.hourFee * 226, gas: 20 }),
   },

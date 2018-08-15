@@ -49,7 +49,10 @@ class ListOfWallets extends React.Component {
 
   selectWallet = (wallet) => {
     localStorage.setItem('selectWallet', wallet.wid);
-    this.props.history.push(`/wallet/${wallet.wid}`);
+    this.props.history.push({
+      pathname: `/wallet/${wallet.wid}`,
+      state: wallet,
+    });
   };
 
   render() {
