@@ -84,10 +84,8 @@ const DropdawnWrapper = styled.div`
 
 const transactionInput = ({ content, action }) => (
   <div onClick={action}>
-    <div>
-      { content ? <img src={logos[content.type]} /> : null}
-    </div>
-    <p>{ content && content.alias ? content.alias : '--' }</p>
+    <div>{content ? <img src={logos[content.type]} /> : null}</div>
+    <p>{content && content.alias ? content.alias : '--'}</p>
   </div>
 );
 
@@ -194,8 +192,8 @@ class Select extends React.Component {
 
   handleClickOutside = (e) => {
     const domNode = ReactDOM.findDOMNode(this);
-    (!domNode || !domNode.contains(event.target)) &&
-      event.target.id !== 'input' &&
+    (!domNode || !domNode.contains(e.target)) &&
+      e.target.id !== 'input' &&
       this.setState({ isOpened: false, searchPredicate: '', list: this.props.list });
   };
 

@@ -254,7 +254,7 @@ class ProfilePopUp extends React.Component {
 
   handleClickOutside = (e) => {
     const domNode = ReactDOM.findDOMNode(this);
-    (!domNode || !domNode.contains(event.target)) && this.setState({ isOpened: false });
+    (!domNode || !domNode.contains(e.target)) && this.setState({ isOpened: false });
   };
 
   render() {
@@ -277,11 +277,7 @@ class ProfilePopUp extends React.Component {
             <div className="menu">
               <ul>
                 <li>
-                  <a
-                    className="profile"
-                    href={config.bsNodeProfile}
-                    target="_blank"
-                  >
+                  <a className="profile" href={config.bsNodeProfile} target="_blank">
                     Blockstack profile
                   </a>
                 </li>
