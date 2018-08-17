@@ -1,22 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import { has } from 'ramda';
-import { logos } from '../images';
-import Card from '@material-ui/core/Card';
-import Button from '@material-ui/core/Button';
+import { has, head } from 'ramda';
 import * as actions from './Actions';
 import Select from '../CommonComponents/Select';
-import styled, { css } from 'styled-components';
 import IconArrowDown from '../images/common/icon-arrow-down.svg';
 import { toSatoshi, toETH } from '../Providers/Wallets';
-import { v4 } from 'uuid';
 
 const Input = styled.input`
   border-radius: 2px 0 0 2px;
@@ -141,21 +131,11 @@ const Tabs = styled.div`
 `;
 
 class StartExchange extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      walletTo: {},
-      walletFrom: {},
-      amount: 0,
-      valid: false,
-      error: '',
-    };
-  }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.wallets.length && !has('wid', prevState.walletFrom)) {
-      const walletFrom = nextProps.wallets[0];
-      const walletTo = nextProps.wallets.filter(wallet => wallet.type !== walletFrom.type)[0];
+      const walletFrom = head(nextProps.wallets);
+      const walletTo = nextProps.wallets.filter(wallet => wallet.type !== head(walletFrom.type));
       nextProps.fetchMarketInfo(`${walletFrom.type}_${walletTo.type}`);
       nextProps.fetchWalletBalance(walletFrom.type, walletFrom.address);
       return {
@@ -165,6 +145,14 @@ class StartExchange extends React.Component {
     }
     return prevState;
   }
+
+  state = {
+    walletTo: {},
+    walletFrom: {},
+    amount: 0,
+    valid: false,
+    error: '',
+  };
 
   componentDidMount() {
     this.props.fetchWallets();
@@ -266,10 +254,10 @@ class StartExchange extends React.Component {
     this.setState({ walletFrom });
     this.props.fetchWalletBalance(walletFrom.type, walletFrom.address);
     this.props.fetchMarketInfo(`${walletFrom.type}_${this.filterWallets(walletFrom.type)[0].type}`);
-    this.setState({ walletTo: this.filterWallets(walletFrom.type)[0] });
+    this.setState({ walletTo: head(this.filterWallets(walletFrom.type)) });
   };
 
-  handleMenuItemClickTo = (walletTo, index) => {
+  handleMenuItemClickTo = (walletTo) => {
     this.setState({ walletTo });
     this.props.fetchMarketInfo(`${this.state.walletFrom.type}_${walletTo.type}`);
   };
