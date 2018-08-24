@@ -2,7 +2,7 @@ import { put, call, takeLatest } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 import { getWalletList, logEvent, setWalletList } from '../../Providers/Gaia';
 import { types } from './ActionTypes';
-import * as dashboard from '../../InitialPage/ActionTypes';
+import * as dashboard from '../../Dashboard/ActionTypes';
 import XHRProvider from '../../Providers/XHRProvider';
 
 const xhr = new XHRProvider();
@@ -35,7 +35,7 @@ function* updateWalletByWID(action) {
   const { wallet } = action.payload;
   const { kpList } = yield call(getWalletList);
   const newWalletList = yield setWalletList([...kpList.filter(w => w.wid !== wallet.wid), wallet]);
-  yield put({type: types.MOUNT_WALLETS, payload: newWalletList});
+  yield put({ type: types.MOUNT_WALLETS, payload: newWalletList });
 }
 
 function* updateWalletList(action) {
@@ -45,6 +45,7 @@ function* updateWalletList(action) {
 }
 
 function* deleteWallet(action) {
+  yield console.log('saga');
   const { walletList, toBeDeleted } = action.payload;
   const wallet = walletList.find(wallet => wallet.wid === toBeDeleted);
 
@@ -79,5 +80,5 @@ export function* walletListSaga() {
   yield takeLatest(types.DELETE_WALLET, deleteWallet);
   yield takeLatest(types.FETCH_WALLET_INFO, fetchWalletInfo);
   yield takeLatest(types.UPDATE_WALLET_LIST, updateWalletList);
-  yield takeLatest(types.UPDATE_WALLET_BY_WID, updateWalletByWID)
+  yield takeLatest(types.UPDATE_WALLET_BY_WID, updateWalletByWID);
 }

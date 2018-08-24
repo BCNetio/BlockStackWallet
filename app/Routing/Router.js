@@ -6,10 +6,10 @@ import { ProtectedRoute } from './ProtectedRoute';
 import { Initial } from '../InitialPage/Initial';
 import { RoutingPanel } from '../CommonComponents/RoutingPanel';
 import Wallet from '../Wallets/Wallet/Wallet';
-import WalletList from '../Wallets/WalletList';
+import WalletList from '../Wallets/WalletList/WalletList';
 import Exchange from '../Exchange/Exchange';
 
-import Header from '../InitialPage/Header';
+import Header from '../CommonComponents/Header';
 
 const Router = props => (
   <div style={{ display: 'flex', alignItems: 'flex-start', flexWrap: 'wrap' }}>

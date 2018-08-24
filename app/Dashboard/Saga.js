@@ -37,14 +37,6 @@ function* createWallet(action) {
   yield put({ type: types.MOUNT_WALLETS, payload: newWalletList });
 }
 
-function* deleteWallet(action) {
-  const { walletList, toBeDeleted } = action.payload;
-  const newWalletList = yield setWalletList(
-    walletList.filter(wallet => wallet.wid !== toBeDeleted),
-  );
-  yield put({ type: types.MOUNT_WALLETS, payload: newWalletList });
-}
-
 function* fetchWalletInfo(action) {
   let walletInfo;
   try {
@@ -83,10 +75,9 @@ function* fetchTotalBalance(action) {
   }
 }
 
-export function* initialPageSaga() {
+export function* dashboardSaga() {
   yield takeLatest(types.CHECKOUT_WALLETS, checkoutWallets);
   yield takeLatest(types.CREATE_WALLET, createWallet);
-  yield takeLatest(types.DELETE_WALLET, deleteWallet);
   yield takeLatest(types.FETCH_WALLET_INFO, fetchWalletInfo);
   yield takeLatest(types.FETCH_TOTAL_BALANCE, fetchTotalBalance);
   yield takeLatest(types.CHECKOUT_HISTORY, checkoutHistory);

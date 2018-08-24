@@ -9,7 +9,7 @@ const initialState = {
   dappyHistory: [],
 };
 
-export const initialPage = handleActions(
+export const dashboard = handleActions(
   {
     [types.MOUNT_WALLETS]: (state, action) => ({ ...state, walletList: action.payload }),
     [types.SELECT_WALLET]: (state, action) => ({ ...state, selectedWallet: action.payload }),

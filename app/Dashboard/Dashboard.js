@@ -32,11 +32,11 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   chartData: state.wallets.wallet.chartData,
-  dappyHistory: state.initialPage.dappyHistory,
-  wallets: state.initialPage.walletList,
-  selectedWallet: state.initialPage.selectedWallet,
+  dappyHistory: state.dashboard.dappyHistory,
+  wallets: state.dashboard.walletList,
+  selectedWallet: state.dashboard.selectedWallet,
   fiat: state.wallets.wallet.fiat,
-  totalBalance: state.initialPage.totalBalance,
+  totalBalance: state.dashboard.totalBalance,
   selectedFiat: state.fiat.get('selectedFiat').toJS(),
   course: state.fiat.get('course'),
 });
@@ -127,4 +127,7 @@ class Dashboard extends React.Component {
     );
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Dashboard);

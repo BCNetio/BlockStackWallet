@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import { filter } from 'ramda';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import * as actions from './WalletList/Actions';
-import Modal from '../CommonComponents/Modal';
-import { SEND } from './WalletList/RenderFunctions';
-import IconSupport from '../images/common/icon-support.svg';
-import IconArrowDown from '../images/common/icon-arrow-down.svg';
-import { AvaliableWallets } from './WalletList/Views';
-import { InputSearch, Content } from '../Views';
+import * as actions from './Actions';
+import Modal from '../../CommonComponents/Modal';
+import { SEND } from './RenderFunctions';
+import IconSupport from '../../images/common/icon-support.svg';
+import IconArrowDown from '../../images/common/icon-arrow-down.svg';
+import { AvaliableWallets } from './Views';
+import { InputSearch, Content } from '../../Views';
 
 const HeaderControl = styled.div`
   width: 85%;
@@ -149,12 +149,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class WalletList extends React.Component {
-  static getDerivedStateFromProps(props, state) {
-    return props.wallets.length && !state.walletList.length
-      ? { ...state, walletList: props.wallets }
-      : state;
-  }
-
   constructor(props) {
     super(props);
     this.state = {
@@ -167,6 +161,12 @@ class WalletList extends React.Component {
       walletList: props.wallets,
       separate: false,
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    return props.wallets.length !== state.walletList.length
+      ? { ...state, walletList: props.wallets }
+      : state;
   }
 
   componentDidMount() {
@@ -306,4 +306,9 @@ class WalletList extends React.Component {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(WalletList));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(WalletList),
+);

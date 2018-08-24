@@ -125,7 +125,7 @@ class Transactions extends React.Component {
 
 const mapStateToProps = state => ({
   chartData: state.wallets.wallet.chartData,
-  selectedWalletInfo: state.initialPage.selectedWalletInfo,
+  selectedWalletInfo: state.dashboard.selectedWalletInfo,
   wallet: state.wallets.wallet.wallet,
   transactions: state.wallets.wallet.transactions,
 });
@@ -134,4 +134,9 @@ const mapDispatchToProps = dispatch => ({
   fetchTransactions: (addres, offset) => dispatch(actions.fetchTransactions(addres, offset)),
 });
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Transactions));
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(Transactions),
+);
