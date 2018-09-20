@@ -12,7 +12,7 @@ import { config } from '../AppConfig';
 
 const LogoWrapper = styled.div`
   width: 15%;
-  padding-left: 20px;
+  padding-left: 35px;
 `;
 
 const HeaderWrapper = styled.div`
