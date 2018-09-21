@@ -49,8 +49,6 @@ const TabContainer = props => (
   </Typography>
 );
 
-
-
 class CreateNewWallet extends React.Component {
   constructor(props) {
     super(props);

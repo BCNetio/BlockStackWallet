@@ -1,32 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actions from './Actions';
 import { has } from 'ramda';
 
-class WalletInfo extends React.Component {
-  render() {
-    return (
+const WalletInfo = ({ selectedWalletInfo }) => (
+  <div>
+    Wallet Info
+    {has('transactions', selectedWalletInfo) && (
       <div>
-        Wallet Info
-        {has('transactions', this.props.selectedWalletInfo) && (
-          <div>
-            <div>Balance {this.props.selectedWalletInfo.balance}</div>
-            <div>History</div>
-            {this.props.selectedWalletInfo.transactions.length
-              ? this.props.selectedWalletInfo.transactions.map(el => el)
-              : 'not found'}
-          </div>
-        )}
+        <div>Balance {selectedWalletInfo.balance}</div>
+        <div>History</div>
+        {selectedWalletInfo.transactions.length
+          ? selectedWalletInfo.transactions
+          : 'not found'}
       </div>
-    );
-  }
-}
+    )}
+  </div>);
 
 const mapStateToProps = state => ({
-  selectedWallet: state.initialPage.selectedWallet,
   selectedWalletInfo: state.initialPage.selectedWalletInfo,
 });
 
-const mapDispatchToProps = dispatch => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(WalletInfo);
+export default connect(mapStateToProps, undefined)(WalletInfo);

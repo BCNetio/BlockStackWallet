@@ -246,7 +246,10 @@ export const recoverETCWallet = WIF => ({
 
 export const recoverBTCLikeWallet = (WIF, type) => ({
   privateKey: WIF,
-  address: bitcoin.ECPair.fromWIF(WIF, config.networks[type]).getAddress(),
+  address: bitcoin.payments.p2pkh({
+    pubkey: bitcoin.ECPair.fromWIF(WIF, config.networks[type]).publicKey,
+    network: config.networks[type],
+  }).address,
   wid: v4(),
   alias: generateRandomPair(type),
   type,

@@ -1,9 +1,10 @@
 import React from 'react';
 import Card from '@material-ui/core/Card';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { has } from 'ramda';
 import { toFiat } from '../Providers/Wallets';
 import { BalanceCard } from '../Views';
+
 const styles = {
   card: {
     backgroundColor: '#2B3649',
@@ -38,7 +39,6 @@ export const SummaryCash = ({ currencySum, countOfWallets, selectedFiat, course 
               {selectedFiat.abbr}
             </p>
           </div>
-         
           <div className="wallets-number">
             <p>{countOfWallets.length}</p>
             <p>wallets</p>

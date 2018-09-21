@@ -1,11 +1,11 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import { has } from 'ramda';
 import Card from '@material-ui/core/Card';
 import { logos } from '../images';
 import { config } from '../AppConfig';
 import CreateNewWallet from '../Wallets/WalletList/CreateNewWallet';
 import { toFiat } from '../Providers/Wallets';
-import { has } from 'ramda';
 import { Scroll, ScrollableItem, Filter, InputSearch, AddButton } from '../Views';
 
 const styles = {
@@ -23,14 +23,11 @@ const styles = {
 };
 
 class ListOfWallets extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      filter: 'all',
-      showZeroBalanced: true,
-      searchPattern: '',
-    };
-  }
+  state = {
+    filter: 'all',
+    showZeroBalanced: true,
+    searchPattern: '',
+  };
 
   handleSearch = (e) => {
     this.setState({ searchPattern: e.currentTarget.value });

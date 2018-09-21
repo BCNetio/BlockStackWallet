@@ -3,14 +3,14 @@ import {
     isSignInPending,
     isUserSignedIn,
     handlePendingSignIn
-} from 'blockstack'
+} from 'blockstack';
 import Home from './Dashboard';
 import { Auth } from './Auth';
 
 export const Initial = () => {
   if (isSignInPending()) {
-     handlePendingSignIn().then(() =>  window.location = window.location.origin );
-     return( <div>Login verification in progress</div> );
+    handlePendingSignIn().then(() => window.location = window.location.origin );
+    return (<div>Login verification in progress</div>);
   }
-  return( isUserSignedIn() ? <Home /> : <Auth /> );
+  return (isUserSignedIn() ? <Home /> : <Auth />);
 };
