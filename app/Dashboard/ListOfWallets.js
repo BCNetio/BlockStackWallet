@@ -5,8 +5,9 @@ import { logos } from '../images';
 import { config } from '../AppConfig';
 import CreateNewWallet from '../Wallets/WalletList/CreateNewWallet';
 import { toFiat } from '../Providers/Wallets';
-import { has } from 'ramda';
+import { getIn } from 'immutable';
 import { Scroll, ScrollableItem, Filter, InputSearch, AddButton } from '../Views';
+import { v4 } from 'uuid';
 
 const styles = {
   card: {
@@ -21,6 +22,30 @@ const styles = {
     overflow: 'visible',
   },
 };
+
+const Wallet = ({ wallet, selectWallet, course, selectedFiat }) => (
+  <ScrollableItem key={wallet.wid} className="wallet-info" onClick={() => selectWallet(wallet)}>
+    <div>
+      <img src={logos[wallet.type]} alt={'type'} />
+      <div>
+        <p>{wallet.alias}</p>
+        <p>Tokens ({wallet.tokens ? wallet.tokens.get('tokenList').length : 0})</p>
+      </div>
+    </div>
+    <div>
+      <p className="title">
+        {(wallet.balance ? wallet.balance.get('value') : 0).toFixed(5)} {wallet.type.toUpperCase()}
+      </p>
+      <p className="subtitle">
+        {toFiat(
+          wallet.balance ? wallet.balance.get('value') : 0,
+          getIn(course, [wallet.type.toUpperCase(), selectedFiat.abbr]),
+        )}{' '}
+        {selectedFiat.abbr}
+      </p>
+    </div>
+  </ScrollableItem>
+);
 
 class ListOfWallets extends React.Component {
   constructor(props) {
@@ -99,43 +124,20 @@ class ListOfWallets extends React.Component {
             .reduce(this.hideZeroBalanced, [])
             .filter(
               wallet =>
-                (wallet.alias ? wallet.alias : config.avCurrencyes.get(wallet.type).name)
+                wallet
+                  .get('alias')
                   .toUpperCase()
                   .includes(this.state.searchPattern.toUpperCase()) ||
-                wallet.address.includes(this.state.searchPattern),
+                wallet.get('address').includes(this.state.searchPattern),
             )
             .map(wallet => (
-              <ScrollableItem
-                key={wallet.wid}
-                className="wallet-info"
-                onClick={() => this.selectWallet(wallet)}
-              >
-                <div>
-                  <img src={logos[wallet.type]} alt={'type'} />
-                  <div>
-                    <p>{wallet.alias ? wallet.alias : config.avCurrencyes.get(wallet.type).name}</p>
-                    <p>Tokens ({wallet.tokens ? wallet.tokens.tokenList.length : 0})</p>
-                  </div>
-                </div>
-                <div>
-                  <p className="title">
-                    {wallet.balance ? wallet.balance.value.toFixed(5) : 0}{' '}
-                    {wallet.type.toUpperCase()}
-                  </p>
-                  <p className="subtitle">
-                    {wallet.balance && has(wallet.type.toUpperCase(), this.props.course)
-                      ? toFiat(
-                          wallet.balance.value,
-                          this.props.course[wallet.type.toUpperCase()][
-                            this.props.selectedFiat.abbr
-                          ],
-                        )
-                      : null}
-
-                    {this.props.selectedFiat.abbr}
-                  </p>
-                </div>
-              </ScrollableItem>
+              <Wallet
+                key={v4()}
+                wallet={wallet.toObject()}
+                selectWallet={this.selectWallet}
+                course={this.props.course}
+                selectedFiat={this.props.selectedFiat}
+              />
             ))}
         </Scroll>
         <div style={{ position: 'absolute', width: '100%', bottom: '-26px', textAlign: 'center' }}>

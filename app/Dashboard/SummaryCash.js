@@ -1,9 +1,10 @@
 import React from 'react';
 import Card from '@material-ui/core/Card';
 import styled, { css } from 'styled-components';
-import { has } from 'ramda';
+import { getIn } from 'immutable';
 import { toFiat } from '../Providers/Wallets';
 import { BalanceCard } from '../Views';
+
 const styles = {
   card: {
     backgroundColor: '#2B3649',
@@ -16,35 +17,24 @@ const styles = {
   },
 };
 
-const Dots = styled.span``;
-
-export const SummaryCash = ({ currencySum, countOfWallets, selectedFiat, course }) => {
-  const sum = currencySum || 0;
-  return (
-    <Card style={styles.card}>
-      <BalanceCard>
+export const SummaryCash = ({ currencySum, countOfWallets, selectedFiat, course }) => (
+  <Card style={styles.card}>
+    <BalanceCard>
+      <div>
+        <p className="title">Total Balance</p>
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <p className="title">Total Balance</p>
+          <p className="total">{currencySum} BTC</p>
+          <p className="currency">
+            {toFiat(currencySum, getIn(course, ['BTC', selectedFiat.abbr]))} {selectedFiat.abbr}
+          </p>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div>
-            <p className="total">{sum} BTC</p>
-            <p className="currency">
-              {has('BTC', course) ? (
-                toFiat(currencySum, course.BTC[selectedFiat.abbr])
-              ) : (
-                <Dots className="loading" />
-              )}{' '}
-              {selectedFiat.abbr}
-            </p>
-          </div>
-         
-          <div className="wallets-number">
-            <p>{countOfWallets.length}</p>
-            <p>wallets</p>
-          </div>
+        <div className="wallets-number">
+          <p>{countOfWallets.size}</p>
+          <p>wallets</p>
         </div>
-      </BalanceCard>
-    </Card>
-  );
-};
+      </div>
+    </BalanceCard>
+  </Card>
+);

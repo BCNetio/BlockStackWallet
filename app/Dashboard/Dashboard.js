@@ -4,7 +4,7 @@ import * as actions from './Actions';
 import { fiatCurrency, getDataForChart } from '../Wallets/Wallet/Actions';
 import { InfoCard } from './InfoCard';
 import ListOfWallets from './ListOfWallets';
-import wrapedWallet from '../CommonComponents/Chart';
+import wrapedChart from '../CommonComponents/Chart';
 import { SummaryCash } from './SummaryCash';
 import { config, curNames } from '../AppConfig';
 import History from './History';
@@ -31,12 +31,11 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
-  chartData: state.wallets.wallet.chartData,
-  dappyHistory: state.dashboard.dappyHistory,
-  wallets: state.dashboard.walletList,
-  selectedWallet: state.dashboard.selectedWallet,
-  fiat: state.wallets.wallet.fiat,
-  totalBalance: state.dashboard.totalBalance,
+  chartData: state.wallets.wallet.get('chartData'),
+  dappyHistory: state.dashboard.get('dappyHistory'),
+  wallets: state.dashboard.get('walletList'),
+  selectedWallet: state.dashboard.get('selectedWallet'),
+  totalBalance: state.dashboard.get('totalBalance'),
   selectedFiat: state.fiat.get('selectedFiat').toJS(),
   course: state.fiat.get('course'),
 });
@@ -111,7 +110,7 @@ class Dashboard extends React.Component {
         </LeftColumnContainer>
         <MiddleColumnContainer>
           {this.props.chartData &&
-            wrapedWallet(this.props.chartData, this.props.getDataForChart, this.props.selectedFiat)}
+            wrapedChart(this.props.chartData, this.props.getDataForChart, this.props.selectedFiat)}
           <History dappyHistory={this.props.dappyHistory} />
         </MiddleColumnContainer>
         <RightColumnContainer>

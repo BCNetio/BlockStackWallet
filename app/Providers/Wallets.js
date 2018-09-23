@@ -15,13 +15,17 @@ const EthereumTx = require('ethereumjs-tx');
 
 const createBuf = str => new Buffer(str);
 
-const mkBCHpk = compose(bch.crypto.BN.fromBuffer, bch.crypto.Hash.sha256, createBuf);
+const mkBCHpk = compose(
+  bch.crypto.BN.fromBuffer,
+  bch.crypto.Hash.sha256,
+  createBuf,
+);
 
 export const toSatoshi = btc => btc * 100000000;
 
 export const toBTC = satoshi => satoshi / 100000000;
 
-export const toFiat = (value, course) => (value * course).toFixed(2);
+export const toFiat = (value, course) => (course !== undefined ? value * course : 0).toFixed(2);
 
 export const toETH = gWei => gWei / 10000000000;
 
@@ -52,9 +56,8 @@ export const addrToBCHFormat = (address) => {
   return bchAdr.toString(format);
 };
 
-const generateRandomPair = type => `${config.avCurrencyes.get(type).name} ${take(2, generateMnemonic().split(' ')).join(
-    '-',
-  )}`;
+const generateRandomPair = type =>
+  `${config.avCurrencyes.get(type).name} ${take(2, generateMnemonic().split(' ')).join('-')}`;
 
 export const btcLikeTransaction = (pKey, utxo, listOfReceivers, type) => {
   const rootKey = bitcoin.ECPair.fromWIF(pKey, config.networks[type]);
@@ -129,7 +132,9 @@ export const ethTransaction = (pKey, actualNonce, listOfReceivers, type, gasPric
 
 const ethTokenTransaction = (wallet, actualNonce, listOfReceivers, type, gasPrice, gasLimit) => {
   const web3P = new Web3(new Web3.providers.HttpProvider(config.nodes.get(curNames.ETH)));
-  const tokenContract = new web3P.eth.Contract(abi, wallet.token.tokenInfo.address, { from: wallet.address });
+  const tokenContract = new web3P.eth.Contract(abi, wallet.token.tokenInfo.address, {
+    from: wallet.address,
+  });
   const tx = new EthereumTx({
     from: wallet.address,
     nonce: web3P.utils.toHex(actualNonce),
@@ -137,9 +142,19 @@ const ethTokenTransaction = (wallet, actualNonce, listOfReceivers, type, gasPric
     value: '0x0',
     gasLimit: web3P.utils.toHex(gasLimit),
     gasPrice: web3P.utils.toHex(gasPrice),
-    data: tokenContract.methods.transfer(head(listOfReceivers).key, web3P.utils.toHex(
-      web3P.utils.toWei((head(listOfReceivers).amount * 10 ** wallet.token.tokenInfo.decimals).toString(), 'ether').toString(),
-    )).encodeABI(),
+    data: tokenContract.methods
+      .transfer(
+        head(listOfReceivers).key,
+        web3P.utils.toHex(
+          web3P.utils
+            .toWei(
+              (head(listOfReceivers).amount * 10 ** wallet.token.tokenInfo.decimals).toString(),
+              'ether',
+            )
+            .toString(),
+        ),
+      )
+      .encodeABI(),
   });
   tx.sign(ethUtil.toBuffer(wallet.privateKey));
   return web3P.eth.sendSignedTransaction(`0x${tx.serialize().toString('hex')}`);

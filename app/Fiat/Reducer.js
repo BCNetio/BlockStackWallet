@@ -11,8 +11,9 @@ const initialState = fromJS({
 
 export const fiat = handleActions(
   {
-    [types.MOUNT_COURSE]: (state, { payload }) => state.update('course', () => payload),
-    [types.MOUNT_FIAT]: (state, { payload }) => state.update('selectedFiat', () => fromJS(payload.fiat)),
+    [types.MOUNT_COURSE]: (state, { payload }) => state.update('course', () => fromJS(payload)),
+    [types.MOUNT_FIAT]: (state, { payload }) =>
+      state.update('selectedFiat', () => fromJS(payload.fiat)),
     [types.MOUNT_COURSE_COMISSION]: (state, { payload }) =>
       merge(state, { fee: payload.fee.hourFee * 226, gas: 20 }),
   },

@@ -139,7 +139,12 @@ class Chart extends React.Component {
   }
 
   getSnapshotBeforeUpdate(prevProps, prevState) {
-    if (not(equals(prevProps.selectedFiat, this.props.selectedFiat))) {
+    console.log('--->', not(equals(prevProps.selectedFiat, this.props.selectedFiat)));
+    if (
+      not(equals(prevProps.selectedFiat, this.props.selectedFiat)) ||
+      not(equals(prevState.currency, this.state.currency)) ||
+      not(equals(prevState.period, this.state.period))
+    ) {
       this.fetchData();
     }
     return prevState;
@@ -152,10 +157,6 @@ class Chart extends React.Component {
       this.currnetTime(),
       this.props.selectedFiat.abbr,
     );
-  };
-
-  onChangeCurrency = (currency) => {
-    this.setState({ currency });
   };
 
   onChangePeriod = (period) => {
@@ -182,6 +183,7 @@ class Chart extends React.Component {
     });
 
   render() {
+    console.log('CHART', this.props);
     return (
       <Card style={this.props.layout ? this.props.layout : layout.card}>
         <div
@@ -225,7 +227,7 @@ class Chart extends React.Component {
   }
 }
 
-const wrapWallet = (data, action, selectedFiat, currency, layout) => Component => (
+const wrapChart = (data, action, selectedFiat, currency, layout) => Component => (
   <Component
     data={data}
     action={action}
@@ -235,7 +237,7 @@ const wrapWallet = (data, action, selectedFiat, currency, layout) => Component =
   />
 );
 
-const wrapedWallet = (data, action, selectedFiat, currency, layout) =>
-  wrapWallet(data, action, selectedFiat, currency, layout)(Chart);
+const wrapedChart = (data, action, selectedFiat, currency, layout) =>
+  wrapChart(data, action, selectedFiat, currency, layout)(Chart);
 
-export default wrapedWallet;
+export default wrapedChart;

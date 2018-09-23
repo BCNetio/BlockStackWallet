@@ -236,6 +236,7 @@ class WalletList extends React.Component {
   };
 
   render() {
+    console.log('-->', this.props);
     const ModalContent = this.state.modalContent;
     return (
       <Content>
