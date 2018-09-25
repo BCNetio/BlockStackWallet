@@ -91,11 +91,6 @@ export const ScrollableItem = styled.div`
           white-space: nowrap;
           padding-right: 20px;
         }
-        p:last-child {
-          font-size: 10px;
-          letter-spacing: 0.25px;
-          color: #8d96b2;
-        }
       }
     }
     div:last-child {
