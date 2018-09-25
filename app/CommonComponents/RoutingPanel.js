@@ -56,7 +56,7 @@ const Navbar = styled.div`
 
 export const RoutingPanel = () => (
   <Navbar>
-    <MenuItem text={'Dashboard'} destination={'/'} icon="dashboard" />
+    <MenuItem text={'Dashboard'} destination={'/dashboard'} icon="dashboard" />
     <MenuItem text={'Wallets'} destination={'/wallets'} icon="wallet" />
     <MenuItem text={'Exchange'} destination={'/exchange'} icon="exchange" />
   </Navbar>
@@ -64,7 +64,7 @@ export const RoutingPanel = () => (
 
 const MenuItem = withRouter(({ history, text, destination, icon }) => (
   <Item
-    active={history.location.pathname === destination}
+    active={history.location.pathname.includes(destination)}
     icon={icon}
     onClick={() => history.push(destination)}
   >

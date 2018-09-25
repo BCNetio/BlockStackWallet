@@ -222,7 +222,7 @@ class WalletList extends React.Component {
   selectWallet = (wallet) => {
     localStorage.setItem('selectWallet', wallet.wid);
     this.props.history.push({
-      pathname: `/wallet/${wallet.wid}`,
+      pathname: `/wallets/${wallet.wid}`,
       state: wallet,
     });
   };
@@ -236,7 +236,6 @@ class WalletList extends React.Component {
   };
 
   render() {
-    console.log('-->', this.props);
     const ModalContent = this.state.modalContent;
     return (
       <Content>

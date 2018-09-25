@@ -12,7 +12,7 @@ import { config } from '../AppConfig';
 
 const LogoWrapper = styled.div`
   width: 15%;
-  padding-left: 20px;
+  padding-left: 35px;
 `;
 
 const HeaderWrapper = styled.div`
@@ -277,11 +277,7 @@ class ProfilePopUp extends React.Component {
             <div className="menu">
               <ul>
                 <li>
-                  <a
-                    className="profile"
-                    href={config.bsNodeProfile}
-                    target="_blank"
-                  >
+                  <a className="profile" href={config.bsNodeProfile} target="_blank">
                     Blockstack profile
                   </a>
                 </li>
