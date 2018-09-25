@@ -7,7 +7,9 @@ import CreateNewWallet from '../Wallets/WalletList/CreateNewWallet';
 import { toFiat } from '../Providers/Wallets';
 import { getIn } from 'immutable';
 import { Scroll, ScrollableItem, Filter, InputSearch, AddButton } from '../Views';
+import { TokensDisplay } from '../Wallets/WalletList/Views';
 import { v4 } from 'uuid';
+import { equals } from 'ramda';
 
 const styles = {
   card: {
@@ -29,23 +31,28 @@ const Wallet = ({ wallet, selectWallet, course, selectedFiat }) => (
       <img src={logos[wallet.type]} alt={'type'} />
       <div>
         <p>{wallet.alias}</p>
-        <p>Tokens ({wallet.tokens ? wallet.tokens.get('tokenList').length : 0})</p>
+        {equals('eth', wallet.type) && (
+        <TokensDisplay>
+              Tokens {wallet.tokens !== undefined && wallet.tokens.get('tokenList').size}
+        </TokensDisplay>
+          )}
       </div>
     </div>
     <div>
       <p className="title">
-        {(wallet.balance ? wallet.balance.get('value') : 0).toFixed(5)} {wallet.type.toUpperCase()}
+        {(wallet.balance ? wallet.balance.get('value') : 0).toFixed(5)}{' '}
+        {wallet.type.toUpperCase()}
       </p>
       <p className="subtitle">
         {toFiat(
-          wallet.balance ? wallet.balance.get('value') : 0,
-          getIn(course, [wallet.type.toUpperCase(), selectedFiat.abbr]),
-        )}{' '}
+            wallet.balance ? wallet.balance.get('value') : 0,
+            getIn(course, [wallet.type.toUpperCase(), selectedFiat.abbr]),
+          )}{' '}
         {selectedFiat.abbr}
       </p>
     </div>
   </ScrollableItem>
-);
+  );
 
 class ListOfWallets extends React.Component {
   constructor(props) {

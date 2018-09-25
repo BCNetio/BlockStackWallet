@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import * as actions from './Actions';
 import Modal from '../../CommonComponents/Modal';
-import { SEND } from './RenderFunctions';
 import IconSupport from '../../images/common/icon-support.svg';
 import IconArrowDown from '../../images/common/icon-arrow-down.svg';
 import { AvaliableWallets } from './Views';
@@ -152,7 +151,7 @@ class WalletList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sendReceiveSelector: SEND,
+      sendReceiveSelector: 1,
       selectedWallet: null,
       modalContent: null,
       modalOptions: undefined,

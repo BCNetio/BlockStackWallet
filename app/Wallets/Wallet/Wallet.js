@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { has } from 'ramda';
+import { has, equals } from 'ramda';
 import wrapedWallet from '../../CommonComponents/Chart';
 import * as actions from './Actions';
 import Operations from './OperationSelector';
@@ -26,9 +26,7 @@ class Wallet extends React.Component {
       modalContent: null,
       modalOptions: undefined,
     };
-    this.wallet = props.history.location.state
-      ? props.history.location.state
-      : props.wallet;
+    this.wallet = props.history.location.state ? props.history.location.state : props.wallet;
   }
 
   callModal = (Component, optionalData) => {
@@ -54,11 +52,13 @@ class Wallet extends React.Component {
             closeModal={this.closeModal}
             wallet={this.wallet}
           />
-          <Tokens
-            wallet={this.wallet}
-            fetchTokens={this.props.fetchTokenInfo}
-            callModal={this.callModal}
-          />
+          {equals('eth', this.wallet.type) && (
+            <Tokens
+              wallet={this.wallet}
+              fetchTokens={this.props.fetchTokenInfo}
+              callModal={this.callModal}
+            />
+          )}
         </LeftColumnContainer>
         <MiddleColumnContainer>
           <Operations wallet={this.wallet} />
@@ -95,4 +95,7 @@ const mapDispatchToProps = dispatch => ({
   getWalletInGaia: selectedWallet => dispatch(actions.getWalletInGaia(selectedWallet)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Wallet);

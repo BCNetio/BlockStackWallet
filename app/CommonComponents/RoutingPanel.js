@@ -5,6 +5,7 @@ import { navIcons } from '../images/nav/index';
 
 const Item = styled.div.attrs({})`
   p {
+    cursor: pointer;
     text-transform: uppercase;
     font-size: 13px;
     font-weight: 500;

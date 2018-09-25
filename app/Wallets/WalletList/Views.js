@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from '@material-ui/core/Card';
-import { has } from 'ramda';
+import { has, equals } from 'ramda';
 import styled from 'styled-components';
 import { withStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
@@ -168,14 +168,21 @@ export const WalletCard = withStyles(styles)(
             <VisibilityOff className={classes.plusIcon} />
           </ReadOnlyIcon>
         ) : null}
-        <img src={logos[type]} className={classes.logo} style={{ marginRight: '15px' }} alt={'logo'} />
+        <img
+          src={logos[type]}
+          className={classes.logo}
+          style={{ marginRight: '15px' }}
+          alt={'logo'}
+        />
         <div style={{ width: '80%' }}>
           <WalletName>{alias || config.avCurrencyes.get(type).name}</WalletName>
-          <TokensDisplay>Tokens {(tokens && tokens.tokenList.length) || 0}</TokensDisplay>
+          {equals('eth', type) && (
+            <TokensDisplay>Tokens {(tokens && tokens.tokenList.length) || 0}</TokensDisplay>
+          )}
         </div>
       </div>
       <LongMenu className={classes.longMenu} wallet={wallet} callModal={callModal} wid={wid} />
-      <div onClick={() => select(wallet)} >
+      <div onClick={() => select(wallet)}>
         <Currency>
           {balance && balance.value
             ? `${balance.value.toFixed(9)} ${type.toUpperCase()}`
@@ -196,24 +203,26 @@ export const NewWallet = withStyles(styles)(({ callModal, classes }) => (
 ));
 
 export const AvaliableWallets = withStyles(wlStyles)(
-  ({ walletList, select, classes, callModal, fiat, course, selectedFiat }) => {
-    return (
-      <div className={classes.wallets}>
-        {[
-          ...walletList.map((wallet, idx)=> (
-            <WalletCard
-              key={wallet.wid+idx}
-              {...wallet}
-              wallet={wallet}
-              callModal={callModal}
-              select={() => select(wallet)}
-              fiat={has('BTC', course) && course[wallet.type.toUpperCase()] ? course[wallet.type.toUpperCase()][selectedFiat.abbr] : 0}
-              selectedFiat={selectedFiat.abbr}
-            />
-          )),
-          <NewWallet key={'add'} callModal={() => callModal(CreateNewWallet)} />,
-        ]}
-      </div>
-    )
-  }
+  ({ walletList, select, classes, callModal, fiat, course, selectedFiat }) => (
+    <div className={classes.wallets}>
+      {[
+        ...walletList.map((wallet, idx) => (
+          <WalletCard
+            key={wallet.wid + idx}
+            {...wallet}
+            wallet={wallet}
+            callModal={callModal}
+            select={() => select(wallet)}
+            fiat={
+              has('BTC', course) && course[wallet.type.toUpperCase()]
+                ? course[wallet.type.toUpperCase()][selectedFiat.abbr]
+                : 0
+            }
+            selectedFiat={selectedFiat.abbr}
+          />
+        )),
+        <NewWallet key={'add'} callModal={() => callModal(CreateNewWallet)} />,
+      ]}
+    </div>
+  ),
 );
