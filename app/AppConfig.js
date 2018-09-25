@@ -24,10 +24,7 @@ config.avCurrencyes = new Map([
   [curNames.BTG, { name: 'Bitcoin Gold', abbr: 'BTG', sysName: curNames.BTG }],
 ]);
 
-config.nodes = new Map([
-  [curNames.ETH, ''],
-  [curNames.ETC, ''],
-]);
+config.nodes = new Map([[curNames.ETH, ''], [curNames.ETC, '']]);
 
 config.networks = {
   [curNames.LTC]: {

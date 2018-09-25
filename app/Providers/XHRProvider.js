@@ -28,6 +28,9 @@ export default class XHRProvider {
     }
   }
 
+  getPostsMedium = () =>
+    axios.get('https://cors-anywhere.herokuapp.com/https://medium.com/feed/dappy');
+
   fetchGas = () =>
     axios
       .get('https://www.etherchain.org/api/gasPriceOracle')
@@ -112,7 +115,7 @@ export default class XHRProvider {
       datasets: [{ data: test.data }],
     };
   };
-  
+
   getChartApi = ({ currency, period, timestamp, fiat }) => {
     const params = omit(['api'], config.periodsForChart[period]);
     const request = axios
@@ -152,7 +155,8 @@ export default class XHRProvider {
   normalizeData = (data, address, type, method) =>
     data.map(record => method(record, address, type));
 
-  getTransactions = (address, type) => axios
+  getTransactions = (address, type) =>
+    axios
       .get(config.transactionList(type, address))
       .then(response =>
         this.normalizeData(
