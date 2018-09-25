@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { navIcons } from '../images/nav/index';
 
-const Item = styled.div.attrs({})`
+const Item = styled.div`
   p {
     cursor: pointer;
     text-transform: uppercase;

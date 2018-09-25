@@ -61,7 +61,7 @@ class ListOfWallets extends React.Component {
       filter: 'all',
       showZeroBalanced: true,
       searchPattern: '',
-      sortByBalance: true,
+      sortByBalance: false,
     };
   }
 
@@ -79,8 +79,8 @@ class ListOfWallets extends React.Component {
 
   sortingByBalance = wallets =>
     this.state.sortByBalance
-      ? wallets.sort((a, b) => a.getIn(['balance', 'value']) > b.getIn(['balance', 'value']))
-      : wallets.sort((a, b) => a.getIn(['balance', 'value']) < b.getIn(['balance', 'value']));
+      ? wallets.sort((a, b) => a.getIn(['balance', 'value']) < b.getIn(['balance', 'value']))
+      : wallets.sort((a, b) => a.getIn(['balance', 'value']) > b.getIn(['balance', 'value']));
 
   filterZeroBlance = wallets => wallets.reduce(this.hideZeroBalanced, []);
 
@@ -150,7 +150,7 @@ class ListOfWallets extends React.Component {
               </label>
             </div>
             <div style={{ width: '20%', textAlign: 'right' }} onClick={this.handleSortbyBalance}>
-              <Filter />
+              <Filter reverse={this.state.sortByBalance} />
             </div>
           </ScrollableItem>
           {this.sortingByBalance(

@@ -132,6 +132,7 @@ export const Filter = styled.button`
   background-position: center;
   width: 12px
   border: none;
+  transform: ${props => props.reverse && 'scale(-1, 1)'}
 `;
 
 export const TransactionHover = styled.div`
