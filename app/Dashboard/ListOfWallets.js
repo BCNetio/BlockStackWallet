@@ -10,6 +10,7 @@ import { Scroll, ScrollableItem, Filter, InputSearch, AddButton } from '../Views
 import { TokensDisplay } from '../Wallets/WalletList/Views';
 import { v4 } from 'uuid';
 import { equals } from 'ramda';
+import { has } from 'immutable';
 
 const styles = {
   card: {
@@ -32,27 +33,26 @@ const Wallet = ({ wallet, selectWallet, course, selectedFiat }) => (
       <div>
         <p>{wallet.alias}</p>
         {equals('eth', wallet.type) && (
-        <TokensDisplay>
-              Tokens {wallet.tokens !== undefined && wallet.tokens.get('tokenList').size}
-        </TokensDisplay>
-          )}
+          <TokensDisplay>
+            Tokens ({wallet.tokens !== undefined && wallet.tokens.get('tokenList').size})
+          </TokensDisplay>
+        )}
       </div>
     </div>
     <div>
       <p className="title">
-        {(wallet.balance ? wallet.balance.get('value') : 0).toFixed(5)}{' '}
-        {wallet.type.toUpperCase()}
+        {(wallet.balance ? wallet.balance.get('value') : 0).toFixed(5)} {wallet.type.toUpperCase()}
       </p>
       <p className="subtitle">
         {toFiat(
-            wallet.balance ? wallet.balance.get('value') : 0,
-            getIn(course, [wallet.type.toUpperCase(), selectedFiat.abbr]),
-          )}{' '}
+          wallet.balance ? wallet.balance.get('value') : 0,
+          getIn(course, [wallet.type.toUpperCase(), selectedFiat.abbr]),
+        )}{' '}
         {selectedFiat.abbr}
       </p>
     </div>
   </ScrollableItem>
-  );
+);
 
 class ListOfWallets extends React.Component {
   constructor(props) {
@@ -61,6 +61,7 @@ class ListOfWallets extends React.Component {
       filter: 'all',
       showZeroBalanced: true,
       searchPattern: '',
+      sortByBalance: true,
     };
   }
 
@@ -68,15 +69,40 @@ class ListOfWallets extends React.Component {
     this.setState({ searchPattern: e.currentTarget.value });
   };
 
+  handleSortbyBalance = () => {
+    this.setState(({ sortByBalance }) => ({ sortByBalance: !sortByBalance }));
+  };
+
   handleShowZeroBalanced = () => {
     this.setState({ showZeroBalanced: !this.state.showZeroBalanced });
   };
+
+  sortingByBalance = wallets =>
+    this.state.sortByBalance
+      ? wallets.sort((a, b) => a.getIn(['balance', 'value']) > b.getIn(['balance', 'value']))
+      : wallets.sort((a, b) => a.getIn(['balance', 'value']) < b.getIn(['balance', 'value']));
+
+  filterZeroBlance = wallets => wallets.reduce(this.hideZeroBalanced, []);
+
+  filter = (wallets) => {
+    filterZeroBlance(wallets);
+  };
+
+  filterNameOrAddres = wallets =>
+    wallets.filter(
+      wallet =>
+        wallet
+          .get('alias')
+          .toUpperCase()
+          .includes(this.state.searchPattern.toUpperCase()) ||
+        wallet.get('address').includes(this.state.searchPattern),
+    );
 
   hideZeroBalanced = (acc, curr) => {
     if (this.state.showZeroBalanced) {
       return [...acc, curr];
     }
-    return curr.balance && curr.balance.value ? [...acc, curr] : acc;
+    return has(curr, 'balance') && curr.getIn(['balance', 'value']) ? [...acc, curr] : acc;
   };
 
   selectWallet = (wallet) => {
@@ -123,29 +149,21 @@ class ListOfWallets extends React.Component {
                 </span>
               </label>
             </div>
-            <div style={{ width: '20%', textAlign: 'right' }}>
+            <div style={{ width: '20%', textAlign: 'right' }} onClick={this.handleSortbyBalance}>
               <Filter />
             </div>
           </ScrollableItem>
-          {this.props.wallets
-            .reduce(this.hideZeroBalanced, [])
-            .filter(
-              wallet =>
-                wallet
-                  .get('alias')
-                  .toUpperCase()
-                  .includes(this.state.searchPattern.toUpperCase()) ||
-                wallet.get('address').includes(this.state.searchPattern),
-            )
-            .map(wallet => (
-              <Wallet
-                key={v4()}
-                wallet={wallet.toObject()}
-                selectWallet={this.selectWallet}
-                course={this.props.course}
-                selectedFiat={this.props.selectedFiat}
-              />
-            ))}
+          {this.sortingByBalance(
+            this.filterNameOrAddres(this.filterZeroBlance(this.props.wallets)),
+          ).map(wallet => (
+            <Wallet
+              key={v4()}
+              wallet={wallet.toObject()}
+              selectWallet={this.selectWallet}
+              course={this.props.course}
+              selectedFiat={this.props.selectedFiat}
+            />
+          ))}
         </Scroll>
         <div style={{ position: 'absolute', width: '100%', bottom: '-26px', textAlign: 'center' }}>
           <AddButton
