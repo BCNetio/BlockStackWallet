@@ -7,7 +7,7 @@ import Card from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
 import Select from './Select';
 import { config, curNames } from '../AppConfig';
-import IconArrowDown from '../images/common/icon-arrow-down.svg';
+import { ChartDrapdawnTitle } from './Views';
 
 const layout = {
   input: {
@@ -92,28 +92,6 @@ const options = {
   },
   legend: { display: false },
 };
-
-const ChartDrapdawnTitle = styled.div`
-  > div {
-    div:first-child {
-      font-size: 14px;
-      letter-spacing: 0.21px;
-      cursor: pointer;
-      position: relative;
-      &:after {
-        content: '';
-        display: block;
-        position: absolute;
-        top: 50%;
-        right: -20px;
-        width: 9px;
-        height: 8px;
-        transform: translateY(-50%) rotate(-90deg);
-        background: url(${IconArrowDown}) no-repeat;
-      }
-    }
-  }
-`;
 
 const periods = ['day', 'week', 'month', 'year'];
 

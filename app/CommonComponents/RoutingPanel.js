@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { navIcons } from '../images/nav/index';
 
-const Item = styled.div`
+export const Item = styled.div`
   p {
     cursor: pointer;
     text-transform: uppercase;
@@ -40,7 +40,7 @@ const Item = styled.div`
   }
 `;
 
-const Navbar = styled.div`
+export const Navbar = styled.div`
   width: 15%;
   @media (min-width: 768px) and (max-width: 1200px) {
     width: 20%;

@@ -84,10 +84,6 @@ class ListOfWallets extends React.Component {
 
   filterZeroBlance = wallets => wallets.reduce(this.hideZeroBalanced, []);
 
-  filter = (wallets) => {
-    filterZeroBlance(wallets);
-  };
-
   filterNameOrAddres = wallets =>
     wallets.filter(
       wallet =>
