@@ -10,4 +10,6 @@ export const types = {
   MOUNT_TOTAL_BALANCE: '@@dashboard/MOUNT_TOTAL_BALANCE',
   MOUNT_HISTORY: '@@dashboard/MOUNT_HISTORY',
   CHECKOUT_HISTORY: '@@dashboard/CHECKOUT_HISTORY',
+  CHECKOUT_NEWS: '@@dashboard/CHECKOUT_NEWS',
+  MOUNT_NEWS: '@@dashboard/MOUNT_NEWS',
 };

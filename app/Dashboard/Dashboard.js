@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from './Actions';
 import { fiatCurrency, getDataForChart } from '../Wallets/Wallet/Actions';
-import { InfoCard } from './InfoCard';
+import { News } from './News';
 import ListOfWallets from './ListOfWallets';
 import wrapedChart from '../CommonComponents/Chart';
 import { SummaryCash } from './SummaryCash';
@@ -18,10 +18,10 @@ import {
 
 const mapDispatchToProps = dispatch => ({
   checkoutWallets: () => dispatch(actions.checkoutWalletList()),
-  deleteWallet: (walletList, wallet) => dispatch(actions.deleteWallet(walletList, wallet)),
   createWallet: (walletList, wType) => dispatch(actions.createWallet(walletList, wType)),
   selectWallet: wallet => dispatch(actions.selectWallet(wallet)),
   fetchWalletInfo: wallet => dispatch(actions.fetchWalletInfo(wallet)),
+  checkoutNews: () => dispatch(actions.checkoutNews()),
   fetchFiat: type => dispatch(fiatCurrency(type)),
   getDataForChart: (currency, period, timestamp, fiat) =>
     dispatch(getDataForChart(currency, period, timestamp, fiat)),
@@ -30,15 +30,18 @@ const mapDispatchToProps = dispatch => ({
   checkoutHistory: () => dispatch(actions.checkoutHistory()),
 });
 
-const mapStateToProps = state => ({
-  chartData: state.wallets.wallet.get('chartData'),
-  dappyHistory: state.dashboard.get('dappyHistory'),
-  wallets: state.dashboard.get('walletList'),
-  selectedWallet: state.dashboard.get('selectedWallet'),
-  totalBalance: state.dashboard.get('totalBalance'),
-  selectedFiat: state.fiat.get('selectedFiat').toJS(),
-  course: state.fiat.get('course'),
-});
+const mapStateToProps = state =>
+  // console.log(state.dashboard);
+   ({
+     chartData: state.wallets.wallet.get('chartData'),
+     dappyHistory: state.dashboard.get('dappyHistory'),
+     wallets: state.dashboard.get('walletList'),
+     selectedWallet: state.dashboard.get('selectedWallet'),
+     totalBalance: state.dashboard.get('totalBalance'),
+     selectedFiat: state.fiat.get('selectedFiat').toJS(),
+     course: state.fiat.get('course'),
+     news: state.dashboard.get('news'),
+   });
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -77,6 +80,7 @@ class Dashboard extends React.Component {
 
   componentDidMount() {
     this.props.checkoutHistory();
+    this.props.checkoutNews();
     this.props.fetchTotalBalance(this.props.wallets, this.props.course);
   }
 
@@ -106,7 +110,7 @@ class Dashboard extends React.Component {
             callModal={this.callModal}
             closeModal={this.closeModal}
           />
-          <InfoCard />
+          <News news={this.props.news} />
         </LeftColumnContainer>
         <MiddleColumnContainer>
           {this.props.chartData &&

@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import { v4 } from 'uuid';
 import { head } from 'ramda';
 import { Scroll, ScrollableItem } from '../Views';
+import { dateToRedeble } from '../Providers/DataNormalization.js';
+
 const styles = {
   card: {
     width: '100%',
@@ -37,30 +39,6 @@ export const TransactionHover = styled.div`
     }
   }
 `;
-
-const monthNames = [
-  'jan',
-  'feb',
-  'mar',
-  'apr',
-  'may',
-  'jun',
-  'jul',
-  'aug',
-  'sep',
-  'oct',
-  'nov',
-  'dec',
-];
-
-const lessThenTen = v => (parseInt(v, 10) < 10 ? `0${v}` : v.toString());
-
-const dateToRedeble = (date) => {
-  const d = new Date(date);
-  return `${lessThenTen(d.getHours())}:${lessThenTen(d.getMinutes())},  ${d.getDate()} ${
-    monthNames[d.getMonth()]
-  } ${d.getFullYear()} `;
-};
 
 export const TransactionBasicInfo = ({ text, type, date }) => (
   <TransactionHover>

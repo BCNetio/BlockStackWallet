@@ -8,6 +8,7 @@ const initialState = fromJS({
   selectedWalletInfo: {},
   totalBalance: 0,
   dappyHistory: [],
+  news: [],
 });
 
 export const dashboard = handleActions(
@@ -20,6 +21,7 @@ export const dashboard = handleActions(
     [types.MOUNT_WALLET_INFO]: (state, { payload }) =>
       state.update('selectedWalletInfo', () => payload),
     [types.MOUNT_HISTORY]: (state, { payload }) => state.update('dappyHistory', () => payload),
+    [types.MOUNT_NEWS]: (state, { payload }) => state.update('news', () => fromJS(payload)),
   },
   initialState,
 );

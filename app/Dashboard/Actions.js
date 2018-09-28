@@ -21,3 +21,5 @@ export const fetchTotalBalance = createAction(
     course,
   }),
 );
+
+export const checkoutNews = createAction(types.CHECKOUT_NEWS, () => {});

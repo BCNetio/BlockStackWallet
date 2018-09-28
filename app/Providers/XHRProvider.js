@@ -2,7 +2,6 @@ import axios from 'axios';
 import { append, reduce, omit, has } from 'ramda';
 import config from './config';
 import { curNames } from '../AppConfig';
-import { toETH } from './Wallets';
 import { normalizeFunctions } from './HistoryNormalization';
 import { config as AppConfig } from '../AppConfig';
 
@@ -29,7 +28,10 @@ export default class XHRProvider {
   }
 
   getPostsMedium = () =>
-    axios.get('https://cors-anywhere.herokuapp.com/https://medium.com/feed/dappy');
+    axios
+      .get('http://5.129.76.26:8181/mediumPosts')
+      .then(response => response.data.payload.posts)
+      .catch(error => []);
 
   fetchGas = () =>
     axios

@@ -26,6 +26,11 @@ function* checkoutHistory() {
   yield put({ type: types.MOUNT_HISTORY, payload: Array.isArray(logs) ? logs : [logs] });
 }
 
+function* checkoutNews() {
+  const news = yield call(xhr.getPostsMedium);
+  yield put({ type: types.MOUNT_NEWS, payload: news });
+}
+
 function* createWallet(action) {
   const { walletList, wType } = action.payload;
   const newWalletList = yield setWalletList([...walletList, ...walletGenerator([wType])]);
@@ -81,4 +86,5 @@ export function* dashboardSaga() {
   yield takeLatest(types.FETCH_WALLET_INFO, fetchWalletInfo);
   yield takeLatest(types.FETCH_TOTAL_BALANCE, fetchTotalBalance);
   yield takeLatest(types.CHECKOUT_HISTORY, checkoutHistory);
+  yield takeLatest(types.CHECKOUT_NEWS, checkoutNews);
 }
