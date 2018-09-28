@@ -197,7 +197,6 @@ class Chart extends React.Component {
           <Line
             data={over(lensPath(['datasets', 0]), __ => merge(lineOpstions, __), this.props.data)}
             options={this.mergeCallbacksForFiat()}
-            redraw
           />
         ) : null}
       </Card>

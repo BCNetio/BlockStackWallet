@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
+import { v4 } from 'uuid';
 import { dateToRedebleForNews } from '../Providers/DataNormalization';
 
 const Card = styled.div`
@@ -57,11 +58,11 @@ export const News = ({ news }) => (
     </Header>
     {news.size ? (
       news.map(post => (
-        <Post>
+        <Post key={v4()}>
           <a href={`${url}${post.get('uniqueSlug')}`} target="_blank">
             {post.get('title')}
+            <p>{dateToRedebleForNews(post.get('createdAt'))}</p>
           </a>
-          <p>{dateToRedebleForNews(post.get('createdAt'))}</p>
         </Post>
       ))
     ) : (
