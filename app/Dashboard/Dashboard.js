@@ -32,16 +32,16 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state =>
   // console.log(state.dashboard);
-   ({
-     chartData: state.wallets.wallet.get('chartData'),
-     dappyHistory: state.dashboard.get('dappyHistory'),
-     wallets: state.dashboard.get('walletList'),
-     selectedWallet: state.dashboard.get('selectedWallet'),
-     totalBalance: state.dashboard.get('totalBalance'),
-     selectedFiat: state.fiat.get('selectedFiat').toJS(),
-     course: state.fiat.get('course'),
-     news: state.dashboard.get('news'),
-   });
+  ({
+    chartData: state.wallets.wallet.get('chartData'),
+    dappyHistory: state.dashboard.get('dappyHistory'),
+    wallets: state.dashboard.get('walletList'),
+    selectedWallet: state.dashboard.get('selectedWallet'),
+    totalBalance: state.dashboard.get('totalBalance'),
+    selectedFiat: state.fiat.get('selectedFiat').toJS(),
+    course: state.fiat.get('course'),
+    news: state.dashboard.get('news'),
+  });
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -55,16 +55,16 @@ class Dashboard extends React.Component {
     };
 
     setTimeout(() => {
-      if (this.props.wallets && this.props.wallets.length) {
+      if (this.props.wallets && this.props.wallets.size) {
         this.props.fetchFiat(this.state.selectedCoin);
-        this.props.fetchTotalBalance(this.props.wallets, this.props.course);
+        this.props.fetchTotalBalance(this.props.wallets.toJS(), this.props.course);
       }
     }, 3000);
 
     setInterval(() => {
-      if (this.props.wallets.length) {
+      if (this.props.wallets.size) {
         this.props.fetchFiat(this.state.selectedCoin);
-        this.props.fetchTotalBalance(this.props.wallets, this.props.course);
+        this.props.fetchTotalBalance(this.props.wallets.toJS(), this.props.course);
       }
     }, 300000);
   }
@@ -81,7 +81,7 @@ class Dashboard extends React.Component {
   componentDidMount() {
     this.props.checkoutHistory();
     this.props.checkoutNews();
-    this.props.fetchTotalBalance(this.props.wallets, this.props.course);
+    this.props.fetchTotalBalance(this.props.wallets.toJS(), this.props.course);
   }
 
   callModal = (Component, optionalData) => {

@@ -25,7 +25,7 @@ export const toSatoshi = btc => btc * 100000000;
 
 export const toBTC = satoshi => satoshi / 100000000;
 
-export const toFiat = (value, course) => (course !== undefined ? value * course : 0).toFixed(2);
+export const toFiat = (value, course) => (value * course).toFixed(2);
 
 export const toETH = gWei => gWei / 10000000000;
 

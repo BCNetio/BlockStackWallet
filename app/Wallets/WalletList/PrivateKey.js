@@ -8,14 +8,13 @@ const mapStateToProps = state => ({
 });
 
 class PrivateKey extends React.Component {
-
   constructor(props) {
     super(props);
     this.gaiaWallet = head(props.wallets.filter(wallet => wallet.wid === props.options.wid));
   }
 
   render() {
-    return(
+    return (
       <PopupLayout>
         <Popup>
           <CloseUpButton onClick={this.props.closeModal} />

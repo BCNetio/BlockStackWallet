@@ -52,7 +52,7 @@ export const News = ({ news }) => (
   <Card>
     <Header>
       <p>Our News</p>
-      <a href="https://medium.com/dappy/" target="_blank">
+      <a href={url} target="_blank">
         View more
       </a>
     </Header>

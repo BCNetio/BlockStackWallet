@@ -71,6 +71,9 @@ export const ScrollableItem = styled.div`
   &.wallet-info {
     &:not(:first-child) {
       cursor: pointer;
+      :hover {
+        background: #f4f4f426;
+      }
     }
     div:first-child {
       display: flex;

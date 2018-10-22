@@ -10,6 +10,8 @@ import IconArrowDown from '../../images/common/icon-arrow-down.svg';
 import { AvaliableWallets } from './Views';
 import { InputSearch, Content } from '../../Views';
 
+import { getWalletWithFiat, getCourse, getSelectedFiat } from './Selectors';
+
 const HeaderControl = styled.div`
   width: 85%;
   display: flex;
@@ -137,10 +139,10 @@ const HeaderWrapper = styled.div`
 `;
 
 const mapStateToProps = state => ({
-  wallets: state.wallets.walletList.walletList,
+  wallets: getWalletWithFiat(state),
   selectedWalletInfo: state.wallets.walletList.selectedWalletInfo,
-  course: state.fiat.get('course'),
-  selectedFiat: state.fiat.get('selectedFiat').toJS(),
+  course: getCourse(state),
+  selectedFiat: getSelectedFiat(state),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -151,7 +153,6 @@ class WalletList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sendReceiveSelector: 1,
       selectedWallet: null,
       modalContent: null,
       modalOptions: undefined,
@@ -293,10 +294,9 @@ class WalletList extends React.Component {
           </HeaderWrapper>
           <AvaliableWallets
             closeModal={this.closeModal}
-            walletList={this.state.walletList.reduce(this.hideZeroBalanced, [])}
+            walletList={this.props.wallets}
             callModal={this.callModal}
             select={this.selectWallet}
-            course={this.props.course}
             selectedFiat={this.props.selectedFiat}
           />
         </div>

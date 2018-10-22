@@ -117,7 +117,6 @@ class Chart extends React.Component {
   }
 
   getSnapshotBeforeUpdate(prevProps, prevState) {
-    console.log('--->', not(equals(prevProps.selectedFiat, this.props.selectedFiat)));
     if (
       not(equals(prevProps.selectedFiat, this.props.selectedFiat)) ||
       not(equals(prevState.currency, this.state.currency)) ||
@@ -161,7 +160,6 @@ class Chart extends React.Component {
     });
 
   render() {
-    console.log('CHART', this.props);
     return (
       <Card style={this.props.layout ? this.props.layout : layout.card}>
         <div

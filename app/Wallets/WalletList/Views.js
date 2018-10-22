@@ -103,6 +103,15 @@ const wlStyles = {
   },
 };
 
+const WalletList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  @media (max-width: 767px) : {
+    margin: 0 auto;
+    justifycontent: center;
+  }
+`;
+
 export const TokensDisplay = styled.span`
   font-size: 10px;
   letter-spacing: 0.25px;
@@ -137,63 +146,57 @@ export const Currency = styled.p`
 
 export const Fiat = styled.p`
   color: #8d96b2;
-  font-ыize: 10px;
+  font-size: 10px;
   letter-ыpacing: 0.25px;
   line-рeight: 11px;
 `;
 
 export const WalletCard = withStyles(styles)(
-  ({
-    balance,
-    fiat,
-    wid,
-    select,
-    type,
-    callModal,
-    alias,
-    readOnly,
-    tokens,
-    classes,
-    selectedFiat,
-    wallet,
-  }) => (
-    <Card className={classes.card}>
-      <div
-        onClick={() => select(wallet)}
-        className={classes.cardHead}
-        style={{ marginBottom: '20px', position: 'relative' }}
-      >
-        {readOnly ? (
-          <ReadOnlyIcon>
-            <VisibilityOff className={classes.plusIcon} />
-          </ReadOnlyIcon>
-        ) : null}
-        <img
-          src={logos[type]}
-          className={classes.logo}
-          style={{ marginRight: '15px' }}
-          alt={'logo'}
-        />
-        <div style={{ width: '80%' }}>
-          <WalletName>{alias || config.avCurrencyes.get(type).name}</WalletName>
-          {equals('eth', type) && (
-            <TokensDisplay>Tokens {(tokens && tokens.tokenList.length) || 0}</TokensDisplay>
-          )}
+  ({ wid, select, callModal, classes, selectedFiat, wallet }) => {
+    console.log(wallet.getIn(['tokens', 'tokenList']), selectedFiat);
+    return (
+      <Card className={classes.card}>
+        <div
+          onClick={() => select(wallet)}
+          className={classes.cardHead}
+          style={{ marginBottom: '20px', position: 'relative' }}
+        >
+          {wallet.get('readOnly') ? (
+            <ReadOnlyIcon>
+              <VisibilityOff className={classes.plusIcon} />
+            </ReadOnlyIcon>
+          ) : null}
+          <img
+            src={logos[wallet.get('type')]}
+            className={classes.logo}
+            style={{ marginRight: '15px' }}
+            alt={'logo'}
+          />
+          <div style={{ width: '80%' }}>
+            <WalletName>{wallet.get('alias')}</WalletName>
+            {equals('eth', wallet.get('type')) && (
+              <TokensDisplay>
+                Tokens {(wallet.get('tokens') && wallet.getIn(['tokens', 'tokenList']).size) || 0}
+              </TokensDisplay>
+            )}
+          </div>
         </div>
-      </div>
-      <LongMenu className={classes.longMenu} wallet={wallet} callModal={callModal} wid={wid} />
-      <div onClick={() => select(wallet)}>
-        <Currency>
-          {balance && balance.value
-            ? `${balance.value.toFixed(9)} ${type.toUpperCase()}`
-            : `0  ${type.toUpperCase()}`}
-        </Currency>
-        <Fiat>
-          {balance && toFiat(balance.value, fiat)} {selectedFiat}
-        </Fiat>
-      </div>
-    </Card>
-  ),
+        <LongMenu className={classes.longMenu} wallet={wallet} callModal={callModal} wid={wid} />
+        <div onClick={() => select(wallet)}>
+          <Currency>
+            {wallet.getIn(['balance', 'value'])
+              ? `${wallet.getIn(['balance', 'value']).toFixed(9)} ${wallet
+                  .get('type')
+                  .toUpperCase()}`
+              : `0  ${wallet.get('type').toUpperCase()}`}
+          </Currency>
+          <Fiat>
+            {wallet.get('fiat')} {selectedFiat}
+          </Fiat>
+        </div>
+      </Card>
+    );
+  },
 );
 
 export const NewWallet = withStyles(styles)(({ callModal, classes }) => (
@@ -202,27 +205,17 @@ export const NewWallet = withStyles(styles)(({ callModal, classes }) => (
   </div>
 ));
 
-export const AvaliableWallets = withStyles(wlStyles)(
-  ({ walletList, select, classes, callModal, fiat, course, selectedFiat }) => (
-    <div className={classes.wallets}>
-      {[
-        ...walletList.map((wallet, idx) => (
-          <WalletCard
-            key={wallet.wid + idx}
-            {...wallet}
-            wallet={wallet}
-            callModal={callModal}
-            select={() => select(wallet)}
-            fiat={
-              has('BTC', course) && course[wallet.type.toUpperCase()]
-                ? course[wallet.type.toUpperCase()][selectedFiat.abbr]
-                : 0
-            }
-            selectedFiat={selectedFiat.abbr}
-          />
-        )),
-        <NewWallet key={'add'} callModal={() => callModal(CreateNewWallet)} />,
-      ]}
-    </div>
-  ),
-);
+export const AvaliableWallets = ({ walletList, select, callModal, selectedFiat }) => (
+  <WalletList>
+    {walletList.map((wallet, idx) => (
+      <WalletCard
+        key={wallet.get('wid') + idx}
+        wallet={wallet}
+        callModal={callModal}
+        select={() => select(wallet)}
+        selectedFiat={selectedFiat}
+      />
+      ))}
+    <NewWallet key={'add'} callModal={() => callModal(CreateNewWallet)} />
+  </WalletList>
+  );
