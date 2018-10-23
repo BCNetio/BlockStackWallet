@@ -71,7 +71,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'left',
-    alignItems: 'center',
+    alignItems: 'flexStart',
     color: '#FFFFFF',
   },
 
@@ -125,6 +125,7 @@ export const WalletName = styled.p`
   white-space: nowrap;
   overflow: hidden;
   padding-right: 15px;
+  margin-top: 2px;
 `;
 
 export const ReadOnlyIcon = styled.div`
