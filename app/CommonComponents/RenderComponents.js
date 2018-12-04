@@ -132,6 +132,16 @@ export const walletMenuItem = ({ content, action, index }) => (
   </div>
 );
 
+export const walletManualInput = ({ content, action, index, handleValue }) => (
+  <div className="pseudo-select-wrapper">
+    <div className="pseudo-select" onClick={() => action(index, content)}>
+      <span className="wallet-name">
+        <input value={content} onChange={handleValue} />
+      </span>
+    </div>
+  </div>
+);
+
 export const chartInput = ({ content, action, index }) => (
   <div onClick={() => action(index, content)}>{content.name}</div>
 );

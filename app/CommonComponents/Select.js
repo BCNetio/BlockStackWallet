@@ -16,7 +16,8 @@ import {
   fiatMenuItem,
   walletInput,
   walletTypeMenuItem,
-  walletTypeInput
+  walletTypeInput,
+  walletManualInput
 } from "./RenderComponents";
 
 const config = {
@@ -24,6 +25,10 @@ const config = {
   chart: { input: chartInput, menuItem: walletMenuItem },
   fiat: { input: fiatInput, menuItem: fiatMenuItem },
   wallet: { input: walletInput, menuItem: walletMenuItem },
+  walletManualInput: {
+    input: walletManualInput,
+    menuItem: transactionMenuItem
+  },
   walletType: { input: walletTypeInput, menuItem: walletTypeMenuItem }
 };
 
@@ -37,6 +42,7 @@ class Select extends React.Component {
       address: "",
       addAdr: false,
       list: props.list,
+      inputSwitcher: props.config.type,
       isManualInput: false
     };
 
@@ -45,6 +51,8 @@ class Select extends React.Component {
     this.selectListItem = this.selectListItem.bind(this);
     this.onSearchItem = this.onSearchItem.bind(this);
     this.openDropdown = this.openDropdown.bind(this);
+
+    document.addEventListener("click", this.handleClickOutside, false);
   }
 
   componentWillUnmount() {
@@ -64,11 +72,10 @@ class Select extends React.Component {
     });
   }
 
-  getSnapshotBeforeUpdate(nextProps) {
-    if (!equals(this.state.list, nextProps.list)) {
-      this.setState({ list: nextProps.list });
+  getSnapshotBeforeUpdate(prevProps) {
+    if (!equals(this.props.list, prevProps.list)) {
+      this.setState({ list: this.props.list });
     }
-    document.addEventListener("click", this.handleClickOutside, false);
     return null;
   }
 
@@ -93,21 +100,26 @@ class Select extends React.Component {
   }
 
   render() {
+    const { selectItem, handleMenuItemClick } = this.props;
+    const { isOpened, list, searchPredicate } = this.state;
+
     const MenuItem = config[this.props.config.type].menuItem;
     const Input = config[this.props.config.type].input;
-    const { selectItem, list, handleMenuItemClick } = this.props;
-    const { isOpened, isManualInput, searchPredicate } = this.state;
+
     return (
       <div>
-        <Input action={this.openDropdown} content={selectItem || head(list)} />
-        {isOpened && !isManualInput && (
+        <Input
+          action={this.openDropdown}
+          content={selectItem || head(this.props.list)}
+        />
+        {isOpened && (
           <DropdawnWrapper>
             {this.props.config.search && (
               <SearchBar onSearchItem={this.onSearchItem} />
             )}
             <div className="scroll-wrapper">
-              {this.state.list.length
-                ? this.state.list.map((el, index) => (
+              {list.length
+                ? list.map((el, index) => (
                     <MenuItem
                       key={v4()}
                       content={el}
