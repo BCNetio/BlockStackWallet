@@ -1,11 +1,15 @@
-import { put, call, takeLatest } from 'redux-saga/effects';
-import { head } from 'ramda';
-import { delay } from 'redux-saga';
-import { types } from './ActionTypes';
-import XHRProvider from '../../Providers/XHRProvider';
-import { getWalletList, setWalletList, logEvent } from '../../Providers/Gaia';
-import { transactionByType, getEthLikeNonce, toSatoshi } from '../../Providers/Wallets';
-import { curNames } from '../../AppConfig';
+import { put, call, takeLatest } from "redux-saga/effects";
+import { head } from "ramda";
+import { delay } from "redux-saga";
+import { types } from "./ActionTypes";
+import XHRProvider from "../../Providers/XHRProvider";
+import { getWalletList, setWalletList, logEvent } from "../../Providers/Gaia";
+import {
+  transactionByType,
+  getEthLikeNonce,
+  toSatoshi
+} from "../../Providers/Wallets";
+import { curNames } from "../../AppConfig";
 
 const xhr = new XHRProvider();
 
@@ -13,10 +17,12 @@ function* getSelectWalletInGaia(action) {
   const { selectedWallet } = action.payload;
   try {
     const walletList = yield call(getWalletList);
-    const wallet = walletList.kpList.find(wallet => wallet.wid === selectedWallet);
+    const wallet = walletList.kpList.find(
+      wallet => wallet.wid === selectedWallet
+    );
     yield put({
       type: types.GET_WALLET,
-      payload: { wallet, walletList: walletList.kpList },
+      payload: { wallet, walletList: walletList.kpList }
     });
   } catch (error) {
     console.log(error);
@@ -28,10 +34,12 @@ function* updateWalletByAddress(action) {
   try {
     const { kpList } = yield call(getWalletList);
     yield setWalletList(
-      kpList.map(wallet => (wallet.address === address ? { ...wallet, [key]: value } : wallet)),
+      kpList.map(wallet =>
+        wallet.address === address ? { ...wallet, [key]: value } : wallet
+      )
     );
   } catch (e) {
-    console.log('cannot update wallet on address');
+    console.log("cannot update wallet on address");
   }
 }
 
@@ -51,9 +59,9 @@ function* fetchWalletInfo(action) {
   let balance;
   try {
     balance = yield call(xhr.getWalletInfo, type, addr);
-    yield updateWalletByAddress(addr, 'balance', {
+    yield updateWalletByAddress(addr, "balance", {
       updated: new Date(),
-      value: balance,
+      value: balance
     });
   } catch (e) {
     yield delay(5000);
@@ -80,15 +88,18 @@ function* btcLikeTX({ wallet, receivers, options }) {
     { ...receivers[0], amount: toSatoshi(head(receivers).amount) },
     {
       key: wallet.address,
-      amount: toSatoshi(wallet.balance.value) - toSatoshi(head(receivers).amount) - options.fee,
-    },
+      amount:
+        toSatoshi(wallet.balance.value) -
+        toSatoshi(head(receivers).amount) -
+        options.fee
+    }
   ];
   const hash = transactionByType.get(wallet.type)(
     wallet.privateKey,
     data,
     newResivers,
     wallet.type,
-    options.fee,
+    options.fee
   );
   return yield call(xhr.broadcastTX, wallet.type, hash);
 }
@@ -104,26 +115,36 @@ function* ethLikeTX({ wallet, receivers, options }) {
           receivers,
           wallet.type,
           options.gasPrice,
-          options.gasLimit,
+          options.gasLimit
         )
-      : transactionByType.get('token')(
+      : transactionByType.get("token")(
           wallet,
           txCount,
           receivers,
           wallet.type,
           options.gasPrice,
-          options.gasLimit,
+          options.gasLimit
         );
   } catch (e) {
     console.log(e);
     hash =
       wallet.type === curNames.ETC
-        ? { transactionHash: e.toString().match(/"transactionHash"[:]\s+"([^\s,]+)"/)[1] }
-        : { transactionHash: e.toString().match(/"blockHash"[:]\s+"([^\s,]+)"/)[1] };
+        ? {
+            transactionHash: e
+              .toString()
+              .match(/"transactionHash"[:]\s+"([^\s,]+)"/)[1]
+          }
+        : {
+            transactionHash: e
+              .toString()
+              .match(/"blockHash"[:]\s+"([^\s,]+)"/)[1]
+          };
   }
 
   const ethHash = hash => ({
-    data: { txid: hash.transactionHash ? hash.transactionHash : hash.result.blockHash },
+    data: {
+      txid: hash.transactionHash ? hash.transactionHash : hash.result.blockHash
+    }
   });
   return ethHash(hash);
 }
@@ -143,10 +164,20 @@ function* makeTransaction(action) {
   }
   if (txid !== undefined) {
     const id = txid.data ? txid.data.txid : txid.txid;
-    yield call(logEvent, { date: new Date(), type: 'txPerformed', text: action.payload });
-    yield put({ type: types.MOUNT_TRX_ID, payload: { txid: id, status: 'Finished' } });
+    yield call(logEvent, {
+      date: new Date(),
+      type: "txPerformed",
+      text: action.payload
+    });
+    yield put({
+      type: types.MOUNT_TRX_ID,
+      payload: { txid: id, status: "Finished" }
+    });
   } else {
-    yield put({ type: types.MOUNT_TRX_ID, payload: { txid: '', status: 'Failed' } });
+    yield put({
+      type: types.MOUNT_TRX_ID,
+      payload: { txid: "", status: "Failed" }
+    });
   }
 }
 
@@ -163,12 +194,12 @@ function* fetchTokenInfo(action) {
     action: types.UPDATE_WALLET_BY_ADDRESS,
     payload: {
       address: addr,
-      key: 'tokens',
+      key: "tokens",
       value: {
         updated: new Date(),
-        tokenList: data.tokens || [],
-      },
-    },
+        tokenList: data.tokens || []
+      }
+    }
   });
   yield put({ type: types.MOUNT_TOKEN_INFO, payload: data.tokens || [] });
 }

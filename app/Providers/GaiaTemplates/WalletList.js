@@ -1,1 +1,1 @@
-export const walletListTMPL = (kpList) => JSON.stringify({ kpList });
+export const walletListTMPL = kpList => JSON.stringify({ kpList });

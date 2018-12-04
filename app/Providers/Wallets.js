@@ -1,24 +1,24 @@
-import * as bitcoin from 'bitcoinjs-lib';
-import * as bch from 'bitcoincashjs';
-import { v4 } from 'uuid';
-import * as eth from 'ethereumjs-wallet';
-import * as ethUtil from 'ethereumjs-util';
-import { compose, take, head, reduce } from 'ramda';
-import { generateMnemonic } from 'bip39';
-import { config, curNames } from '../AppConfig';
+import * as bitcoin from "bitcoinjs-lib";
+import * as bch from "bitcore-lib-cash";
+import { v4 } from "uuid";
+import * as eth from "ethereumjs-wallet";
+import * as ethUtil from "ethereumjs-util";
+import { compose, take, head, reduce } from "ramda";
+import { generateMnemonic } from "bip39";
+import { config, curNames } from "../AppConfig";
 
-const Web3 = require('web3');
+const Web3 = require("web3");
 
-const abi = require('human-standard-token-abi');
+const abi = require("human-standard-token-abi");
 
-const EthereumTx = require('ethereumjs-tx');
+const EthereumTx = require("ethereumjs-tx");
 
 const createBuf = str => new Buffer(str);
 
 const mkBCHpk = compose(
   bch.crypto.BN.fromBuffer,
   bch.crypto.Hash.sha256,
-  createBuf,
+  createBuf
 );
 
 export const toSatoshi = btc => btc * 100000000;
@@ -37,38 +37,43 @@ export const feeToETH = gasPrise => toETH(gasPrise) + 21000;
 
 export const feeToETHToken = gasPrise => toETH(gasPrise) + 200000;
 
-export const calculateTotalBalance = (walletBalanceList) => {
+export const calculateTotalBalance = walletBalanceList => {
   const convertedBalances = walletBalanceList.map(
-    walletInfo => walletInfo.balance * walletInfo.course.toFixed(10),
+    walletInfo => walletInfo.balance * walletInfo.course.toFixed(10)
   );
-  return reduce((balance, acc) => acc + balance, 0, convertedBalances).toFixed(6);
+  return reduce((balance, acc) => acc + balance, 0, convertedBalances).toFixed(
+    6
+  );
 };
 
-export const addrToBitpayFormat = (address) => {
+export const addrToBitpayFormat = address => {
   const bchAdr = new bch.Address(address);
   const format = bch.Address.BitpayFormat;
   return bchAdr.toString(format);
 };
 
-export const addrToBCHFormat = (address) => {
+export const addrToBCHFormat = address => {
   const bchAdr = new bch.Address(address);
   const format = bch.Address.CashAddrFormat;
   return bchAdr.toString(format);
 };
 
 const generateRandomPair = type =>
-  `${config.avCurrencyes.get(type).name} ${take(2, generateMnemonic().split(' ')).join('-')}`;
+  `${config.avCurrencyes.get(type).name} ${take(
+    2,
+    generateMnemonic().split(" ")
+  ).join("-")}`;
 
 export const btcLikeTransaction = (pKey, utxo, listOfReceivers, type) => {
   const rootKey = bitcoin.ECPair.fromWIF(pKey, config.networks[type]);
   const tx = new bitcoin.TransactionBuilder(config.networks[type]);
   const utxoArray = utxo.unspent_outputs ? utxo.unspent_outputs : utxo;
   if (type === curNames.DOGE) {
-    utxoArray.forEach((item) => {
+    utxoArray.forEach(item => {
       tx.addInput(item.tx_hash, item.tx_output_n);
     });
   } else {
-    utxoArray.forEach((item) => {
+    utxoArray.forEach(item => {
       tx.addInput(item.txid, item.vout);
     });
   }
@@ -86,60 +91,101 @@ export const btcLikeTransaction = (pKey, utxo, listOfReceivers, type) => {
 
 export const bchTransaction = (pKey, utxo, listOfReceivers) => {
   const pk = new bch.PrivateKey(pKey);
-  const tx = bch.Transaction().from(utxo.map(_ => ({ ..._, address: pk.toAddress().toString() })));
-  listOfReceivers.forEach(receiver => tx.to(receiver.key, toSatoshi(receiver.amount)));
+  const tx = bch
+    .Transaction()
+    .from(utxo.map(_ => ({ ..._, address: pk.toAddress().toString() })));
+  listOfReceivers.forEach(receiver =>
+    tx.to(receiver.key, toSatoshi(receiver.amount))
+  );
   tx.sign(pk);
   return tx.toString();
 };
 
 export const getEthLikeNonce = ({ type, address }) => {
-  const node = config.nodes.get(type) ? config.nodes.get(type) : config.nodes.get(curNames.ETH);
+  const node = config.nodes.get(type)
+    ? config.nodes.get(type)
+    : config.nodes.get(curNames.ETH);
   const web3P = new Web3(new Web3.providers.HttpProvider(node));
   return web3P.eth.getTransactionCount(address);
 };
 
-export const etcTransaction = (pKey, actualNonce, listOfReceivers, type, gasPrice, gasLimit) => {
-  const web3P = new Web3(new Web3.providers.HttpProvider(config.nodes.get(type)));
+export const etcTransaction = (
+  pKey,
+  actualNonce,
+  listOfReceivers,
+  type,
+  gasPrice,
+  gasLimit
+) => {
+  const web3P = new Web3(
+    new Web3.providers.HttpProvider(config.nodes.get(type))
+  );
   const tx = new EthereumTx({
     from: pKey,
     nonce: web3P.utils.toHex(actualNonce),
     to: head(listOfReceivers).key,
     value: web3P.utils.toHex(
-      web3P.utils.toWei(head(listOfReceivers).amount.toString(), 'ether').toString(),
+      web3P.utils
+        .toWei(head(listOfReceivers).amount.toString(), "ether")
+        .toString()
     ),
     gasLimit: web3P.utils.toHex(gasLimit.toString()),
-    gasPrice: web3P.utils.toHex(gasPrice.toString()),
+    gasPrice: web3P.utils.toHex(gasPrice.toString())
   });
   tx.sign(ethUtil.toBuffer(pKey));
-  return web3P.eth.sendSignedTransaction(`0x${tx.serialize().toString('hex')}`);
+  return web3P.eth.sendSignedTransaction(`0x${tx.serialize().toString("hex")}`);
 };
 
-export const ethTransaction = (pKey, actualNonce, listOfReceivers, type, gasPrice, gasLimit) => {
-  const web3P = new Web3(new Web3.providers.HttpProvider(config.nodes.get(type)));
+export const ethTransaction = (
+  pKey,
+  actualNonce,
+  listOfReceivers,
+  type,
+  gasPrice,
+  gasLimit
+) => {
+  const web3P = new Web3(
+    new Web3.providers.HttpProvider(config.nodes.get(type))
+  );
   const tx = new EthereumTx({
     from: pKey,
     nonce: web3P.utils.toHex(actualNonce),
     to: head(listOfReceivers).key,
     value: web3P.utils.toHex(
-      web3P.utils.toWei(head(listOfReceivers).amount.toString(), 'ether').toString(),
+      web3P.utils
+        .toWei(head(listOfReceivers).amount.toString(), "ether")
+        .toString()
     ),
     gasLimit: web3P.utils.toHex(gasLimit.toString()),
-    gasPrice: web3P.utils.toHex(toGwei(gasPrice).toString()),
+    gasPrice: web3P.utils.toHex(toGwei(gasPrice).toString())
   });
   tx.sign(ethUtil.toBuffer(pKey));
-  return web3P.eth.sendSignedTransaction(`0x${tx.serialize().toString('hex')}`);
+  return web3P.eth.sendSignedTransaction(`0x${tx.serialize().toString("hex")}`);
 };
 
-const ethTokenTransaction = (wallet, actualNonce, listOfReceivers, type, gasPrice, gasLimit) => {
-  const web3P = new Web3(new Web3.providers.HttpProvider(config.nodes.get(curNames.ETH)));
-  const tokenContract = new web3P.eth.Contract(abi, wallet.token.tokenInfo.address, {
-    from: wallet.address,
-  });
+const ethTokenTransaction = (
+  wallet,
+  actualNonce,
+  listOfReceivers,
+  type,
+  gasPrice,
+  gasLimit
+) => {
+  const web3P = new Web3(
+    new Web3.providers.HttpProvider(config.nodes.get(curNames.ETH))
+  );
+  const tokenContract = new web3P.eth.Contract(
+    abi,
+    wallet.token.tokenInfo.address,
+    {
+      from: wallet.address
+    }
+  );
   const tx = new EthereumTx({
     from: wallet.address,
     nonce: web3P.utils.toHex(actualNonce),
     to: wallet.token.tokenInfo.address,
-    value: '0x0',
+    value: "0x0",
     gasLimit: web3P.utils.toHex(gasLimit),
     gasPrice: web3P.utils.toHex(gasPrice),
     data: tokenContract.methods
@@ -148,23 +194,28 @@ const ethTokenTransaction = (wallet, actualNonce, listOfReceivers, type, gasPric
         web3P.utils.toHex(
           web3P.utils
             .toWei(
-              (head(listOfReceivers).amount * 10 ** wallet.token.tokenInfo.decimals).toString(),
-              'ether',
+              (
+                head(listOfReceivers).amount *
+                10 ** wallet.token.tokenInfo.decimals
+              ).toString(),
+              "ether"
             )
-            .toString(),
-        ),
+            .toString()
+        )
       )
-      .encodeABI(),
+      .encodeABI()
   });
   tx.sign(ethUtil.toBuffer(wallet.privateKey));
-  return web3P.eth.sendSignedTransaction(`0x${tx.serialize().toString('hex')}`);
+  return web3P.eth.sendSignedTransaction(`0x${tx.serialize().toString("hex")}`);
 };
 
 export const generateBTCLikeWallet = (type, keychain = v4()) => {
-  const keyPair = new bitcoin.ECPair.makeRandom({ network: config.networks[type] });
+  const keyPair = new bitcoin.ECPair.makeRandom({
+    network: config.networks[type]
+  });
   const { address } = bitcoin.payments.p2pkh({
     pubkey: keyPair.publicKey,
-    network: config.networks[type],
+    network: config.networks[type]
   });
   return {
     privateKey: keyPair.toWIF(),
@@ -174,7 +225,7 @@ export const generateBTCLikeWallet = (type, keychain = v4()) => {
     type,
     created: new Date(),
     readOnly: false,
-    balance: 0,
+    balance: 0
   };
 };
 
@@ -188,7 +239,7 @@ export const generateBCHWallet = (keychain = v4()) => {
     type: curNames.BCH,
     created: new Date(),
     readOnly: false,
-    balance: 0,
+    balance: 0
   };
 };
 
@@ -202,7 +253,7 @@ export const generateETHWallet = (keychain = v4()) => {
     type: curNames.ETH,
     created: new Date(),
     readOnly: false,
-    balance: 0,
+    balance: 0
   };
 };
 
@@ -216,7 +267,7 @@ export const generateETCWallet = (keychain = v4()) => {
     type: curNames.ETC,
     created: new Date(),
     readOnly: false,
-    balance: 0,
+    balance: 0
   };
 };
 
@@ -229,7 +280,7 @@ export const recoverETHWallet = WIF => ({
   alias: generateRandomPair(curNames.ETH),
   type: curNames.ETH,
   created: new Date(),
-  readOnly: false,
+  readOnly: false
 });
 
 export const recoverETCWallet = WIF => ({
@@ -241,20 +292,20 @@ export const recoverETCWallet = WIF => ({
   alias: generateRandomPair(curNames.ETC),
   type: curNames.ETC,
   created: new Date(),
-  readOnly: false,
+  readOnly: false
 });
 
 export const recoverBTCLikeWallet = (WIF, type) => ({
   privateKey: WIF,
   address: bitcoin.payments.p2pkh({
     pubkey: bitcoin.ECPair.fromWIF(WIF, config.networks[type]).publicKey,
-    network: config.networks[type],
+    network: config.networks[type]
   }).address,
   wid: v4(),
   alias: generateRandomPair(type),
   type,
   created: new Date(),
-  readOnly: false,
+  readOnly: false
 });
 
 export const recoverBCHWallet = WIF => ({
@@ -264,7 +315,7 @@ export const recoverBCHWallet = WIF => ({
   type: curNames.BCH,
   alias: generateRandomPair(curNames.BCH),
   created: new Date(),
-  readOnly: false,
+  readOnly: false
 });
 
 export const transactionByType = new Map([
@@ -277,7 +328,7 @@ export const transactionByType = new Map([
   [curNames.BTG, btcLikeTransaction],
   [curNames.ETH, ethTransaction],
   [curNames.ETC, etcTransaction],
-  ['token', ethTokenTransaction],
+  ["token", ethTokenTransaction]
 ]);
 
 const recoverDict = new Map([
@@ -289,7 +340,7 @@ const recoverDict = new Map([
   [curNames.BTG, recoverBTCLikeWallet],
   [curNames.BCH, recoverBCHWallet],
   [curNames.ETH, recoverETHWallet],
-  [curNames.ETC, recoverETCWallet],
+  [curNames.ETC, recoverETCWallet]
 ]);
 
 const walletDict = new Map([
@@ -301,7 +352,7 @@ const walletDict = new Map([
   [curNames.DASH, generateBTCLikeWallet],
   [curNames.BTG, generateBTCLikeWallet],
   [curNames.DOGE, generateBTCLikeWallet],
-  [curNames.LTC, generateBTCLikeWallet],
+  [curNames.LTC, generateBTCLikeWallet]
 ]);
 
 export const generateInitialWalletList = () =>
@@ -313,4 +364,5 @@ export const walletGenerator = (typeList, keychain) =>
     .filter(currency => currency)
     .map((generator, idx) => generator(typeList[idx], keychain));
 
-export const recoverWallet = (wType, pKey) => recoverDict.get(wType)(pKey, wType);
+export const recoverWallet = (wType, pKey) =>
+  recoverDict.get(wType)(pKey, wType);

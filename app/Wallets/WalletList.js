@@ -1,15 +1,15 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { filter, equals } from 'ramda';
-import { withRouter } from 'react-router-dom';
-import styled from 'styled-components';
-import * as actions from './WalletList/Actions';
-import Modal from '../CommonComponents/Modal';
-import { SEND } from './WalletList/RenderFunctions';
-import IconSupport from '../images/common/icon-support.svg';
-import IconArrowDown from '../images/common/icon-arrow-down.svg';
-import { AvaliableWallets } from './WalletList/Views';
-import { InputSearch, Content } from '../Views';
+import React from "react";
+import { connect } from "react-redux";
+import { filter, equals } from "ramda";
+import { withRouter } from "react-router-dom";
+import styled from "styled-components";
+import * as actions from "./WalletList/Actions";
+import Modal from "../CommonComponents/Modal";
+import { SEND } from "./WalletList/RenderFunctions";
+import IconSupport from "../images/common/icon-support.svg";
+import IconArrowDown from "../images/common/icon-arrow-down.svg";
+import { AvaliableWallets } from "./WalletList/Views";
+import { InputSearch, Content } from "../Views";
 
 const HeaderControl = styled.div`
   width: 85%;
@@ -49,7 +49,7 @@ const HeaderControl = styled.div`
       color: #fff;
       text-decoration: none;
       &:after {
-        content: '';
+        content: "";
         display: block;
         position: absolute;
         top: 50%;
@@ -81,7 +81,7 @@ const HeaderControl = styled.div`
     span {
       position: relative;
       &:after {
-        content: '';
+        content: "";
         display: block;
         position: absolute;
         top: 50%;
@@ -104,7 +104,7 @@ const HeaderControl = styled.div`
       display: flex;
       align-items: center;
       &:after {
-        content: '';
+        content: "";
         display: block;
         position: absolute;
         top: 50%;
@@ -141,11 +141,11 @@ const mapStateToProps = state => ({
   wallets: state.wallets.walletList.walletList,
   selectedWalletInfo: state.wallets.walletList.selectedWalletInfo,
   course: state.fiat.course,
-  selectedFiat: state.fiat.selectedFiat,
+  selectedFiat: state.fiat.selectedFiat
 });
 
 const mapDispatchToProps = dispatch => ({
-  checkoutWallets: () => dispatch(actions.checkoutWalletList()),
+  checkoutWallets: () => dispatch(actions.checkoutWalletList())
 });
 
 class WalletList extends React.Component {
@@ -163,9 +163,9 @@ class WalletList extends React.Component {
       modalContent: null,
       modalOptions: undefined,
       showZeroBalanced: true,
-      searchPattern: '',
+      searchPattern: "",
       walletList: props.wallets,
-      separate: false,
+      separate: false
     };
   }
 
@@ -176,7 +176,9 @@ class WalletList extends React.Component {
   splitWallets = _ =>
     this.setState({
       separate: !this.state.separate,
-      walletList: !this.state.separate ? this.rebuildWallets() : this.props.wallets,
+      walletList: !this.state.separate
+        ? this.rebuildWallets()
+        : this.props.wallets
     });
 
   rebuildWallets = () =>
@@ -187,26 +189,31 @@ class WalletList extends React.Component {
           cur,
           ...cur.tokens.tokenList.map(t => ({
             ...cur,
-            balance: { ...cur.balance, value: t.balance / 10 ** t.tokenInfo.decimals },
+            balance: {
+              ...cur.balance,
+              value: t.balance / 10 ** t.tokenInfo.decimals
+            },
             type: t.tokenInfo.symbol,
             originAddress: cur.address,
             token: t,
-            tokens: undefined,
-          })),
+            tokens: undefined
+          }))
         ];
       }
       return [...acc, cur];
     }, []);
 
-  handleSearch = (e) => {
+  handleSearch = e => {
     this.setState({
       walletList: this.filterWallets(e.currentTarget.value),
-      searchPattern: e.currentTarget.value,
+      searchPattern: e.currentTarget.value
     });
   };
 
   handleShowZeroBalanced = () => {
-    this.setState(({ showZeroBalanced }) => ({ showZeroBalanced: !showZeroBalanced }));
+    this.setState(({ showZeroBalanced }) => ({
+      showZeroBalanced: !showZeroBalanced
+    }));
   };
 
   hideZeroBalanced = (acc, curr) => {
@@ -216,18 +223,18 @@ class WalletList extends React.Component {
     return curr.balance && curr.balance.value ? [...acc, curr] : acc;
   };
 
-  filterWallets = (searchPattern) => {
+  filterWallets = searchPattern => {
     const filterFunc = wallet =>
       wallet.alias.toUpperCase().includes(searchPattern.toUpperCase()) ||
       wallet.address.toUpperCase().includes(searchPattern.toUpperCase());
     return filter(filterFunc, this.props.wallets);
   };
 
-  selectWallet = (wallet) => {
-    localStorage.setItem('selectWallet', wallet.wid);
+  selectWallet = wallet => {
+    localStorage.setItem("selectWallet", wallet.wid);
     this.props.history.push({
       pathname: `/wallet/${wallet.wid}`,
-      state: wallet,
+      state: wallet
     });
   };
 
@@ -245,27 +252,32 @@ class WalletList extends React.Component {
       <Content>
         <Modal>
           {this.state.modalContent ? (
-            <ModalContent closeModal={this.closeModal} options={this.state.modalOptions} />
+            <ModalContent
+              closeModal={this.closeModal}
+              options={this.state.modalOptions}
+            />
           ) : null}
         </Modal>
         <div
           style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'stretch',
-            flexDirection: 'column',
-            width: '100%',
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "stretch",
+            flexDirection: "column",
+            width: "100%"
           }}
         >
           <HeaderWrapper>
-            <HeaderControl style={{ justifyContent: 'flex-start', flexWrap: 'wrap' }}>
+            <HeaderControl
+              style={{ justifyContent: "flex-start", flexWrap: "wrap" }}
+            >
               <InputSearch
                 value={this.state.searchPattern}
                 onChange={this.handleSearch}
                 type="text"
                 placeholder="Search…"
               />
-              <div style={{ marginLeft: '15px' }}>
+              <div style={{ marginLeft: "15px" }}>
                 <label>
                   <input
                     className="checkbox"
@@ -275,7 +287,10 @@ class WalletList extends React.Component {
                     name="wallets-filter"
                   />
                   <span className="checkbox-custom header" />
-                  <span className="label" style={{ fontSize: '12px', lineHeight: '14px' }}>
+                  <span
+                    className="label"
+                    style={{ fontSize: "12px", lineHeight: "14px" }}
+                  >
                     Hide zero balance
                   </span>
                 </label>
@@ -310,4 +325,9 @@ class WalletList extends React.Component {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(WalletList));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(WalletList)
+);

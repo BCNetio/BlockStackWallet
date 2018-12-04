@@ -1,6 +1,6 @@
-import { put, call, takeLatest, all } from 'redux-saga/effects';
-import { types } from './ActionTypes';
-import XHRProvider from '../Providers/XHRProvider';
+import { put, call, takeLatest, all } from "redux-saga/effects";
+import { types } from "./ActionTypes";
+import XHRProvider from "../Providers/XHRProvider";
 
 const xhr = new XHRProvider();
 
@@ -9,7 +9,7 @@ function* fetchСourse(action) {
     const course = yield call(xhr.getCourse, action.payload.fiat);
     yield put({
       type: types.MOUNT_COURSE,
-      payload: course,
+      payload: course
     });
   } catch (error) {
     console.log(error);

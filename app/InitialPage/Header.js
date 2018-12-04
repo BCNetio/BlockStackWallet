@@ -1,14 +1,14 @@
-import React from 'react';
-import { signUserOut, loadUserData, Person } from 'blockstack';
-import styled from 'styled-components';
-import Logo from '../images/dappy-logo.svg';
-import ReactDOM from 'react-dom';
-import IconSupport from '../images/common/icon-support.svg';
-import IconArrowDown from '../images/common/icon-arrow-down.svg';
-import IconProfile from '../images/common/icon-profile.svg';
-import IconLogOut from '../images/common/icon-log-out.svg';
-import Fiat from '../Fiat/Fiat';
-import { config } from '../AppConfig';
+import React from "react";
+import { signUserOut, loadUserData, Person } from "blockstack";
+import styled from "styled-components";
+import Logo from "../images/dappy-logo.svg";
+import ReactDOM from "react-dom";
+import IconSupport from "../images/common/icon-support.svg";
+import IconArrowDown from "../images/common/icon-arrow-down.svg";
+import IconProfile from "../images/common/icon-profile.svg";
+import IconLogOut from "../images/common/icon-log-out.svg";
+import Fiat from "../Fiat/Fiat";
+import { config } from "../AppConfig";
 
 const LogoWrapper = styled.div`
   width: 15%;
@@ -63,7 +63,7 @@ const HeaderControl = styled.div`
       color: #fff;
       text-decoration: none;
       &:after {
-        content: '';
+        content: "";
         display: block;
         position: absolute;
         top: 50%;
@@ -95,7 +95,7 @@ const HeaderControl = styled.div`
     span {
       position: relative;
       &:after {
-        content: '';
+        content: "";
         display: block;
         position: absolute;
         top: 50%;
@@ -118,7 +118,7 @@ const HeaderControl = styled.div`
       display: flex;
       align-items: center;
       &:after {
-        content: '';
+        content: "";
         display: block;
         position: absolute;
         top: 50%;
@@ -160,7 +160,7 @@ const UserInfo = styled.div`
       margin-right: 15px;
       position: relative;
       &:after {
-        content: '';
+        content: "";
         display: block;
         position: absolute;
         top: 50%;
@@ -193,7 +193,7 @@ const UserInfo = styled.div`
     border-radius: 5px;
     text-align: left;
     &:before {
-      content: '';
+      content: "";
       display: block;
       position: absolute;
       top: -9px;
@@ -217,7 +217,7 @@ const UserInfo = styled.div`
           padding: 5px 40px 5px 35px;
           display: block;
           &:before {
-            content: '';
+            content: "";
             display: block;
             position: absolute;
             top: 50%;
@@ -244,32 +244,41 @@ class ProfilePopUp extends React.Component {
     this.state = { isOpened: false };
   }
   componentWillUnmount() {
-    document.removeEventListener('click', this.handleClickOutside, false);
+    document.removeEventListener("click", this.handleClickOutside, false);
   }
 
   getSnapshotBeforeUpdate() {
-    document.addEventListener('click', this.handleClickOutside, false);
+    document.addEventListener("click", this.handleClickOutside, false);
     return null;
   }
 
-  handleClickOutside = (e) => {
+  handleClickOutside = e => {
     const domNode = ReactDOM.findDOMNode(this);
-    (!domNode || !domNode.contains(e.target)) && this.setState({ isOpened: false });
+    (!domNode || !domNode.contains(e.target)) &&
+      this.setState({ isOpened: false });
   };
 
   render() {
     return (
       <UserInfo>
         <div>
-          <div className="user-info" onClick={() => this.setState({ isOpened: true })}>
+          <div
+            className="user-info"
+            onClick={() => this.setState({ isOpened: true })}
+          >
             <span>
               {this.props.profile.name()
                 ? this.props.profile.name()
-                : 'The name isn’t set in the profile '}
+                : "The name isn’t set in the profile "}
             </span>
             {this.props.profile.avatarUrl() && (
               <div>
-                <img src={this.props.profile.avatarUrl()} alt={'avatar'} height={40} width={40} />
+                <img
+                  src={this.props.profile.avatarUrl()}
+                  alt={"avatar"}
+                  height={40}
+                  width={40}
+                />
               </div>
             )}
           </div>
@@ -277,7 +286,11 @@ class ProfilePopUp extends React.Component {
             <div className="menu">
               <ul>
                 <li>
-                  <a className="profile" href={config.bsNodeProfile} target="_blank">
+                  <a
+                    className="profile"
+                    href={config.bsNodeProfile}
+                    target="_blank"
+                  >
                     Blockstack profile
                   </a>
                 </li>
@@ -302,19 +315,26 @@ const Header = () => {
   return (
     <HeaderWrapper>
       <LogoWrapper>
-        <img src={Logo} alt={'logo'} />
+        <img src={Logo} alt={"logo"} />
       </LogoWrapper>
       <HeaderControl style={{}}>
         <div className="left">
           <Fiat />
           <div className="support">
-            <a href="https://dappy.freshdesk.com/support/home" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://dappy.freshdesk.com/support/home"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Support
             </a>
           </div>
         </div>
         <div className="right">
-          <ProfilePopUp profile={profile} logout={() => signUserOut(window.location.origin)} />
+          <ProfilePopUp
+            profile={profile}
+            logout={() => signUserOut(window.location.origin)}
+          />
         </div>
       </HeaderControl>
     </HeaderWrapper>

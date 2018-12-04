@@ -1,28 +1,28 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import Card from '@material-ui/core/Card';
-import { withStyles } from '@material-ui/core/styles';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { equals, has } from 'ramda';
-import * as actions from './Actions';
-import { BalanceCard, TapButton } from '../../Views';
-import { toFiat } from '../../Providers/Wallets';
-import QrPopUp from './QrPopUp';
-import LongMenu from '../WalletList/LongMenu';
+import React from "react";
+import { connect } from "react-redux";
+import Card from "@material-ui/core/Card";
+import { withStyles } from "@material-ui/core/styles";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { equals, has } from "ramda";
+import * as actions from "./Actions";
+import { BalanceCard, TapButton } from "../../Views";
+import { toFiat } from "../../Providers/Wallets";
+import QrPopUp from "./QrPopUp";
+import LongMenu from "../WalletList/LongMenu";
 
 const styles = {
   card: {
     minHeight: 242,
     background:
-      'linear-gradient(42.6deg, #2B3649 0%, #342F58 56.09%, #5C1B57 80.31%, #812359 100%)',
-    boxShadow: '0 25px 40px 0 rgba(0,0,0,0.3)',
-    color: '#FFFFFF',
+      "linear-gradient(42.6deg, #2B3649 0%, #342F58 56.09%, #5C1B57 80.31%, #812359 100%)",
+    boxShadow: "0 25px 40px 0 rgba(0,0,0,0.3)",
+    color: "#FFFFFF",
     fontSize: 12,
-    textOverflow: 'ellipsis',
-    padding: '20px',
-    paddingBottom: '30px',
-    borderRadius: '2px 2px 0 0',
-  },
+    textOverflow: "ellipsis",
+    padding: "20px",
+    paddingBottom: "30px",
+    borderRadius: "2px 2px 0 0"
+  }
 };
 const minute = 60000;
 
@@ -33,7 +33,10 @@ class WalletInfo extends React.Component {
       !this.props.wallet.balance ||
       Date.now() - Date.parse(this.props.wallet.balance.updated) > minute * 5
     ) {
-      this.props.fetchWalletInfo(this.props.wallet.type, this.props.wallet.address);
+      this.props.fetchWalletInfo(
+        this.props.wallet.type,
+        this.props.wallet.address
+      );
     }
     this.props.getFiat(this.props.wallet.type);
     this.state = { copied: false };
@@ -60,17 +63,17 @@ class WalletInfo extends React.Component {
           <div>
             <div
               style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'left',
-                alignItems: 'center',
-                color: '#FFFFFF',
-                position: 'relative',
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "left",
+                alignItems: "center",
+                color: "#FFFFFF",
+                position: "relative"
               }}
             >
               <LongMenu
                 callModal={this.props.callModal}
-                style={{ marginLeft: 'auto', position: 'relative' }}
+                style={{ marginLeft: "auto", position: "relative" }}
                 wallet={this.props.wallet}
                 wid={this.props.wallet.wid}
               />
@@ -78,10 +81,13 @@ class WalletInfo extends React.Component {
             <p className="title">Balance</p>
 
             <p className="total">
-              {this.showBalance()} {this.props.token ? this.props.token.name : this.props.wallet.type.toUpperCase()}
+              {this.showBalance()}{" "}
+              {this.props.token
+                ? this.props.token.name
+                : this.props.wallet.type.toUpperCase()}
             </p>
             <p className="currency">
-              {has('BTC', this.props.course) &&
+              {has("BTC", this.props.course) &&
                 `${toFiat(
                   this.showBalance(),
                   this.props.course[this.props.wallet.type.toUpperCase()]
@@ -97,17 +103,21 @@ class WalletInfo extends React.Component {
               <div>
                 <p className="subtitle">
                   Your address
-                  <span>
-                    Tap to copy
-                  </span>
+                  <span>Tap to copy</span>
                 </p>
                 <div
-                  style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'stretch' }}
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-start",
+                    alignItems: "stretch"
+                  }}
                 >
                   <p className="address">{this.props.wallet.address}</p>
                   <TapButton
                     onClick={() =>
-                      this.props.callModal(QrPopUp, { address: this.props.wallet.address })
+                      this.props.callModal(QrPopUp, {
+                        address: this.props.wallet.address
+                      })
                     }
                   />
                 </div>
@@ -124,13 +134,19 @@ const mapStateToProps = state => ({
   // wallet: state.wallets.wallet.wallet,
   walletInfo: state.wallets.wallet.walletInfo,
   selectedFiat: state.fiat.selectedFiat,
-  course: state.fiat.course,
+  course: state.fiat.course
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchWalletInfo: (type, addr) => dispatch(actions.fetchWalletInfo(type, addr)),
+  fetchWalletInfo: (type, addr) =>
+    dispatch(actions.fetchWalletInfo(type, addr)),
 
-  getFiat: type => dispatch(actions.fiatCurrency(type)),
+  getFiat: type => dispatch(actions.fiatCurrency(type))
 });
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(WalletInfo));
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(WalletInfo)
+);

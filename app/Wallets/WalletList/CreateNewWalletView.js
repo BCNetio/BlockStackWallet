@@ -1,26 +1,26 @@
-import React from 'react';
-import TextField from '@material-ui/core/TextField';
-import Select from '../../CommonComponents/Select';
-import { config } from '../../AppConfig';
-import { PopupButton } from '../../Views';
+import React from "react";
+import TextField from "@material-ui/core/TextField";
+import Select from "../../CommonComponents/Select";
+import { config } from "../../AppConfig";
+import { PopupButton } from "../../Views";
 
 const styles = {
   select: {
-    width: '100%',
+    width: "100%"
   },
   input: {
-    width: '100%',
+    width: "100%"
   },
   notification: {
-    color: 'red',
-  },
+    color: "red"
+  }
 };
 
 export const CurrencySelect = ({ currency, handleChange }) => (
   <Select
     selectItem={currency}
     list={Array.from(config.avCurrencyes)}
-    config={{ search: true, input: false, type: 'wallet' }}
+    config={{ search: true, input: false, type: "wallet" }}
     handleMenuItemClick={handleChange}
   />
 );
@@ -28,8 +28,8 @@ export const CurrencySelect = ({ currency, handleChange }) => (
 export const WalletTypeSelect = ({ wType, handleChange }) => (
   <Select
     selectItem={wType}
-    list={[{ wType: 'Read only' }, { wType: 'Read/Write' }]}
-    config={{ search: false, input: false, type: 'walletType' }}
+    list={[{ wType: "Read only" }, { wType: "Read/Write" }]}
+    config={{ search: false, input: false, type: "walletType" }}
     handleMenuItemClick={handleChange}
   />
 );
@@ -42,13 +42,13 @@ export const PrivateKeyInput = ({ currency, value, handleChange }) =>
       value={value}
       style={styles.input}
       onChange={handleChange}
-      inputProps={{ name: 'privateKey' }}
+      inputProps={{ name: "privateKey" }}
     />
   ) : null;
 
 const GenerationButton = ({ action, text }) => (
   <PopupButton variant="raised" color="primary" onClick={action}>
-    {' '}
+    {" "}
     {text}
   </PopupButton>
 );
@@ -58,13 +58,15 @@ export const ButtonControl = ({ currency, pk, generate, recover }) => {
     return null;
   }
   return pk ? (
-    <GenerationButton action={recover} text={'Restore from private key'} />
+    <GenerationButton action={recover} text={"Restore from private key"} />
   ) : (
-    <GenerationButton action={generate} text={'Create new wallet'} />
+    <GenerationButton action={generate} text={"Create new wallet"} />
   );
 };
 
-const ServiceMessage = ({ text }) => <div style={styles.notification}>{text}</div>;
+const ServiceMessage = ({ text }) => (
+  <div style={styles.notification}>{text}</div>
+);
 
 const WalletPreview = ({ wallet, save }) => (
   <div>
@@ -94,8 +96,8 @@ const WalletPreview = ({ wallet, save }) => (
       </div>
     </div>
     <PopupButton variant="raised" color="primary" onClick={save}>
-      {' '}
-      Save{' '}
+      {" "}
+      Save{" "}
     </PopupButton>
   </div>
 );

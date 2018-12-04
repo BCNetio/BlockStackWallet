@@ -1,25 +1,27 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import * as actions from './Actions';
-import { fiatCurrency, getDataForChart } from '../Wallets/Wallet/Actions';
-import { InfoCard } from './InfoCard';
-import ListOfWallets from './ListOfWallets';
-import wrapedWallet from '../CommonComponents/Chart';
-import { SummaryCash } from './SummaryCash';
-import { config, curNames } from '../AppConfig';
-import History from './History';
-import Modal from '../CommonComponents/Modal';
+import React from "react";
+import { connect } from "react-redux";
+import * as actions from "./Actions";
+import { fiatCurrency, getDataForChart } from "../Wallets/Wallet/Actions";
+import { InfoCard } from "./InfoCard";
+import ListOfWallets from "./ListOfWallets";
+import wrapedWallet from "../CommonComponents/Chart";
+import { SummaryCash } from "./SummaryCash";
+import { config, curNames } from "../AppConfig";
+import History from "./History";
+import Modal from "../CommonComponents/Modal";
 import {
   Content,
   LeftColumnContainer,
   MiddleColumnContainer,
-  RightColumnContainer,
-} from '../Views';
+  RightColumnContainer
+} from "../Views";
 
 const mapDispatchToProps = dispatch => ({
   checkoutWallets: () => dispatch(actions.checkoutWalletList()),
-  deleteWallet: (walletList, wallet) => dispatch(actions.deleteWallet(walletList, wallet)),
-  createWallet: (walletList, wType) => dispatch(actions.createWallet(walletList, wType)),
+  deleteWallet: (walletList, wallet) =>
+    dispatch(actions.deleteWallet(walletList, wallet)),
+  createWallet: (walletList, wType) =>
+    dispatch(actions.createWallet(walletList, wType)),
   selectWallet: wallet => dispatch(actions.selectWallet(wallet)),
   fetchWalletInfo: wallet => dispatch(actions.fetchWalletInfo(wallet)),
   fetchFiat: type => dispatch(fiatCurrency(type)),
@@ -27,7 +29,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(getDataForChart(currency, period, timestamp, fiat)),
   fetchTotalBalance: (type, listOfAddress) =>
     dispatch(actions.fetchTotalBalance(type, listOfAddress)),
-  checkoutHistory: () => dispatch(actions.checkoutHistory()),
+  checkoutHistory: () => dispatch(actions.checkoutHistory())
 });
 
 const mapStateToProps = state => ({
@@ -38,7 +40,7 @@ const mapStateToProps = state => ({
   fiat: state.wallets.wallet.fiat,
   totalBalance: state.initialPage.totalBalance,
   selectedFiat: state.fiat.selectedFiat,
-  course: state.fiat.course,
+  course: state.fiat.course
 });
 
 class Dashboard extends React.Component {
@@ -49,7 +51,7 @@ class Dashboard extends React.Component {
     this.state = {
       selectedCoin: config.avCurrencyes.get(curNames.BTC).sysName,
       modalContent: null,
-      modalOptions: undefined,
+      modalOptions: undefined
     };
 
     setTimeout(() => {
@@ -67,7 +69,7 @@ class Dashboard extends React.Component {
     }, 300000);
   }
 
-  selectWallet = (wallet) => {
+  selectWallet = wallet => {
     this.props.fetchWalletInfo(wallet);
     this.props.selectWallet(wallet);
   };
@@ -95,7 +97,10 @@ class Dashboard extends React.Component {
       <Content>
         <Modal>
           {this.state.modalContent ? (
-            <ModalContent closeModal={this.closeModal} options={this.state.modalOptions} />
+            <ModalContent
+              closeModal={this.closeModal}
+              options={this.state.modalOptions}
+            />
           ) : null}
         </Modal>
         <LeftColumnContainer>
@@ -111,7 +116,11 @@ class Dashboard extends React.Component {
         </LeftColumnContainer>
         <MiddleColumnContainer>
           {this.props.chartData &&
-            wrapedWallet(this.props.chartData, this.props.getDataForChart, this.props.selectedFiat)}
+            wrapedWallet(
+              this.props.chartData,
+              this.props.getDataForChart,
+              this.props.selectedFiat
+            )}
           <History dappyHistory={this.props.dappyHistory} />
         </MiddleColumnContainer>
         <RightColumnContainer>
@@ -127,4 +136,7 @@ class Dashboard extends React.Component {
     );
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Dashboard);

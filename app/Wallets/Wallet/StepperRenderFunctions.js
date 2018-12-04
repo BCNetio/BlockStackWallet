@@ -1,11 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
-import { BackButton, Input } from '../../Views';
-import Select from '../../CommonComponents/Select';
-import IconArrowDown from '../../images/common/icon-arrow-down.svg';
-import IconScale from '../../images/common/icon-scale.svg';
-import config from '../../Providers/config';
-import { curNames } from '../../AppConfig';
+import React from "react";
+import styled from "styled-components";
+import { BackButton, Input } from "../../Views";
+import Select from "../../CommonComponents/Select";
+import IconArrowDown from "../../images/common/icon-arrow-down.svg";
+import IconScale from "../../images/common/icon-scale.svg";
+import config from "../../Providers/config";
+import { curNames } from "../../AppConfig";
 
 const Dots = styled.span``;
 
@@ -89,7 +89,7 @@ const SelectWrapper = styled.div`
   position: relative;
   cursor: pointer;
   &:after {
-    content: '';
+    content: "";
     display: block;
     height: 9px;
     width: 6px;
@@ -148,7 +148,7 @@ const Confirm = styled.div`
     border-bottom: 1px dashed #2b3649;
     position: relative;
     &:after {
-      content: '';
+      content: "";
       display: block;
       position: absolute;
       bottom: -9px;
@@ -160,7 +160,7 @@ const Confirm = styled.div`
       background: #2b3649;
     }
     &:before {
-      content: '';
+      content: "";
       display: block;
       position: absolute;
       bottom: -9px;
@@ -317,7 +317,7 @@ export const SenderBlock = ({
   error,
   balance,
   rop,
-  changeROP,
+  changeROP
 }) => (
   <FundsInfo>
     <div className="wrapper">
@@ -325,23 +325,23 @@ export const SenderBlock = ({
       <div>
         <Input value={wallet.alias ? wallet.alias : wallet.address} disabled />
         <span>Amount</span>
-        <div style={{ width: '35%', position: 'relative' }}>
+        <div style={{ width: "35%", position: "relative" }}>
           <Input
             onChange={change}
             value={amount}
-            placeholder={'amount to be sent'}
-            style={{ width: '100%', paddingRight: '40px' }}
+            placeholder={"amount to be sent"}
+            style={{ width: "100%", paddingRight: "40px" }}
           />
           <span
             style={{
-              position: 'absolute',
-              top: '50%',
-              right: '10px',
-              transform: 'translateY(-50%)',
-              width: 'auto',
-              fontSize: '12px',
-              letterSpacing: '0.3px',
-              color: '#8D96B2',
+              position: "absolute",
+              top: "50%",
+              right: "10px",
+              transform: "translateY(-50%)",
+              width: "auto",
+              fontSize: "12px",
+              letterSpacing: "0.3px",
+              color: "#8D96B2"
             }}
           >
             {wallet.type.toUpperCase()}
@@ -351,23 +351,29 @@ export const SenderBlock = ({
     </div>
     <Tooltip>Available amount: {balance}</Tooltip>
     <Tooltip className="error">{error}</Tooltip>
-    {wallet.readOnly && <div className="wrapper">
-      <span>Private key</span>
-      <Input
-        onChange={changeROP}
-        value={rop}
-        placeholder={'Please enter private key.'}
-        style={{ width: '85%', marginBottom: '3px' }}
-      />
-    </div>}
+    {wallet.readOnly && (
+      <div className="wrapper">
+        <span>Private key</span>
+        <Input
+          onChange={changeROP}
+          value={rop}
+          placeholder={"Please enter private key."}
+          style={{ width: "85%", marginBottom: "3px" }}
+        />
+      </div>
+    )}
     <div className="wrapper">
       <span>Send to</span>
       <div>
-        <SelectWrapper className="arrow-down" style={{ backgroundColor: '#1F2431' }}>
+        <SelectWrapper
+          className="arrow-down"
+          style={{ backgroundColor: "#1F2431" }}
+        >
           <Select
             selectItem={receiver}
             list={wallets}
-            config={{ search: true, input: true, type: 'transactions' }}
+            config={{ search: true, input: true, type: "transactions" }}
+            manualInput
             handleMenuItemClick={handleReciver}
           />
         </SelectWrapper>
@@ -377,7 +383,7 @@ export const SenderBlock = ({
 );
 
 export const AdvancedOptions = ({ type, onChange, value }) =>
-  type === 'etc' || type === 'ech' ? (
+  type === "etc" || type === "ech" ? (
     <GasBlock values={value} onChange={onChange} />
   ) : (
     <FeeBlock value={value.fee} onChange={onChange} />
@@ -387,7 +393,12 @@ export const FeeBlock = ({ value, onChange }) => (
   <Hidden>
     <div className="wrapper">
       <span>Fee (Satoshi)</span>
-      <Input value={value} onChange={(e) => onChange('fee', e.currentTarget.value)} type={'number'} style={{ width: '30%' }} />
+      <Input
+        value={value}
+        onChange={e => onChange("fee", e.currentTarget.value)}
+        type={"number"}
+        style={{ width: "30%" }}
+      />
     </div>
   </Hidden>
 );
@@ -399,9 +410,17 @@ export const GasBlock = ({ values, onChange }) => {
       <div className="wrapper">
         <span>Gas price (Gwei)</span>
         <div>
-          <Input value={Number(gasPrice)} onChange={(e) => onChange('gasPrice', e.currentTarget.value)} type={'number'} />
+          <Input
+            value={Number(gasPrice)}
+            onChange={e => onChange("gasPrice", e.currentTarget.value)}
+            type={"number"}
+          />
           <span>Gas limit</span>
-          <Input value={Number(gasLimit)} onChange={(e) => onChange('gasLimit', e.currentTarget.value)} type={'number'} />
+          <Input
+            value={Number(gasLimit)}
+            onChange={e => onChange("gasLimit", e.currentTarget.value)}
+            type={"number"}
+          />
         </div>
       </div>
     </Hidden>
@@ -424,7 +443,7 @@ export const SendBlock = ({
   balance,
   rop,
   changeROP,
-  wallets,
+  wallets
 }) => (
   <div>
     <SenderBlock
@@ -444,7 +463,7 @@ export const SendBlock = ({
     {isOpenOptions && (
       <AdvancedOptions value={options} onChange={onChange} type={wallet.type} />
     )}
-    <div style={{ marginTop: '35px', marginRight: '20px', textAlign: 'right' }}>
+    <div style={{ marginTop: "35px", marginRight: "20px", textAlign: "right" }}>
       <Next variant="outlined" onClick={mountActiveTabs} disabled={!valid}>
         Next
       </Next>
@@ -452,7 +471,14 @@ export const SendBlock = ({
   </div>
 );
 
-export const Confirmation = ({ wallet, receiver, amount, options, applyTransaction, goBack }) => (
+export const Confirmation = ({
+  wallet,
+  receiver,
+  amount,
+  options,
+  applyTransaction,
+  goBack
+}) => (
   <Confirm>
     <div className="content">
       <div className="title-wrapper">
@@ -504,21 +530,22 @@ export const TxOutline = styled.a`
 
 export const StatusTransaction = ({ hash, amount, status, wallet }) => (
   <Awaiting className="bg-arrow">
-    {status === 'Pending' && (
+    {status === "Pending" && (
       <div>
         <p>Awaiting Exchange</p>
         <Dots className="loading" />
       </div>
     )}
-    {status === 'Failed' && (
+    {status === "Failed" && (
       <div>
         <p>An error occurred, try again</p>
       </div>
     )}
-    {status === 'Finished' && (
+    {status === "Finished" && (
       <div className="result">
         <p>
-          Congratulations! You just sent<br />
+          Congratulations! You just sent
+          <br />
           <span>
             {amount}
             {wallet.type.toUpperCase()}
@@ -533,7 +560,11 @@ export const StatusTransaction = ({ hash, amount, status, wallet }) => (
         <TxOutline
           className="order-value"
           target="_blank"
-          href={config.hrefs[wallet.type] ? `${config.hrefs[wallet.type].transition}${hash}` : `${config.hrefs[curNames.ETH].transition}${hash}`}
+          href={
+            config.hrefs[wallet.type]
+              ? `${config.hrefs[wallet.type].transition}${hash}`
+              : `${config.hrefs[curNames.ETH].transition}${hash}`
+          }
         >
           {hash}
         </TxOutline>

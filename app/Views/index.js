@@ -1,12 +1,17 @@
-import { Scroll, ScrollableItem, Filter, TransactionHover } from './ScrollableCard';
-import { InputSearch, InputManualAddress, InputGrey, Input } from './Input';
-import { Popup, PopupLayout } from './Popup';
-import { Snackbar } from './Snackbar';
-import { TabsWrapper } from './TabsWrapper';
-import { MiddleColumnContainer } from './MiddleColumnContainer';
-import { RightColumnContainer } from './RightColumnContainer';
-import { LeftColumnContainer, BalanceCard } from './LeftColumnContainer';
-import { Content } from './Content';
+import {
+  Scroll,
+  ScrollableItem,
+  Filter,
+  TransactionHover
+} from "./ScrollableCard";
+import { InputSearch, InputManualAddress, InputGrey, Input } from "./Input";
+import { Popup, PopupLayout } from "./Popup";
+import { Snackbar } from "./Snackbar";
+import { TabsWrapper } from "./TabsWrapper";
+import { MiddleColumnContainer } from "./MiddleColumnContainer";
+import { RightColumnContainer } from "./RightColumnContainer";
+import { LeftColumnContainer, BalanceCard } from "./LeftColumnContainer";
+import { Content } from "./Content";
 
 import {
   StyledButton,
@@ -15,8 +20,8 @@ import {
   TapButton,
   CloseUpButton,
   PopupButton,
-  PopupGreyButton,
-} from './StyledButton';
+  PopupGreyButton
+} from "./StyledButton";
 
 // div with scroll
 export { Scroll, ScrollableItem, Filter, TransactionHover };

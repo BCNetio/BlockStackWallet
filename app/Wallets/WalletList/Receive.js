@@ -1,7 +1,3 @@
-import React from 'react';
+import React from "react";
 
-export const Receive =() => (
-  <div>
-    Receive
-  </div>
-);
+export const Receive = () => <div>Receive</div>;

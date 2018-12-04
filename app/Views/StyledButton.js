@@ -1,9 +1,9 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import ArrowLeft from '../images/common/icon-arrow-down.svg';
-import IconCrossGrey from '../images/common/icon-cross-grey.svg';
-import IconQr from '../images/common/icon-qr.svg';
-import IconAdd from '../images/common/icon-add.svg';
+import ArrowLeft from "../images/common/icon-arrow-down.svg";
+import IconCrossGrey from "../images/common/icon-cross-grey.svg";
+import IconQr from "../images/common/icon-qr.svg";
+import IconAdd from "../images/common/icon-add.svg";
 
 /* Classic button */
 export const StyledButton = styled.button`
@@ -19,7 +19,7 @@ export const StyledButton = styled.button`
 /* Tap button */
 export const TapButton = styled.button`
   border-radius: 0 2px 2px 0;
-  background-color: #315EFB;
+  background-color: #315efb;
   cursor: pointer;
   border: none;
   height: auto;
@@ -30,8 +30,8 @@ export const TapButton = styled.button`
   background-position: center;
   background-repeat: no-repeat;
   margin: 0;
-  &:active{
-      background-color: rgba(241,241,241,0.1);
+  &:active {
+    background-color: rgba(241, 241, 241, 0.1);
   }
 `;
 
@@ -42,8 +42,8 @@ export const AddButton = styled.button`
   height: 49px;
   width: 48px;
   border-radius: 25px;
-  box-shadow: 0 15px 28px 0 rgba(0,0,0,0.7);
-  background: #315EFB url(${IconAdd});
+  box-shadow: 0 15px 28px 0 rgba(0, 0, 0, 0.7);
+  background: #315efb url(${IconAdd});
   background-repeat: no-repeat;
   background-position: center;
 `;
@@ -59,7 +59,7 @@ export const BackButton = styled.button`
   outline: none;
   position: relative;
   &:after {
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     top: 50%;
@@ -69,8 +69,8 @@ export const BackButton = styled.button`
     background: url(${ArrowLeft}) no-repeat;
     transform: rotate(0deg) translateY(-50%);
   }
-  &:hover{
-    background: ${props => props.HoverBase ? '#2B3649' : '#343f53' };
+  &:hover {
+    background: ${props => (props.HoverBase ? "#2B3649" : "#343f53")};
     border-radius: 2px;
   }
 `;
@@ -92,12 +92,12 @@ export const CloseUpButton = styled.button`
 
 /* popup blue button */
 export const PopupButton = styled.button`
-  background: #315EFB;
+  background: #315efb;
   border-radius: 2px;
   font-size: 12px;
   text-align: center;
   letter-spacing: 0.3px;
-  color: #F1F1F1;
+  color: #f1f1f1;
   border: none;
   padding: 10px 0;
   width: 100%;
@@ -106,12 +106,12 @@ export const PopupButton = styled.button`
 
 /* popup grey button */
 export const PopupGreyButton = styled.button`
-  background: #D2D5E3;
+  background: #d2d5e3;
   border-radius: 2px;
   font-size: 12px;
   text-align: center;
   letter-spacing: 0.3px;
-  color: #2B3649;
+  color: #2b3649;
   border: none;
   padding: 10px 0;
   width: 100%;

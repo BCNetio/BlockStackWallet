@@ -1,14 +1,14 @@
-import React from 'react';
-import { redirectToSignIn } from 'blockstack';
-import Logo from '../images/dappy-logo.svg';
-import { BackButton } from '../Views';
+import React from "react";
+import { redirectToSignIn } from "blockstack";
+import Logo from "../images/dappy-logo.svg";
+import { BackButton } from "../Views";
 
-import styled, { css } from 'styled-components'
+import styled, { css } from "styled-components";
 
 const LogoWrapper = styled.div`
   margin-bottom: 75px;
   margin-top: 60px;
-  img{
+  img {
     width: 127px;
     height: 25px;
   }
@@ -18,61 +18,61 @@ const Greetings = styled.div`
   text-align: center;
   width: 100%;
   padding-top: 30px;
-  p{
+  p {
     margin: 0;
   }
-  .btn-wrapper{
+  .btn-wrapper {
     width: 100%;
     text-align: right;
     padding-right: 45px;
   }
-  .information{
-    background-color: #2B3649;
+  .information {
+    background-color: #2b3649;
     padding: 20px;
     padding-top: 35px;
     max-width: 330px;
-    box-shadow: 0 25px 40px 0 rgba(0,0,0,0.3);
+    box-shadow: 0 25px 40px 0 rgba(0, 0, 0, 0.3);
     margin: 0 auto;
-    p{
+    p {
       text-align: left;
-      &:first-child{
-        color: #F1F1F1;
+      &:first-child {
+        color: #f1f1f1;
         font-size: 14px;
         font-weight: 500;
         letter-spacing: 0.32px;
         line-height: 16px;
         margin-bottom: 15px;
       }
-      &:nth-of-type(2){
-        color: #F1F1F1;
+      &:nth-of-type(2) {
+        color: #f1f1f1;
         font-size: 10px;
         letter-spacing: 0.23px;
         line-height: 16px;
         margin-bottom: 30px;
       }
     }
-    button{
+    button {
       border-radius: 2px;
       border: none;
       padding: 10px 0;
-      background-color: #315EFB;
-      color: #F1F1F1;
+      background-color: #315efb;
+      color: #f1f1f1;
       font-size: 12px;
       letter-spacing: 0.3px;
       line-height: 14px;
       width: 100%;
       cursor: pointer;
     }
-    + p{
+    + p {
       font-size: 12px;
       font-weight: 500;
       letter-spacing: 0.28px;
       line-height: 14px;
-      color: #8D96B2;
+      color: #8d96b2;
       margin-top: 25px;
-      a{
+      a {
         font-weight: 500;
-        color: #F1F1F1;
+        color: #f1f1f1;
         text-decoration: none;
       }
     }
@@ -86,18 +86,32 @@ export const Auth = () => (
     </div>
     <div>
       <LogoWrapper>
-        <img src={Logo} alt={'logo'} />
+        <img src={Logo} alt={"logo"} />
       </LogoWrapper>
       <div className="information">
         <p>Welcome to Dappy Wallet!</p>
-        <p>Dappy Wallet is a non-custodial universal wallet. It doesn’t proceed user’s private key, it means that the customer is only the single person who is able to control the assets.</p>
-        <button onClick={()=>{
-        const origin = window.location.origin;
-        redirectToSignIn(origin, origin + '/manifest.json', ['store_write', 'publish_data'])
-        }}> Sign in with Blockstack ID</button>
+        <p>
+          Dappy Wallet is a non-custodial universal wallet. It doesn’t proceed
+          user’s private key, it means that the customer is only the single
+          person who is able to control the assets.
+        </p>
+        <button
+          onClick={() => {
+            const origin = window.location.origin;
+            redirectToSignIn(origin, origin + "/manifest.json", [
+              "store_write",
+              "publish_data"
+            ]);
+          }}
+        >
+          {" "}
+          Sign in with Blockstack ID
+        </button>
       </div>
-      <p>New to Blockstack? <a href={'http://blockstack.org'}>Sign up in Blockstack
-</a></p>
+      <p>
+        New to Blockstack?{" "}
+        <a href={"http://blockstack.org"}>Sign up in Blockstack</a>
+      </p>
     </div>
   </Greetings>
 );

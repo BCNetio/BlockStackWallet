@@ -1,27 +1,27 @@
-import styled from 'styled-components';
-import IconSearch from '../images/common/icon-search.svg';
-import IconManualAddress from '../images/common/icon-manual-address.svg';
+import styled from "styled-components";
+import IconSearch from "../images/common/icon-search.svg";
+import IconManualAddress from "../images/common/icon-manual-address.svg";
 
 export const Input = styled.input`
   border-radius: 2px;
-  background-color: #1F2431;
+  background-color: #1f2431;
   border: none;
   padding: 10px;
   color: #fff;
-  &.light-grey{
-    background-color: #E2E4E8;
+  &.light-grey {
+    background-color: #e2e4e8;
     width: 100%;
     color: #000;
     padding: 20px 10px;
     font-size: 12px;
     letter-spacing: 0.276923px;
-    color: #8D96B2;
+    color: #8d96b2;
   }
 `;
 
 export const InputSearch = styled.input`
   border-radius: 2px;
-  background-color: #1F2431;
+  background-color: #1f2431;
   border: none;
   padding: 10px;
   padding-left: 20px;
@@ -40,7 +40,7 @@ export const InputManualAddress = styled.input`
 `;
 
 export const InputGrey = styled.input`
-  border: 1px solid #D5D9E5;
+  border: 1px solid #d5d9e5;
   border-radius: 2px;
   padding: 0 12px;
   height: 31px;
@@ -48,25 +48,24 @@ export const InputGrey = styled.input`
   &::-webkit-input-placeholder {
     font-size: 10px;
     letter-spacing: 0.25px;
-    color: #8D96B2;
+    color: #8d96b2;
   }
   &::-moz-placeholder {
     font-size: 10px;
     letter-spacing: 0.25px;
-    color: #8D96B2;
+    color: #8d96b2;
   }
   &:-ms-input-placeholder {
     font-size: 10px;
     letter-spacing: 0.25px;
-    color: #8D96B2;
+    color: #8d96b2;
   }
   &:-moz-placeholder {
     font-size: 10px;
     letter-spacing: 0.25px;
-    color: #8D96B2;
-
+    color: #8d96b2;
   }
-  &:not(:first-child){
+  &:not(:first-child) {
     margin-top: 10px;
   }
 `;

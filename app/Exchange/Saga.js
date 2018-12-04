@@ -1,10 +1,10 @@
-import { put, call, takeLatest } from 'redux-saga/effects';
-import { delay } from 'redux-saga';
-import { has } from 'ramda';
-import { types } from './ActionTypes';
-import XHRProvider from '../Providers/XHRProvider';
-import { getWalletList } from '../Providers/Gaia';
-import { transactionByType } from '../Providers/Wallets';
+import { put, call, takeLatest } from "redux-saga/effects";
+import { delay } from "redux-saga";
+import { has } from "ramda";
+import { types } from "./ActionTypes";
+import XHRProvider from "../Providers/XHRProvider";
+import { getWalletList } from "../Providers/Gaia";
+import { transactionByType } from "../Providers/Wallets";
 
 const xhr = new XHRProvider();
 
@@ -13,7 +13,7 @@ function* fetchWallets(action) {
     const walletList = yield call(getWalletList);
     yield put({
       type: types.MOUNT_WALLETS,
-      payload: walletList.kpList,
+      payload: walletList.kpList
     });
   } catch (error) {
     console.log(error);
@@ -21,7 +21,11 @@ function* fetchWallets(action) {
 }
 
 function* fecthWalletBalance(action) {
-  const wallet = yield call(xhr.getWalletInfo, action.payload.type, action.payload.address);
+  const wallet = yield call(
+    xhr.getWalletInfo,
+    action.payload.type,
+    action.payload.address
+  );
   yield put({ type: types.MOUNT_WALLET_BALANCE, payload: wallet });
 }
 
@@ -33,15 +37,15 @@ function* fetchMarketInfo(action) {
 function* fetchCheckExchange(action) {
   try {
     const exchange = yield call(xhr.checkExchange, action.payload.params);
-    has('success', exchange)
+    has("success", exchange)
       ? yield put({
-        type: types.MOUNT_EXCHANGE_CHECK,
-        payload: exchange.success,
-      })
+          type: types.MOUNT_EXCHANGE_CHECK,
+          payload: exchange.success
+        })
       : yield put({
-        type: types.MOUNT_EXCHANGE_CHECK_ERROR,
-        payload: exchange.error,
-      });
+          type: types.MOUNT_EXCHANGE_CHECK_ERROR,
+          payload: exchange.error
+        });
   } catch (error) {
     console.log(error);
   }
@@ -50,7 +54,12 @@ function* fetchCheckExchange(action) {
 function* makeTransaction(action) {
   const { wallet, receivers } = action.payload;
   const { data } = yield call(xhr.getUtxo, wallet.type, wallet.address);
-  const hash = transactionByType.get(wallet.type)(wallet.privateKey, data, receivers, wallet.type);
+  const hash = transactionByType.get(wallet.type)(
+    wallet.privateKey,
+    data,
+    receivers,
+    wallet.type
+  );
   const e = yield call(xhr.broadcastTX, wallet.type, hash);
   yield e;
 }
@@ -58,16 +67,16 @@ function* makeTransaction(action) {
 function* fetchStatusDeposit(action) {
   yield put({
     type: types.MOUNT_STATUS_DEPOSIT,
-    payload: 'Pending',
+    payload: "Pending"
   });
   try {
     while (true) {
       const data = yield call(xhr.checkStatusDeposit, action.payload.address);
       yield call(delay, 10000);
-      if (data.status === 'complete') {
+      if (data.status === "complete") {
         yield put({
           type: types.MOUNT_STATUS_DEPOSIT,
-          payload: 'Finished',
+          payload: "Finished"
         });
         break;
       }
@@ -75,7 +84,7 @@ function* fetchStatusDeposit(action) {
   } catch (error) {
     yield put({
       type: types.MOUNT_STATUS_DEPOSIT,
-      payload: 'Failed',
+      payload: "Failed"
     });
   }
 }
