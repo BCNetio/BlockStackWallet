@@ -67,31 +67,25 @@ const Button = styled.button`
 const tabs = [
   { name: "Start Exchange", value: 1, render: <StartExchange /> },
   { name: "Confirmation", value: 2, render: <Confirmation /> },
-  { name: "Exchange detalls", value: 3, render: <StatusExchange /> }
+  { name: "Exchange details", value: 3, render: <StatusExchange /> }
 ];
 
-class Exchange extends React.Component {
-  render() {
-    return (
-      <ExchangeWrapper>
-        <Card className={this.props.classes.card}>
-          <Title>
-            <span className="swap">Exchange your funds</span>
-            {this.props.activeTabId === 2 && (
-              <Button onClick={() => this.props.mountActiveTab(0)}>
-                New Order
-              </Button>
-            )}
-          </Title>
-          <Divider style={{ backgroundColor: "rgba(141,150,178,0.1)" }} />
-          <div style={{ padding: "20px", paddingTop: "25px" }}>
-            {tabs[this.props.activeTabId].render}
-          </div>
-        </Card>
-      </ExchangeWrapper>
-    );
-  }
-}
+const Exchange = props => (
+  <ExchangeWrapper>
+    <Card className={props.classes.card}>
+      <Title>
+        <span className="swap">Exchange your funds</span>
+        {props.activeTabId === 2 && (
+          <Button onClick={() => props.mountActiveTab(0)}>New Order</Button>
+        )}
+      </Title>
+      <Divider style={{ backgroundColor: "rgba(141,150,178,0.1)" }} />
+      <div style={{ padding: "20px", paddingTop: "25px" }}>
+        {tabs[props.activeTabId].render}
+      </div>
+    </Card>
+  </ExchangeWrapper>
+);
 
 const mapStateToProps = state => ({
   wallets: state.exchange.wallets,

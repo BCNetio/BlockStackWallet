@@ -196,7 +196,7 @@ class StartExchange extends React.Component {
           ? { valid: true, error: "" }
           : {
               valid: false,
-              error: `The value dont must be smaller than minimal ${
+              error: `The value must not be less than minimal ${
                 marketInfo.minimum
               }`
             },
@@ -252,7 +252,6 @@ class StartExchange extends React.Component {
       pair: `${this.state.walletFrom.type}_${this.state.walletTo.type}`,
       returnAddress: this.state.walletFrom.address,
       depositAmount: this.state.amount
-      // amount: this.amoutExchangeRate(this.state.amount),
     });
     this.props.mountActiveTab(1);
   };
