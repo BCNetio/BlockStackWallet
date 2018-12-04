@@ -81,6 +81,24 @@ export const DropdawnWrapper = styled.div`
   }
 `;
 
+const ManualAddressInput = styled.input`
+  border-radius: 2px;
+  background-color: #1f2431;
+  width: 200%;
+  padding: 7px;
+  border: none;
+  color: #fff;
+  &.light-grey {
+    background-color: #e2e4e8;
+    width: 200%;
+    color: #000;
+    padding: 20px 10px;
+    font-size: 12px;
+    letter-spacing: 0.276923px;
+    color: #8d96b2;
+  }
+`;
+
 export const transactionInput = ({ content, action }) => (
   <div onClick={action}>
     <div>{content ? <img src={logos[content.type]} /> : null}</div>
@@ -132,14 +150,19 @@ export const walletMenuItem = ({ content, action, index }) => (
   </div>
 );
 
-export const walletManualInput = ({ content, action, index, handleValue }) => (
-  <div className="pseudo-select-wrapper">
-    <div className="pseudo-select" onClick={() => action(index, content)}>
-      <span className="wallet-name">
-        <input value={content} onChange={handleValue} />
-      </span>
-    </div>
-  </div>
+export const walletManualInput = ({
+  content,
+  action,
+  index,
+  onChange,
+  value
+}) => (
+  <ManualAddressInput
+    type="text"
+    value={value}
+    onChange={onChange}
+    onClick={() => action(index, content)}
+  />
 );
 
 export const chartInput = ({ content, action, index }) => (

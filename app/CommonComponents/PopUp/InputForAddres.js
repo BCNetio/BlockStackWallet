@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { InputManualAddress } from "../../Views";
 import IconManualAddress from "../../images/common/icon-manual-address.svg";
 
 export const InputManualAddressWrapper = styled.div`
@@ -10,47 +9,14 @@ export const InputManualAddressWrapper = styled.div`
   color: #2b3649;
 `;
 
-class InputForAddres extends React.Component {
-  constructor() {
-    super();
-    this.state = { address: "", isOpened: false };
-  }
-
-  onKeyDown = e => {
-    if (e.keyCode === 13) {
-      this.props.handleMenuItemClick({
-        type: "addr",
-        address: this.state.address
-      });
-    }
-  };
-
-  onOpenInput = () => {
-    this.setState({ isOpened: true });
-  };
-
-  onChangeAddress = e => {
-    this.setState({ address: e.target.value });
-  };
-
-  render() {
-    return this.state.isOpened ? (
-      <InputManualAddress
-        type="text"
-        value={this.state.address}
-        onKeyDown={this.onKeyDown}
-        onChange={this.onChangeAddress}
-      />
-    ) : (
-      <InputManualAddressWrapper
-        className="input-wrapper"
-        id="input"
-        onClick={this.onOpenInput}
-      >
-        Manual addres input
-      </InputManualAddressWrapper>
-    );
-  }
-}
+const InputForAddres = ({ onClick }) => (
+  <InputManualAddressWrapper
+    className="input-wrapper"
+    id="input"
+    onClick={onClick}
+  >
+    Manual addres input
+  </InputManualAddressWrapper>
+);
 
 export default InputForAddres;

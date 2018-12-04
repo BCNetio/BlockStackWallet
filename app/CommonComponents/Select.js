@@ -43,7 +43,7 @@ class Select extends React.Component {
       addAdr: false,
       list: props.list,
       inputSwitcher: props.config.type,
-      isManualInput: false
+      isManualInputOn: false
     };
 
     this.onOpenModal = this.onOpenModal.bind(this);
@@ -51,8 +51,18 @@ class Select extends React.Component {
     this.selectListItem = this.selectListItem.bind(this);
     this.onSearchItem = this.onSearchItem.bind(this);
     this.openDropdown = this.openDropdown.bind(this);
+    this.handleManualInput = this.handleManualInput.bind(this);
+    this.switchInputType = this.switchInputType.bind(this);
 
     document.addEventListener("click", this.handleClickOutside, false);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      !equals(this.props, nextProps) ||
+      this.state.isOpened !== nextState.isOpened ||
+      this.state.address !== nextState.address
+    );
   }
 
   componentWillUnmount() {
@@ -60,15 +70,13 @@ class Select extends React.Component {
   }
 
   onOpenModal() {
-    this.setState(({ isOpened }) => ({
-      isOpened: !isOpened
-    }));
+    this.setState({ isOpened: !this.state.isOpened });
   }
 
   onSearchItem(e) {
     this.setState({
       list: searachFunctions[this.props.config.type](e, this.props.list),
-      serachPredicate: e
+      searchPredicate: e
     });
   }
 
@@ -77,6 +85,11 @@ class Select extends React.Component {
       this.setState({ list: this.props.list });
     }
     return null;
+  }
+
+  handleManualInput(e) {
+    this.setState({ address: e.currentTarget.value });
+    this.props.handleMenuItemClick({ address: e.currentTarget.value });
   }
 
   handleClickOutside(e) {
@@ -91,8 +104,17 @@ class Select extends React.Component {
   }
 
   selectListItem(index, entity) {
-    this.setState({ selectedIndex: index });
+    this.setState({ selectedIndex: index, isManualInputOn: false });
     this.props.handleMenuItemClick(entity);
+  }
+
+  switchInputType() {
+    if (this.props.manualInput) {
+      this.setState({
+        isManualInputOn: !this.state.isManualInputOn,
+        isOpened: !this.state.isOpened
+      });
+    }
   }
 
   openDropdown() {
@@ -100,17 +122,27 @@ class Select extends React.Component {
   }
 
   render() {
-    const { selectItem, handleMenuItemClick } = this.props;
-    const { isOpened, list, searchPredicate } = this.state;
-
+    const { selectItem, handleMenuItemClick, manualInput } = this.props;
+    const {
+      isOpened,
+      list,
+      searchPredicate,
+      isManualInputOn,
+      address
+    } = this.state;
     const MenuItem = config[this.props.config.type].menuItem;
-    const Input = config[this.props.config.type].input;
+    const Input =
+      manualInput && isManualInputOn
+        ? config.walletManualInput.input
+        : config[this.props.config.type].input;
 
     return (
       <div>
         <Input
           action={this.openDropdown}
           content={selectItem || head(this.props.list)}
+          value={address}
+          onChange={this.handleManualInput}
         />
         {isOpened && (
           <DropdawnWrapper>
@@ -131,6 +163,7 @@ class Select extends React.Component {
               {this.props.config.input && (
                 <InputForAddres
                   handleMenuItemClick={handleMenuItemClick}
+                  onClick={this.switchInputType}
                   closePopUp={this.onOpenModal}
                 />
               )}

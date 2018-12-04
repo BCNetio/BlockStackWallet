@@ -373,6 +373,7 @@ export const SenderBlock = ({
             selectItem={receiver}
             list={wallets}
             config={{ search: true, input: true, type: "transactions" }}
+            manualInput
             handleMenuItemClick={handleReciver}
           />
         </SelectWrapper>
