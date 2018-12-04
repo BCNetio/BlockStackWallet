@@ -1,12 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-const appRoot = document.getElementById('root');
-const modalRoot = document.getElementById('modal-root');
+import React from "react";
+import ReactDOM from "react-dom";
+const appRoot = document.getElementById("root");
+const modalRoot = document.getElementById("modal-root");
 
 export default class Modal extends React.Component {
   constructor(props) {
     super(props);
-    this.el = document.createElement('div');
+    this.el = document.createElement("div");
   }
 
   componentDidMount() {
@@ -18,9 +18,6 @@ export default class Modal extends React.Component {
   }
 
   render() {
-    return ReactDOM.createPortal(
-      this.props.children,
-      this.el,
-    );
+    return ReactDOM.createPortal(this.props.children, this.el);
   }
 }

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const MiddleColumnContainer = styled.div`
   flex-grow: 1;
@@ -10,9 +10,9 @@ export const MiddleColumnContainer = styled.div`
     max-width: 50%;
     height: auto;
   }
-    @media (max-width: 1000px) {
-        min-width: 95%;
-        max-width: 95%;
-        margin: 0 auto;
+  @media (max-width: 1000px) {
+    min-width: 95%;
+    max-width: 95%;
+    margin: 0 auto;
   }
 `;

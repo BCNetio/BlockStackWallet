@@ -1,9 +1,15 @@
-import { put, call, takeLatest } from 'redux-saga/effects';
-import { delay } from 'redux-saga';
-import { getWalletList, setWalletList, initLog, getLogs, logEvent } from '../Providers/Gaia';
-import { types } from './ActionTypes';
-import { walletGenerator, calculateTotalBalance } from '../Providers/Wallets';
-import XHRProvider from '../Providers/XHRProvider';
+import { put, call, takeLatest } from "redux-saga/effects";
+import { delay } from "redux-saga";
+import {
+  getWalletList,
+  setWalletList,
+  initLog,
+  getLogs,
+  logEvent
+} from "../Providers/Gaia";
+import { types } from "./ActionTypes";
+import { walletGenerator, calculateTotalBalance } from "../Providers/Wallets";
+import XHRProvider from "../Providers/XHRProvider";
 
 const xhr = new XHRProvider();
 
@@ -23,16 +29,22 @@ function* checkoutHistory() {
     yield call(initLog);
     logs = [];
   }
-  yield put({ type: types.MOUNT_HISTORY, payload: Array.isArray(logs) ? logs : [logs] });
+  yield put({
+    type: types.MOUNT_HISTORY,
+    payload: Array.isArray(logs) ? logs : [logs]
+  });
 }
 
 function* createWallet(action) {
   const { walletList, wType } = action.payload;
-  const newWalletList = yield setWalletList([...walletList, ...walletGenerator([wType])]);
+  const newWalletList = yield setWalletList([
+    ...walletList,
+    ...walletGenerator([wType])
+  ]);
   yield call(logEvent, {
     date: new Date(),
-    type: 'walletCreate',
-    text: `${wType} wallet was created`,
+    type: "walletCreate",
+    text: `${wType} wallet was created`
   });
   yield put({ type: types.MOUNT_WALLETS, payload: newWalletList });
 }
@@ -40,7 +52,7 @@ function* createWallet(action) {
 function* deleteWallet(action) {
   const { walletList, toBeDeleted } = action.payload;
   const newWalletList = yield setWalletList(
-    walletList.filter(wallet => wallet.wid !== toBeDeleted),
+    walletList.filter(wallet => wallet.wid !== toBeDeleted)
   );
   yield put({ type: types.MOUNT_WALLETS, payload: newWalletList });
 }
@@ -63,19 +75,19 @@ function* fetchTotalBalance(action) {
     sumOfType = yield call(xhr.getTotalBalance, listOfAddress, course);
     const balanceObj = sumOfType.reduce(
       (acc, { wid, balance }) => ({ ...acc, [wid]: balance }),
-      {},
+      {}
     );
     const walletsWithBalance = listOfAddress.map(wallet => ({
       ...wallet,
       balance: {
         updated: new Date(),
-        value: balanceObj[wallet.wid],
-      },
+        value: balanceObj[wallet.wid]
+      }
     }));
     listOfAddress.length ? yield setWalletList(walletsWithBalance) : null;
     yield put({
       type: types.MOUNT_TOTAL_BALANCE,
-      payload: calculateTotalBalance(sumOfType),
+      payload: calculateTotalBalance(sumOfType)
     });
   } catch (e) {
     yield delay(5000);

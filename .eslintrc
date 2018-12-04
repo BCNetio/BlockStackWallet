@@ -1,5 +1,5 @@
 {
-  "extends": "airbnb",
+  "extends": ["airbnb","prettier"],
   "parser": "babel-eslint",
   "env": {
     "browser": true,
@@ -11,6 +11,6 @@
     "linebreak-style": 0,
     "react/jsx-no-bind": 1,
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "react/prop-types": 0
+    "react/prop-types": 0,
   }
 }

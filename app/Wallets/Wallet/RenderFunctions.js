@@ -1,13 +1,18 @@
-import React from 'react';
-import styled, { css } from 'styled-components';
-import { v4 } from 'uuid';
-import RemoveIcon from '@material-ui/icons/Remove';
-import AddIcon from '@material-ui/icons/Add';
-import Close from '@material-ui/icons/KeyboardArrowUp';
-import Open from '@material-ui/icons/KeyboardArrowDown';
-import { has } from 'ramda';
-import { ScrollableItem, TransactionHover, StyledButton, Input } from '../../Views';
-import IconArrowDown from '../../images/common/icon-arrow-down.svg';
+import React from "react";
+import styled, { css } from "styled-components";
+import { v4 } from "uuid";
+import RemoveIcon from "@material-ui/icons/Remove";
+import AddIcon from "@material-ui/icons/Add";
+import Close from "@material-ui/icons/KeyboardArrowUp";
+import Open from "@material-ui/icons/KeyboardArrowDown";
+import { has } from "ramda";
+import {
+  ScrollableItem,
+  TransactionHover,
+  StyledButton,
+  Input
+} from "../../Views";
+import IconArrowDown from "../../images/common/icon-arrow-down.svg";
 
 const SelectWrapper = styled.div`
   height: auto;
@@ -15,7 +20,7 @@ const SelectWrapper = styled.div`
   position: relative;
   cursor: pointer;
   &:after {
-    content: '';
+    content: "";
     display: block;
     height: 9px;
     width: 6px;
@@ -112,7 +117,7 @@ export const TransitionInfo = ({ info, type }) => (
       </div>
     </div>
     <div>
-      <div style={{ width: '90%' }}>
+      <div style={{ width: "90%" }}>
         <p className="title">Hash</p>
         <a href={info.hash.href} target="_blank" className="green ellipsis">
           {info.hash.hash}
@@ -123,7 +128,12 @@ export const TransitionInfo = ({ info, type }) => (
       <div>
         <p className="title">From:</p>
         {info.from.map(sender => (
-          <a href={sender.href} target="_blank" className="green ellipsis" key={v4()}>
+          <a
+            href={sender.href}
+            target="_blank"
+            className="green ellipsis"
+            key={v4()}
+          >
             {sender.address}
           </a>
         ))}
@@ -131,13 +141,18 @@ export const TransitionInfo = ({ info, type }) => (
       <div>
         <p className="title">To:</p>
         {info.to.map(sender => (
-          <a href={sender.href} target="_blank" className="green ellipsis" key={v4()}>
+          <a
+            href={sender.href}
+            target="_blank"
+            className="green ellipsis"
+            key={v4()}
+          >
             {sender.address}
           </a>
         ))}
       </div>
     </div>
-    {has('gasPrice', info) ? (
+    {has("gasPrice", info) ? (
       <div>
         <div>
           <p className="title">Gas Price</p>
@@ -159,12 +174,18 @@ export const TransitionInfo = ({ info, type }) => (
   </HistoryWrapper>
 );
 
-export const TransactionBasicInfo = ({ trx, index, openedTrx, openTrxInfo, type }) => (
+export const TransactionBasicInfo = ({
+  trx,
+  index,
+  openedTrx,
+  openTrxInfo,
+  type
+}) => (
   <TransactionHover>
     <ScrollableItem key={v4()} className="transaction-info">
       <div>{trx.time}</div>
       <div>
-        {trx.type === 'received' ? (
+        {trx.type === "received" ? (
           <AddIcon className="received" />
         ) : (
           <RemoveIcon className="send" />
@@ -181,6 +202,8 @@ export const TransactionBasicInfo = ({ trx, index, openedTrx, openTrxInfo, type 
         </div>
       )}
     </ScrollableItem>
-    {index === openedTrx && <TransitionInfo key={v4()} info={trx.info} type={type} />}
+    {index === openedTrx && (
+      <TransitionInfo key={v4()} info={trx.info} type={type} />
+    )}
   </TransactionHover>
 );

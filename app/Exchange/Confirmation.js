@@ -1,10 +1,10 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import * as actions from './Actions';
-import { has } from 'ramda';
-import { BackButton } from '../Views';
-import { makeTransaction } from '../Wallets/Wallet/Actions';
-import styled, { css } from 'styled-components';
+import React from "react";
+import { connect } from "react-redux";
+import * as actions from "./Actions";
+import { has } from "ramda";
+import { BackButton } from "../Views";
+import { makeTransaction } from "../Wallets/Wallet/Actions";
+import styled, { css } from "styled-components";
 
 const Tooltip = styled.span`
   color: #8d96b2;
@@ -36,7 +36,7 @@ const Confirm = styled.div`
     border-bottom: 1px dashed #2b3649;
     position: relative;
     &:after {
-      content: '';
+      content: "";
       display: block;
       position: absolute;
       bottom: -9px;
@@ -48,7 +48,7 @@ const Confirm = styled.div`
       background: #2b3649;
     }
     &:before {
-      content: '';
+      content: "";
       display: block;
       position: absolute;
       bottom: -9px;
@@ -119,7 +119,7 @@ const Button = styled.button`
 class Confirmation extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { fee: props.fee, gasPrice: props.gas, gasLimit: '21000' };
+    this.state = { fee: props.fee, gasPrice: props.gas, gasLimit: "21000" };
   }
 
   toStepThree = () => {
@@ -131,10 +131,10 @@ class Confirmation extends React.Component {
       [
         {
           key: trx.deposit,
-          amount: exchangeDetails.amount,
-        },
+          amount: exchangeDetails.amount
+        }
       ],
-      this.state,
+      this.state
     );
   };
 
@@ -162,27 +162,36 @@ class Confirmation extends React.Component {
           <div className="purpose-wrapper">
             <div className="purpose">Fee</div>
             <div>
-              {marketInfo.minerFee} {exchangeDetails.walletTo.type.toUpperCase()}
+              {marketInfo.minerFee}{" "}
+              {exchangeDetails.walletTo.type.toUpperCase()}
             </div>
           </div>
           <div className="purpose-wrapper">
             <div className="purpose">Will receive</div>
             <div>
-              {exchangeDetails.willRecive} {exchangeDetails.walletTo.type.toUpperCase()}
+              {exchangeDetails.willRecive}{" "}
+              {exchangeDetails.walletTo.type.toUpperCase()}
             </div>
           </div>
         </div>
         <Tooltip className="error">{this.props.shapeShiftError}</Tooltip>
         <div className="awaiting-info">
-          <BackButton variant="outlined" onClick={() => this.props.mountActiveTab(0)}>
+          <BackButton
+            variant="outlined"
+            onClick={() => this.props.mountActiveTab(0)}
+          >
             Back
           </BackButton>
           <Button
             variant="outlined"
             onClick={() => this.toStepThree()}
-            disabled={!has('deposit', this.props.trx)}
+            disabled={!has("deposit", this.props.trx)}
           >
-            {has('deposit', this.props.trx) ? <span>Confirm</span> : <span className="loading" />}
+            {has("deposit", this.props.trx) ? (
+              <span>Confirm</span>
+            ) : (
+              <span className="loading" />
+            )}
           </Button>
         </div>
       </Confirm>
@@ -197,14 +206,17 @@ const mapStateToProps = state => ({
   trx: state.exchange.trx,
   shapeShiftError: state.exchange.shapeShiftError,
   fee: state.fiat.fee,
-  gas: state.fiat.gas,
+  gas: state.fiat.gas
 });
 
 const mapDispatchToProps = dispatch => ({
   mountActiveTab: tabId => dispatch(actions.mountActiveTab(tabId)),
   makeTransaction: (wallet, receivers, options) =>
     dispatch(makeTransaction(wallet, receivers, options)),
-  fetchStatusDeposit: address => dispatch(actions.fetchStatusDeposit(address)),
+  fetchStatusDeposit: address => dispatch(actions.fetchStatusDeposit(address))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Confirmation);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Confirmation);

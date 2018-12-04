@@ -1,20 +1,20 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { has } from 'ramda';
-import wrapedWallet from '../../CommonComponents/Chart';
-import * as actions from './Actions';
-import Operations from './OperationSelector';
-import Transactions from './Transactions';
-import WalletInfo from './WalletInfo';
-import { Tokens } from './Tokens';
-import Modal from '../../CommonComponents/Modal';
+import React from "react";
+import { connect } from "react-redux";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { has } from "ramda";
+import wrapedWallet from "../../CommonComponents/Chart";
+import * as actions from "./Actions";
+import Operations from "./OperationSelector";
+import Transactions from "./Transactions";
+import WalletInfo from "./WalletInfo";
+import { Tokens } from "./Tokens";
+import Modal from "../../CommonComponents/Modal";
 import {
   Content,
   LeftColumnContainer,
   MiddleColumnContainer,
-  RightColumnContainer,
-} from '../../Views';
+  RightColumnContainer
+} from "../../Views";
 
 class Wallet extends React.Component {
   constructor(props) {
@@ -24,7 +24,7 @@ class Wallet extends React.Component {
     }
     this.state = {
       modalContent: null,
-      modalOptions: undefined,
+      modalOptions: undefined
     };
     this.wallet = props.history.location.state
       ? props.history.location.state
@@ -41,11 +41,15 @@ class Wallet extends React.Component {
 
   render() {
     const ModalContent = this.state.modalContent;
-    return has('wid', this.wallet) && this.props.match.params.id === this.wallet.wid ? (
+    return has("wid", this.wallet) &&
+      this.props.match.params.id === this.wallet.wid ? (
       <Content>
         <Modal>
           {this.state.modalContent ? (
-            <ModalContent closeModal={this.closeModal} options={this.state.modalOptions} />
+            <ModalContent
+              closeModal={this.closeModal}
+              options={this.state.modalOptions}
+            />
           ) : null}
         </Modal>
         <LeftColumnContainer>
@@ -66,7 +70,7 @@ class Wallet extends React.Component {
             this.props.chartData,
             this.props.getDataForChart,
             this.props.selectedFiat,
-            this.wallet.type,
+            this.wallet.type
           )}
         </MiddleColumnContainer>
         <RightColumnContainer>
@@ -83,16 +87,21 @@ const mapStateToProps = state => ({
   chartData: state.wallets.wallet.chartData,
   wallet: state.wallets.wallet.wallet,
   fiat: state.wallets.wallet.fiat,
-  selectedFiat: state.fiat.selectedFiat,
+  selectedFiat: state.fiat.selectedFiat
 });
 
 const mapDispatchToProps = dispatch => ({
   getDataForChart: (currency, period, timestamp, fiat) =>
     dispatch(actions.getDataForChart(currency, period, timestamp, fiat)),
 
-  fetchTokenInfo: (type, address) => dispatch(actions.fetchTokenInfo(type, address)),
+  fetchTokenInfo: (type, address) =>
+    dispatch(actions.fetchTokenInfo(type, address)),
 
-  getWalletInGaia: selectedWallet => dispatch(actions.getWalletInGaia(selectedWallet)),
+  getWalletInGaia: selectedWallet =>
+    dispatch(actions.getWalletInGaia(selectedWallet))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Wallet);

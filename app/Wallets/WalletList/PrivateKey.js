@@ -1,21 +1,22 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { head } from 'ramda';
-import { Popup, PopupLayout, CloseUpButton, PopupButton } from '../../Views';
+import React from "react";
+import { connect } from "react-redux";
+import { head } from "ramda";
+import { Popup, PopupLayout, CloseUpButton, PopupButton } from "../../Views";
 
 const mapStateToProps = state => ({
-  wallets: state.wallets.walletList.walletList,
+  wallets: state.wallets.walletList.walletList
 });
 
 class PrivateKey extends React.Component {
-
   constructor(props) {
     super(props);
-    this.gaiaWallet = head(props.wallets.filter(wallet => wallet.wid === props.options.wid));
+    this.gaiaWallet = head(
+      props.wallets.filter(wallet => wallet.wid === props.options.wid)
+    );
   }
 
   render() {
-    return(
+    return (
       <PopupLayout>
         <Popup>
           <CloseUpButton onClick={this.props.closeModal} />

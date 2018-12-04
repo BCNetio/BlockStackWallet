@@ -1,27 +1,35 @@
-import { filter } from 'ramda';
+import { filter } from "ramda";
 
 export const searachFunctions = {
   transactions: (searchPredicate, list) =>
-    filter(wallet => wallet.alias.toUpperCase().includes(searchPredicate.toUpperCase()), list),
+    filter(
+      wallet =>
+        wallet.alias.toUpperCase().includes(searchPredicate.toUpperCase()),
+      list
+    ),
   fiat: (searchPredicate, list) =>
     filter(
       fiat =>
         fiat.name.toUpperCase().includes(searchPredicate.toUpperCase()) ||
         fiat.abbr.toUpperCase().includes(searchPredicate.toUpperCase()),
-      list,
+      list
     ),
   chart: (searchPredicate, list) =>
     filter(
       currency =>
-        currency[1].name.toUpperCase().includes(searchPredicate.toUpperCase()) ||
+        currency[1].name
+          .toUpperCase()
+          .includes(searchPredicate.toUpperCase()) ||
         currency[1].abbr.toUpperCase().includes(searchPredicate.toUpperCase()),
-      list,
+      list
     ),
   wallet: (searchPredicate, list) =>
     filter(
       currency =>
-        currency[1].name.toUpperCase().includes(searchPredicate.toUpperCase()) ||
+        currency[1].name
+          .toUpperCase()
+          .includes(searchPredicate.toUpperCase()) ||
         currency[1].abbr.toUpperCase().includes(searchPredicate.toUpperCase()),
-      list,
-    ),
+      list
+    )
 };

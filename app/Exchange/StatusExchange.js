@@ -1,9 +1,9 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import styled, { css } from 'styled-components';
+import React from "react";
+import { connect } from "react-redux";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import styled, { css } from "styled-components";
 
-import * as actions from './Actions';
+import * as actions from "./Actions";
 
 const Dots = styled.span``;
 
@@ -82,24 +82,26 @@ class StatusExchange extends React.Component {
   render() {
     return (
       <Awaiting className="bg-swap">
-        {this.props.statusDeposit === 'Pending' && (
+        {this.props.statusDeposit === "Pending" && (
           <div>
-            <p style={{ marginBottom: '10px' }}>Awaiting Exchange</p>
+            <p style={{ marginBottom: "10px" }}>Awaiting Exchange</p>
             <Dots className="loading" />
           </div>
         )}
-        {this.props.statusDeposit === 'Finished' && (
+        {this.props.statusDeposit === "Finished" && (
           <div className="result">
             <p>
-              Congratulations! You just exchange<br />
+              Congratulations! You just exchange
+              <br />
               <span>
-                {this.props.exchangeDetails.amount}{' '}
+                {this.props.exchangeDetails.amount}{" "}
                 {this.props.exchangeDetails.walletFrom.type.toUpperCase()}
-              </span>{' '}
+              </span>{" "}
               to
             </p>
             <p>
-              {(this.props.exchangeDetails.amount - this.props.marketInfo.minimum) *
+              {(this.props.exchangeDetails.amount -
+                this.props.marketInfo.minimum) *
                 this.props.marketInfo.rate}
               {this.props.exchangeDetails.walletTo.type.toUpperCase()}
             </p>
@@ -130,12 +132,16 @@ const mapStateToProps = state => ({
   marketInfo: state.exchange.marketInfo,
   exchangeDetails: state.exchange.exchangeDetails,
   trx: state.exchange.trx,
-  statusDeposit: state.exchange.statusDeposit,
+  statusDeposit: state.exchange.statusDeposit
 });
 
 const mapDispatchToProps = dispatch => ({
   mountActiveTab: tabId => dispatch(actions.mountActiveTab(tabId)),
-  makeTransaction: (wallet, receivers) => dispatch(actions.makeTransaction(wallet, receivers)),
+  makeTransaction: (wallet, receivers) =>
+    dispatch(actions.makeTransaction(wallet, receivers))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(StatusExchange);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(StatusExchange);

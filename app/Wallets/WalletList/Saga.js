@@ -1,9 +1,9 @@
-import { put, call, takeLatest } from 'redux-saga/effects';
-import { delay } from 'redux-saga';
-import { getWalletList, logEvent, setWalletList } from '../../Providers/Gaia';
-import { types } from './ActionTypes';
-import * as dashboard from '../../InitialPage/ActionTypes';
-import XHRProvider from '../../Providers/XHRProvider';
+import { put, call, takeLatest } from "redux-saga/effects";
+import { delay } from "redux-saga";
+import { getWalletList, logEvent, setWalletList } from "../../Providers/Gaia";
+import { types } from "./ActionTypes";
+import * as dashboard from "../../InitialPage/ActionTypes";
+import XHRProvider from "../../Providers/XHRProvider";
 
 const xhr = new XHRProvider();
 
@@ -22,8 +22,8 @@ function* createWallet(action) {
   const newWalletList = yield setWalletList([...walletList, wallet]);
   yield call(logEvent, {
     date: new Date(),
-    type: 'walletCreate',
-    text: `${wallet.type} was created`,
+    type: "walletCreate",
+    text: `${wallet.type} was created`
   });
   yield put({ type: dashboard.types.MOUNT_WALLETS, payload: newWalletList });
   yield put({ type: types.MOUNT_WALLETS, payload: newWalletList });
@@ -34,8 +34,11 @@ function* createWallet(action) {
 function* updateWalletByWID(action) {
   const { wallet } = action.payload;
   const { kpList } = yield call(getWalletList);
-  const newWalletList = yield setWalletList([...kpList.filter(w => w.wid !== wallet.wid), wallet]);
-  yield put({type: types.MOUNT_WALLETS, payload: newWalletList});
+  const newWalletList = yield setWalletList([
+    ...kpList.filter(w => w.wid !== wallet.wid),
+    wallet
+  ]);
+  yield put({ type: types.MOUNT_WALLETS, payload: newWalletList });
 }
 
 function* updateWalletList(action) {
@@ -49,12 +52,12 @@ function* deleteWallet(action) {
   const wallet = walletList.find(wallet => wallet.wid === toBeDeleted);
 
   const newWalletList = yield setWalletList(
-    walletList.filter(wallet => wallet.wid !== toBeDeleted),
+    walletList.filter(wallet => wallet.wid !== toBeDeleted)
   );
   yield call(logEvent, {
     date: new Date(),
-    type: 'walletCreate',
-    text: `${wallet.type} wallet was deleted`,
+    type: "walletCreate",
+    text: `${wallet.type} wallet was deleted`
   });
   yield put({ type: dashboard.types.CHECKOUT_HISTORY, payload: undefined });
   yield put({ type: types.MOUNT_WALLETS, payload: newWalletList });
@@ -79,5 +82,5 @@ export function* walletListSaga() {
   yield takeLatest(types.DELETE_WALLET, deleteWallet);
   yield takeLatest(types.FETCH_WALLET_INFO, fetchWalletInfo);
   yield takeLatest(types.UPDATE_WALLET_LIST, updateWalletList);
-  yield takeLatest(types.UPDATE_WALLET_BY_WID, updateWalletByWID)
+  yield takeLatest(types.UPDATE_WALLET_BY_WID, updateWalletByWID);
 }

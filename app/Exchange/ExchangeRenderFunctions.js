@@ -1,10 +1,10 @@
-import React from 'react';
-import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
-import Select from '@material-ui/core/Select';
-import Button from '@material-ui/core/Button';
-import { logos } from '../images';
-import { config } from '../AppConfig';
+import React from "react";
+import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
+import Select from "@material-ui/core/Select";
+import Button from "@material-ui/core/Button";
+import { logos } from "../images";
+import { config } from "../AppConfig";
 
 const avCurrencies = wallets =>
   wallets.map(wallet => (
@@ -20,7 +20,7 @@ export const CurrencySelect = ({
   handleClose,
   wallet,
   handleChange,
-  wallets,
+  wallets
 }) => (
   <Select
     open={open}
@@ -29,8 +29,8 @@ export const CurrencySelect = ({
     value={wallet}
     onChange={handleChange}
     inputProps={{
-      name: 'wallet',
-      id: 'controlled-open-select',
+      name: "wallet",
+      id: "controlled-open-select"
     }}
   >
     {avCurrencies(wallets)}

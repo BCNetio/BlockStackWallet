@@ -1,29 +1,33 @@
-import React from 'react';
-import { head } from 'ramda';
-import { connect } from 'react-redux';
-import Card from '@material-ui/core/Card';
-import { withStyles } from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
-import styled from 'styled-components';
-import IconDirection from '../../images/common/icon-direction.svg';
-import { makeTransaction } from './Actions';
-import { Confirmation, SendBlock, StatusTransaction } from './StepperRenderFunctions';
-import { curNames } from '../../AppConfig';
+import React from "react";
+import { head } from "ramda";
+import { connect } from "react-redux";
+import Card from "@material-ui/core/Card";
+import { withStyles } from "@material-ui/core/styles";
+import Divider from "@material-ui/core/Divider";
+import styled from "styled-components";
+import IconDirection from "../../images/common/icon-direction.svg";
+import { makeTransaction } from "./Actions";
+import {
+  Confirmation,
+  SendBlock,
+  StatusTransaction
+} from "./StepperRenderFunctions";
+import { curNames } from "../../AppConfig";
 
 const styles = {
   card: {
-    backgroundColor: '#2B3649',
-    color: '#FFFFFF',
+    backgroundColor: "#2B3649",
+    color: "#FFFFFF",
     fontSize: 12,
-    textOverflow: 'ellipsis',
-    marginBottom: '20px',
-    borderRadius: '2px',
-    boxShadow: '0 25px 40px 0 rgba(0,0,0,0.3)',
-    transition: 'background-color 0.7s ease',
-    overflow: 'visible',
+    textOverflow: "ellipsis",
+    marginBottom: "20px",
+    borderRadius: "2px",
+    boxShadow: "0 25px 40px 0 rgba(0,0,0,0.3)",
+    transition: "background-color 0.7s ease",
+    overflow: "visible",
     minHeight: 315,
-    paddingBottom: '20px',
-  },
+    paddingBottom: "20px"
+  }
 };
 
 const ExchangeWrapper = styled.div`
@@ -40,7 +44,7 @@ const Title = styled.div`
     line-height: 16px;
     position: relative;
     &:after {
-      content: '';
+      content: "";
       display: block;
       position: absolute;
       right: -30px;
@@ -58,63 +62,80 @@ class Stepper extends React.Component {
     super(props);
     this.isToken = Boolean(curNames[props.wallet.type]);
     this.state = {
-      options: { fee: this.calculateMinimalFee(), gasPrice: this.props.gas, gasLimit: '21000' },
-      serviceMessage: '',
+      options: {
+        fee: this.calculateMinimalFee(),
+        gasPrice: this.props.gas,
+        gasLimit: "21000"
+      },
+      serviceMessage: "",
       optionsIsOpen: false,
       amount: 0,
       receiver: head(this.filterWalletList(props.wallet.type, this.isToken)),
       isOpenOptions: false,
       activeTabId: 1,
       valid: false,
-      error: '',
-      readOnlyPkey: '',
+      error: "",
+      readOnlyPkey: ""
     };
   }
 
   componentDidMount() {
-    this.setState({ receiver: head(this.filterWalletList(this.props.wallet.type, this.isToken)) });
+    this.setState({
+      receiver: head(
+        this.filterWalletList(this.props.wallet.type, this.isToken)
+      )
+    });
   }
 
-  changeROP = (e) => {
+  changeROP = e => {
     this.setState({ readOnlyPkey: e.currentTarget.value });
   };
 
   calculateMinimalFee = () => this.props.fee;
 
-  validate = (amount) => {
+  validate = amount => {
     return true;
   };
 
-  onChangeAmount = (e) => {
+  onChangeAmount = e => {
     this.setState({ amount: e.target.value });
     this.validate(e.target.value)
-      ? this.setState({ error: '', valid: true })
-      : this.setState({ error: 'Wrong amount', valid: false });
+      ? this.setState({ error: "", valid: true })
+      : this.setState({ error: "Wrong amount", valid: false });
   };
 
-  handleReciver = (receiver) => {
+  handleReciver = receiver => {
     this.setState({ receiver });
   };
 
   filterWalletList = (currency, isToken) =>
-    this.props.walletList.reduce((acc, cur) => {
-      if (cur.tokens) {
-        return [...acc, cur, ...cur.tokens.tokenList.map(t => ({
-          ...cur,
-          alias: `${cur.alias} ${t.tokenInfo.symbol}`,
-          balance: { ...cur.balance, value: t.balance / (10 ** t.tokenInfo.decimals) },
-          type: t.tokenInfo.symbol,
-          token: t,
-          tokens: undefined,
-        }))];
-      } else {
-        return [...acc, cur];
-      }
-    }, []).filter(wallet =>
-      isToken
-        ? wallet.type === curNames.ETH || wallet.token !== undefined
-        : wallet.type === currency
-    );
+    this.props.walletList
+      .reduce((acc, cur) => {
+        if (cur.tokens) {
+          return [
+            ...acc,
+            cur,
+            ...cur.tokens.tokenList.map(t => ({
+              ...cur,
+              alias: `${cur.alias} ${t.tokenInfo.symbol}`,
+              balance: {
+                ...cur.balance,
+                value: t.balance / 10 ** t.tokenInfo.decimals
+              },
+              type: t.tokenInfo.symbol,
+              token: t,
+              tokens: undefined
+            }))
+          ];
+        } else {
+          return [...acc, cur];
+        }
+      }, [])
+      .filter(wallet =>
+        isToken
+          ? wallet.type === curNames.ETH || wallet.token !== undefined
+          : wallet.type === currency
+      );
 
   changeOptionsValue = (attribute, value) => {
     this.setState({ options: { ...this.state.options, [attribute]: value } });
@@ -124,7 +145,7 @@ class Stepper extends React.Component {
     this.setState(({ isOpenOptions }) => ({ isOpenOptions: !isOpenOptions }));
   };
 
-  mountActiveTabs = (tabId) => {
+  mountActiveTabs = tabId => {
     this.setState({ activeTabId: tabId });
   };
 
@@ -135,7 +156,7 @@ class Stepper extends React.Component {
     this.props.makeTransaction(
       wallet,
       [{ key: this.state.receiver.address, amount: Number(this.state.amount) }],
-      this.state.options,
+      this.state.options
     );
     this.mountActiveTabs(3);
   };
@@ -147,7 +168,7 @@ class Stepper extends React.Component {
           <Title>
             <span className="direction">Send your funds</span>
           </Title>
-          <Divider style={{ backgroundColor: 'rgba(141,150,178,0.1)' }} />
+          <Divider style={{ backgroundColor: "rgba(141,150,178,0.1)" }} />
           <div>
             {this.state.activeTabId === 1 && (
               <SendBlock
@@ -155,7 +176,10 @@ class Stepper extends React.Component {
                 change={this.onChangeAmount}
                 amount={this.state.amount}
                 isToken={this.isToken}
-                wallets={this.filterWalletList(this.props.wallet.type, this.isToken)}
+                wallets={this.filterWalletList(
+                  this.props.wallet.type,
+                  this.isToken
+                )}
                 handleReciver={this.handleReciver}
                 receiver={this.state.receiver}
                 value={this.state.options}
@@ -166,7 +190,11 @@ class Stepper extends React.Component {
                 mountActiveTabs={() => this.mountActiveTabs(2)}
                 valid={this.state.valid}
                 error={this.state.error}
-                balance={this.props.wallet.balance ? this.props.wallet.balance.value : 0}
+                balance={
+                  this.props.wallet.balance
+                    ? this.props.wallet.balance.value
+                    : 0
+                }
                 rop={this.state.readOnlyPkey}
                 changeROP={this.changeROP}
               />
@@ -203,11 +231,17 @@ const mapStateToProps = state => ({
   status: state.wallets.wallet.status,
   hash: state.wallets.wallet.trxId,
   fee: state.fiat.fee,
-  gas: state.fiat.gas,
+  gas: state.fiat.gas
 });
 
 const mapDispatchToProps = dispatch => ({
-  makeTransaction: (pk, address, recievers) => dispatch(makeTransaction(pk, address, recievers)),
+  makeTransaction: (pk, address, recievers) =>
+    dispatch(makeTransaction(pk, address, recievers))
 });
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Stepper));
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Stepper)
+);
