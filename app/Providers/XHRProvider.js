@@ -1,10 +1,8 @@
 import axios from "axios";
-import { append, reduce, omit, has } from "ramda";
+import { append, reduce, omit } from "ramda";
 import config from "./config";
-import { curNames } from "../AppConfig";
-import { toETH } from "./Wallets";
 import { normalizeFunctions } from "./HistoryNormalization";
-import { config as AppConfig } from "../AppConfig";
+import { curNames, config as AppConfig } from "../AppConfig";
 
 const instance = null;
 

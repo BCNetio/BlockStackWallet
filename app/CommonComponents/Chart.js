@@ -2,7 +2,7 @@ import React from "react";
 import { Line } from "react-chartjs-2";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
-import { merge, lensPath, over, __, equals } from "ramda";
+import { merge, lensPath, over } from "ramda";
 import Select from "./Select";
 import { v4 } from "uuid";
 import { config, curNames } from "../AppConfig";

@@ -33,10 +33,6 @@ export const toGwei = v => v * 1000000000;
 
 export const toETHFromWei = wei => wei / 1000000000000000000;
 
-export const feeToETH = gasPrise => toETH(gasPrise) + 21000;
-
-export const feeToETHToken = gasPrise => toETH(gasPrise) + 200000;
-
 export const calculateTotalBalance = walletBalanceList => {
   const convertedBalances = walletBalanceList.map(
     walletInfo => walletInfo.balance * walletInfo.course.toFixed(10)

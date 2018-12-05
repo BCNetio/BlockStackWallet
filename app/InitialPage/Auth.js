@@ -1,9 +1,9 @@
 import React from "react";
+import styled from "styled-components";
 import { redirectToSignIn } from "blockstack";
 import Logo from "../images/dappy-logo.svg";
 import { BackButton } from "../Views";
 
-import styled, { css } from "styled-components";
 
 const LogoWrapper = styled.div`
   margin-bottom: 75px;

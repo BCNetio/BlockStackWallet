@@ -3,18 +3,14 @@ import {
   find,
   gt,
   lensPath,
-  map,
   view,
   reduce,
-  append,
   split
 } from "ramda";
 import { curNames } from "../AppConfig";
 import config from "./config";
 import {
-  addrToBitpayFormat,
   toETHFromWei,
-  convertCashAddrFormatToBTC,
   toBTC,
   addrToBCHFormat
 } from "./Wallets";
