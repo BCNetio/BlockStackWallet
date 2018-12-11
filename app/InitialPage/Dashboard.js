@@ -2,13 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import * as actions from "./Actions";
 import { fiatCurrency, getDataForChart } from "../Wallets/Wallet/Actions";
-import { InfoCard } from "./InfoCard";
 import ListOfWallets from "./ListOfWallets";
 import wrapedWallet from "../CommonComponents/Chart";
 import { SummaryCash } from "./SummaryCash";
 import { config, curNames } from "../AppConfig";
 import History from "./History";
 import Modal from "../CommonComponents/Modal";
+import NewsPanel from "./NewsCard/Container";
 import {
   Content,
   LeftColumnContainer,
@@ -112,7 +112,7 @@ class Dashboard extends React.Component {
             callModal={this.callModal}
             closeModal={this.closeModal}
           />
-          <InfoCard />
+          <NewsPanel />
         </LeftColumnContainer>
         <MiddleColumnContainer>
           {this.props.chartData &&

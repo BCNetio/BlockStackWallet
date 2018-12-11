@@ -29,6 +29,7 @@
     "ethereumjs-wallet": "^0.6.0",
     "file-loader": "^1.1.11",
     "human-standard-token-abi": "^1.0.2",
+    "immutable": "^4.0.0-rc.12",
     "normalize-css": "^2.3.1",
     "postcss-nested": "^3.0.0",
     "prettier": "1.15.3",
