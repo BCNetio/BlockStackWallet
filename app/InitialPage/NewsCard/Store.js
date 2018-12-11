@@ -1,7 +1,7 @@
-import { Map, List } from "immutable";
+import { Map } from "immutable";
 
 const newsCardStore = Map({
-  posts: List([])
+  posts: []
 });
 
 export default newsCardStore;

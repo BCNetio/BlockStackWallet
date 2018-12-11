@@ -12,8 +12,8 @@ class NewsPanel extends React.Component {
   }
 
   render() {
-    console.log(this.props);
-    return <NewsCard {...this.props} />;
+    const {posts} = this.props;
+    return <NewsCard posts={posts} />;
   }
 }
 const mapDispatchToProps = dispatch =>
