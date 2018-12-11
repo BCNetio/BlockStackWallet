@@ -4,7 +4,6 @@ import { redirectToSignIn } from "blockstack";
 import Logo from "../images/dappy-logo.svg";
 import { BackButton } from "../Views";
 
-
 const LogoWrapper = styled.div`
   margin-bottom: 75px;
   margin-top: 60px;
