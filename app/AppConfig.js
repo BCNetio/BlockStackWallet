@@ -11,6 +11,8 @@ export const curNames = {
 
 export const config = {};
 
+config.mediumNewsRoot = "https://medium.com/dappy/";
+
 config.bsNodeProfile = "https://browser.blockstack.org/profiles";
 
 config.avCurrencyes = new Map([

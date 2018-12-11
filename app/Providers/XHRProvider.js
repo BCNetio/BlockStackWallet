@@ -172,4 +172,11 @@ export default class XHRProvider {
 
   getTokenList = (type, address) =>
     axios.get(config[type].tokens(address)).then(response => response.data);
+
+  static getMediumPosts() {
+    return axios
+      .get(config.mediumPosts)
+      .then(response => response.data.payload.posts)
+      .catch(error => []);
+  }
 }

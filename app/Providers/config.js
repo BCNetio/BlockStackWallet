@@ -169,4 +169,6 @@ config.periodsForChart = {
   year: { aggregate: 1, limit: 365, api: "histoday" }
 };
 
+config.mediumPosts = "https://serving.bcnet.io/mediumPosts";
+
 export default config;

@@ -4,6 +4,7 @@ import { walletSaga } from "../Wallets/Wallet/Saga";
 import { walletListSaga } from "../Wallets/WalletList/Saga";
 import { exchangeSaga } from "../Exchange/Saga";
 import { fiatSaga } from "../Fiat/Saga";
+import { newsCardSaga } from "../InitialPage/NewsCard";
 
 export default function* rootSaga() {
   yield all([
@@ -11,6 +12,7 @@ export default function* rootSaga() {
     call(walletListSaga),
     call(walletSaga),
     call(exchangeSaga),
-    call(fiatSaga)
+    call(fiatSaga),
+    call(newsCardSaga)
   ]);
 }
