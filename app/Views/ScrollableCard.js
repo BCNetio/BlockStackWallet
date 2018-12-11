@@ -72,10 +72,10 @@ export const ScrollableItem = styled.div`
     &:not(:first-child) {
       cursor: pointer;
     }
-    &:not(:first-child):hover{
+    &:not(:first-child):hover {
       background-color: rgba(141, 150, 178, 0.1);
     }
-    div:first-child{
+    div:first-child {
       display: flex;
       align-items: center;
       width: 50%;

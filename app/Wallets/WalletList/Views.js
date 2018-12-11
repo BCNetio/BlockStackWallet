@@ -68,11 +68,11 @@ const styles = {
   },
 
   cardHead: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'left',
-    alignItems: 'flex-start',
-    color: '#FFFFFF',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "left",
+    alignItems: "flex-start",
+    color: "#FFFFFF"
   },
 
   cardHeadTypography: {

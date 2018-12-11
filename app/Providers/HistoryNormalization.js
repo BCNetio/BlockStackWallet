@@ -1,23 +1,7 @@
-import {
-  filter,
-  find,
-  gt,
-  lensPath,
-  map,
-  view,
-  reduce,
-  append,
-  split
-} from "ramda";
+import { filter, find, gt, lensPath, view, reduce, split } from "ramda";
 import { curNames } from "../AppConfig";
 import config from "./config";
-import {
-  addrToBitpayFormat,
-  toETHFromWei,
-  convertCashAddrFormatToBTC,
-  toBTC,
-  addrToBCHFormat
-} from "./Wallets";
+import { toETHFromWei, toBTC, addrToBCHFormat } from "./Wallets";
 
 const monthNames = [
   "jan",

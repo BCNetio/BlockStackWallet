@@ -1,5 +1,4 @@
 import { addrToBitpayFormat, toBTC, toETHFromWei } from "./Wallets";
-import { split } from "ramda";
 
 const apiKeys = {
   etherscan: "",
