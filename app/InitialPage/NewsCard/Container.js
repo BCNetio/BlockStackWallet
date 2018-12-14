@@ -12,7 +12,7 @@ class NewsPanel extends React.Component {
   }
 
   render() {
-    const {posts} = this.props;
+    const { posts } = this.props;
     return <NewsCard posts={posts} />;
   }
 }

@@ -1,186 +1,98 @@
 import React from "react";
+import styled from "styled-components";
 import { Line } from "react-chartjs-2";
+import { v4 } from "uuid";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
-import { merge, lensPath, over } from "ramda";
+import { merge, lensPath, over, equals } from "ramda";
 import Select from "./Select";
-import { v4 } from "uuid";
 import { config, curNames } from "../AppConfig";
-import styled from "styled-components";
-import IconArrowDown from "../images/common/icon-arrow-down.svg";
-
-const layout = {
-  input: {
-    display: "none"
-  },
-  card: {
-    backgroundColor: "#2B3649",
-    color: "#FFFFFF",
-    fontSize: 12,
-    textOverflow: "ellipsis",
-    padding: "0 20px",
-    marginBottom: "20px",
-    boxShadow: "0 25px 40px 0 rgba(0,0,0,0.3)"
-  },
-  button: {
-    color: "#8D96B2",
-    margin: "1px",
-    borderRadius: "14px",
-    borderColor: "#8D96B2",
-    fontSize: "12px",
-    minHeight: "auto",
-    minWidth: "0",
-    padding: "4px 8px",
-    letterSpacing: "0.45px",
-    lineHeight: "14px"
-  }
-};
-
-const lineOpstions = {
-  backgroundColor: "rgba(43, 54, 73, 0.09)",
-  borderColor: "rgb(122, 194, 49)",
-  borderCapStyle: "butt",
-  borderDash: [],
-  borderDashOffset: 0.0,
-  borderJoinStyle: "miter",
-  pointBorderColor: "#7AC231",
-  pointBackgroundColor: "inherit",
-  pointBorderWidth: 0,
-  pointHoverRadius: 3,
-  pointHoverBackgroundColor: "#FFFFFF",
-  pointHoverBorderColor: "#7AC231",
-  pointHoverBorderWidth: 2,
-  pointRadius: 0,
-  pointHitRadius: 10,
-  fill: false,
-  lineTension: 0,
-  borderWidth: 2
-};
-
-const options = {
-  scales: {
-    xAxes: [
-      {
-        gridLines: {
-          display: false
-        },
-        ticks: {
-          fontColor: "#8D96B2",
-          fontFamily: "Roboto",
-          fontStyle: "bold",
-          fontSize: 11
-        },
-        type: "time",
-        distribution: "linear",
-        drawOnChartArea: false,
-        color: "#FFFFFF"
-      }
-    ],
-    yAxes: [
-      {
-        gridLines: {
-          color: "rgba(141,150,178,0.1)"
-        },
-        ticks: {
-          fontSize: 11,
-          fontColor: "#8D96B2",
-          fontFamily: "Roboto",
-          fontStyle: "bold"
-        }
-      }
-    ]
-  },
-  legend: { display: false }
-};
-
-const ChartDrapdawnTitle = styled.div`
-  > div {
-    div:first-child {
-      font-size: 14px;
-      letter-spacing: 0.21px;
-      cursor: pointer;
-      position: relative;
-      &:after {
-        content: "";
-        display: block;
-        position: absolute;
-        top: 50%;
-        right: -20px;
-        width: 9px;
-        height: 8px;
-        transform: translateY(-50%) rotate(-90deg);
-        background: url(${IconArrowDown}) no-repeat;
-      }
-    }
-  }
-`;
-
-const periods = ["day", "week", "month", "year"];
+import {
+  layout,
+  ChartDrapdawnTitle,
+  lineOptions,
+  options,
+  periods
+} from "./ChartOptions";
 
 class Chart extends React.Component {
+  static currnetTime() {
+    return Math.round(new Date().getTime() / 1000.0);
+  }
+
   constructor(props) {
     super(props);
     const currency = config.avCurrencyes.get(props.currency);
+
     this.state = {
       currency: currency || config.avCurrencyes.get(curNames.BTC),
       period: "day"
     };
-  }
 
-  currnetTime = () => Math.round(new Date().getTime() / 1000.0);
+    this.fetchData = this.fetchData.bind(this);
+    this.onChangePeriod = this.onChangePeriod.bind(this);
+    this.handleCurrency = this.handleCurrency.bind(this);
+    this.mergeCallbacksForFiat = this.mergeCallbacksForFiat.bind(this);
+  }
 
   componentDidMount() {
     this.props.action(
       this.state.currency.abbr,
       this.state.period,
-      this.currnetTime(),
+      Chart.currnetTime(),
       this.props.selectedFiat.abbr
     );
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !equals(this.props, nextProps) || !equals(this.state, nextState);
+  }
+
+  onChangePeriod(period) {
+    this.setState({ period });
   }
 
   getSnapshotBeforeUpdate(prevProps, prevState) {
-    (prevProps.selectedFiat !== this.props.selectedFiat ||
-      prevState.period !== this.state.period ||
-      prevState.currency !== this.state.currency) &&
+    if (
+      !equals(prevProps.selectedFiat, this.props.selectedFiat) ||
+      !equals(prevState.period, this.state.period) ||
+      !equals(prevState.currency, this.state.currency)
+    ) {
       this.fetchData();
+    }
     return prevState;
   }
 
-  fetchData = () => {
+  fetchData() {
     this.props.action(
       this.state.currency.abbr,
       this.state.period,
-      this.currnetTime(),
+      Chart.currnetTime(),
       this.props.selectedFiat.abbr
     );
-  };
+  }
 
-  onChangeCurrency = currency => {
+  handleCurrency(currency) {
     this.setState({ currency });
-  };
+  }
 
-  onChangePeriod = period => {
-    this.setState({ period });
-  };
-
-  handleCurrency = currency => {
-    this.setState({ currency });
-  };
-
-  mergeCallbacksForFiat = fiat =>
-    merge(options, {
+  mergeCallbacksForFiat() {
+    const { name, abbr } = this.props.selectedFiat;
+    return merge(options(`${name} (${abbr})`), {
       tooltips: {
         backgroundColor: "#FFFFFF",
         titleFontColor: "rgba(0, 0, 0, 0.87)",
         bodyFontColor: "rgba(0, 0, 0, 0.87)",
         displayColors: false,
         position: "nearest",
+
         callbacks: {
-          label: (tooltipItems, data) =>
-            `${tooltipItems.yLabel.toString()} ${this.props.selectedFiat.abbr}`
+          label: tooltipItems =>
+            `${this.props.selectedFiat.abbr} ${tooltipItems.yLabel.toString()} `
         }
       }
     });
+  }
 
   render() {
     return (
@@ -218,7 +130,7 @@ class Chart extends React.Component {
           <Line
             data={over(
               lensPath(["datasets", 0]),
-              __ => merge(lineOpstions, __),
+              __ => merge(lineOptions, __),
               this.props.data
             )}
             options={this.mergeCallbacksForFiat()}
@@ -235,18 +147,18 @@ const wrapWallet = (
   action,
   selectedFiat,
   currency,
-  layout
+  wrappedLayout
 ) => Component => (
   <Component
     data={data}
     action={action}
-    layout={layout}
+    layout={wrappedLayout}
     currency={currency}
     selectedFiat={selectedFiat}
   />
 );
 
-const wrapedWallet = (data, action, selectedFiat, currency, layout) =>
-  wrapWallet(data, action, selectedFiat, currency, layout)(Chart);
+const wrapedWallet = (data, action, selectedFiat, currency, wrappedLayout) =>
+  wrapWallet(data, action, selectedFiat, currency, wrappedLayout)(Chart);
 
 export default wrapedWallet;
