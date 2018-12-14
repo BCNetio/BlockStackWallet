@@ -1,7 +1,5 @@
 import React from "react";
-import styled from "styled-components";
 import { Line } from "react-chartjs-2";
-import { v4 } from "uuid";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import { merge, lensPath, over, equals } from "ramda";
@@ -12,11 +10,15 @@ import {
   ChartDrapdawnTitle,
   lineOptions,
   options,
-  periods
+  periods,
+  ChartBox,
+  chartOptions,
+  toolTips
 } from "./ChartOptions";
 
+
 class Chart extends React.Component {
-  static currnetTime() {
+  static currentTime() {
     return Math.round(new Date().getTime() / 1000.0);
   }
 
@@ -26,7 +28,8 @@ class Chart extends React.Component {
 
     this.state = {
       currency: currency || config.avCurrencyes.get(curNames.BTC),
-      period: "day"
+      period: "day",
+      list: Array.from(config.avCurrencyes)
     };
 
     this.fetchData = this.fetchData.bind(this);
@@ -36,12 +39,7 @@ class Chart extends React.Component {
   }
 
   componentDidMount() {
-    this.props.action(
-      this.state.currency.abbr,
-      this.state.period,
-      Chart.currnetTime(),
-      this.props.selectedFiat.abbr
-    );
+    this.fetchData()
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -60,14 +58,14 @@ class Chart extends React.Component {
     ) {
       this.fetchData();
     }
-    return prevState;
+    return null;
   }
 
   fetchData() {
     this.props.action(
       this.state.currency.abbr,
       this.state.period,
-      Chart.currnetTime(),
+      Chart.currentTime(),
       this.props.selectedFiat.abbr
     );
   }
@@ -78,38 +76,18 @@ class Chart extends React.Component {
 
   mergeCallbacksForFiat() {
     const { name, abbr } = this.props.selectedFiat;
-    return merge(options(`${name} (${abbr})`), {
-      tooltips: {
-        backgroundColor: "#FFFFFF",
-        titleFontColor: "rgba(0, 0, 0, 0.87)",
-        bodyFontColor: "rgba(0, 0, 0, 0.87)",
-        displayColors: false,
-        position: "nearest",
-
-        callbacks: {
-          label: tooltipItems =>
-            `${this.props.selectedFiat.abbr} ${tooltipItems.yLabel.toString()} `
-        }
-      }
-    });
+    return merge(options(`${name} (${abbr})`), toolTips(abbr));
   }
 
   render() {
     return (
-      <Card style={this.props.layout ? this.props.layout : layout.card}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "15px 0"
-          }}
-        >
+      <Card style={layout.card}>
+        <ChartBox>
           <ChartDrapdawnTitle>
             <Select
               selectItem={this.state.currency}
-              list={Array.from(config.avCurrencyes)}
-              config={{ search: true, input: false, type: "chart" }}
+              list={this.state.list}
+              config={chartOptions}
               handleMenuItemClick={this.handleCurrency}
             />
           </ChartDrapdawnTitle>
@@ -117,17 +95,17 @@ class Chart extends React.Component {
             {periods.map(period => (
               <Button
                 onClick={() => this.onChangePeriod(period)}
-                key={v4()}
+                key={period}
                 style={layout.button}
-                variant={this.state.period === period ? "outlined" : null}
+                variant={"outlined"}
               >
                 {period}
               </Button>
             ))}
           </div>
-        </div>
-        {this.props.data.labels ? (
-          <Line
+        </ChartBox>
+        {
+          this.props.data.datasets && <Line
             data={over(
               lensPath(["datasets", 0]),
               __ => merge(lineOptions, __),
@@ -136,7 +114,7 @@ class Chart extends React.Component {
             options={this.mergeCallbacksForFiat()}
             redraw
           />
-        ) : null}
+        }
       </Card>
     );
   }
