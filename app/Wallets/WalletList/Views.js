@@ -4,7 +4,6 @@ import { has } from "ramda";
 import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
 import AddIcon from "@material-ui/icons/Add";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { logos } from "../../images/index";
 import { config } from "../../AppConfig";
 import LongMenu from "./LongMenu";
@@ -158,13 +157,16 @@ export const WalletCard = withStyles(styles)(
     selectedFiat,
     wallet
   }) => (
-    <Card className={classes.card} style={{backgroundColor: readOnly && '#545C67'}}>
+    <Card
+      className={classes.card}
+      style={{ backgroundColor: readOnly && "#545C67" }}
+    >
       <div
         onClick={() => select(wallet)}
         className={classes.cardHead}
         style={{
           marginBottom: "20px",
-          position: "relative",
+          position: "relative"
         }}
       >
         <img
