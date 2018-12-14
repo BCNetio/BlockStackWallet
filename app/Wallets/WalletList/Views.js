@@ -158,17 +158,15 @@ export const WalletCard = withStyles(styles)(
     selectedFiat,
     wallet
   }) => (
-    <Card className={classes.card}>
+    <Card className={classes.card} style={{backgroundColor: readOnly && '#545C67'}}>
       <div
         onClick={() => select(wallet)}
         className={classes.cardHead}
-        style={{ marginBottom: "20px", position: "relative" }}
+        style={{
+          marginBottom: "20px",
+          position: "relative",
+        }}
       >
-        {readOnly ? (
-          <ReadOnlyIcon>
-            <VisibilityOff className={classes.plusIcon} />
-          </ReadOnlyIcon>
-        ) : null}
         <img
           src={logos[type]}
           className={classes.logo}
