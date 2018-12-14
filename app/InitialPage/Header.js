@@ -320,15 +320,6 @@ const Header = () => {
       <HeaderControl style={{}}>
         <div className="left">
           <Fiat />
-          <div className="support">
-            <a
-              href="https://dappy.freshdesk.com/support/home"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Support
-            </a>
-          </div>
         </div>
         <div className="right">
           <ProfilePopUp
