@@ -290,6 +290,7 @@ class ProfilePopUp extends React.Component {
                     className="profile"
                     href={config.bsNodeProfile}
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
                     Blockstack profile
                   </a>

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { filter, equals } from "ramda";
+import { filter } from "ramda";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import * as actions from "./WalletList/Actions";
