@@ -50,7 +50,6 @@ export const ChartDrapdawnTitle = styled.div`
   }
 `;
 
-
 export const ChartBox = styled.div`
   display: flex;
   align-items: center;
@@ -119,20 +118,19 @@ export const options = currency => ({
   legend: { display: false }
 });
 
-export const toolTips = (abbr) => ({
+export const toolTips = abbr => ({
   tooltips: {
     backgroundColor: "#FFFFFF",
-      titleFontColor: "rgba(0, 0, 0, 0.87)",
-      bodyFontColor: "rgba(0, 0, 0, 0.87)",
-      displayColors: false,
-      position: "nearest",
-      callbacks: {
-      label: tooltipItems =>
-        `${abbr} ${tooltipItems.yLabel} `
+    titleFontColor: "rgba(0, 0, 0, 0.87)",
+    bodyFontColor: "rgba(0, 0, 0, 0.87)",
+    displayColors: false,
+    position: "nearest",
+    callbacks: {
+      label: tooltipItems => `${abbr} ${tooltipItems.yLabel} `
     }
   }
 });
 
-export const chartOptions = { search: true, input: false, type: "chart" }
+export const chartOptions = { search: true, input: false, type: "chart" };
 
 export const periods = ["day", "week", "month", "year"];

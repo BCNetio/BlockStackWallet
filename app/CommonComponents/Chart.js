@@ -16,7 +16,6 @@ import {
   toolTips
 } from "./ChartOptions";
 
-
 class Chart extends React.Component {
   static currentTime() {
     return Math.round(new Date().getTime() / 1000.0);
@@ -39,7 +38,7 @@ class Chart extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchData()
+    this.fetchData();
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -104,8 +103,8 @@ class Chart extends React.Component {
             ))}
           </div>
         </ChartBox>
-        {
-          this.props.data.datasets && <Line
+        {this.props.data.datasets && (
+          <Line
             data={over(
               lensPath(["datasets", 0]),
               __ => merge(lineOptions, __),
@@ -114,7 +113,7 @@ class Chart extends React.Component {
             options={this.mergeCallbacksForFiat()}
             redraw
           />
-        }
+        )}
       </Card>
     );
   }
