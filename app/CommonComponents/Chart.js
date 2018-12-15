@@ -111,7 +111,6 @@ class Chart extends React.Component {
               this.props.data
             )}
             options={this.mergeCallbacksForFiat()}
-            redraw
           />
         )}
       </Card>
