@@ -1,9 +1,9 @@
+import React from "react";
 import styled from "styled-components";
-import { logos } from "../images/index";
 import { has } from "ramda";
+import { logos } from "../images/index";
 import IconArrowGreen from "../images/common/icon-arrow-green.svg";
 import { fiats } from "../images/fiat/index";
-import React from "react";
 
 export const DropdawnWrapper = styled.div`
   position: absolute;

@@ -31,7 +31,6 @@ export const layout = {
 export const ChartDrapdawnTitle = styled.div`
   > div {
     div:first-child {
-      font-size: 14px;
       letter-spacing: 0.21px;
       cursor: pointer;
       position: relative;

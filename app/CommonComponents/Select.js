@@ -60,8 +60,9 @@ class Select extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     return (
       !equals(this.props, nextProps) ||
-      this.state.isOpened !== nextState.isOpened ||
-      this.state.address !== nextState.address
+      !equals(this.state.isOpened, nextState.isOpened) ||
+      !equals(this.state.address, nextState.address) ||
+      !equals(this.state.list, nextState.list)
     );
   }
 
@@ -93,8 +94,8 @@ class Select extends React.Component {
   }
 
   handleClickOutside(e) {
-    const domNode = ReactDOM.findDOMNode(this); // eslint-disable-line no-use-before-define
-    (!domNode || !domNode.contains(e.target)) &&
+    const domNode = ReactDOM.findDOMNode(this); // eslint-disable-line
+    (!domNode || !domNode.contains(e.target)) && // eslint-disable-line
       e.target.id !== "input" &&
       this.setState({
         isOpened: false,
