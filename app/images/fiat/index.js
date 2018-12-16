@@ -21,7 +21,7 @@ import HKD2x from "./HKD@2x.png";
 import IDR1x from "./IDR@1x.png";
 import IDR2x from "./IDR@2x.png";
 import INR1x from "./INR@1x.png";
-import INR2x from "./INR@1x.png";
+import INR2x from "./INR@2x.png";
 import JPY1x from "./JPY@1x.png";
 import JPY2x from "./JPY@2x.png";
 import KRW1x from "./KRW@1x.png";
