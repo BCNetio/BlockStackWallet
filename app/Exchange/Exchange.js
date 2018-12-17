@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Card from '@material-ui/core/Card';
 import { withStyles } from '@material-ui/core/styles';
 import * as actions from './Actions';
 import StartExchange from './StartExchange';
@@ -12,16 +11,22 @@ import styled, { css } from 'styled-components';
 import IconSwap from '../images/common/icon-swap.svg';
 
 const styles = {
-  card: {
-    width: 450,
-    height: 380,
-    backgroundColor: '#2B3649',
-    color: '#FFFFFF',
-    textOverflow: 'ellipsis',
-    position: 'relative',
-    overflow: 'visible',
-  },
 };
+
+const ExchangeWrapper = styled.div`
+  width: 450px;
+  height: 380px;
+  background-color: #2B3649;
+  color: #fff;
+  text-overflow: ellipsis;
+  position: relative;
+  overflow: visible;
+  @media (max-width: 768px) {
+    order: 3;
+    margin: 0 auto;
+    width: auto;
+  }
+`;
 
 const Title = styled.div`
   padding: 20px;
@@ -47,15 +52,6 @@ const Title = styled.div`
   }
 `;
 
-const ExchangeWrapper = styled.div`
-  @media (max-width: 993px) {
-    margin: 0 auto;
-  }
-  @media (max-width: 768px) {
-    order: 3;
-  }
-`;
-
 const Button = styled.button`
   border: 1px solid #7ed321;
   border-radius: 14px;
@@ -77,20 +73,18 @@ class Exchange extends React.Component {
   render() {
     return (
     <ExchangeWrapper>
-      <Card className={this.props.classes.card}>
-        <Title>
-          <span className="swap">Exchange your funds</span>
-          {this.props.activeTabId === 2 && (
-            <Button onClick={() => this.props.mountActiveTab(0)}>
-              New Order
-            </Button>
-          )}
-        </Title>
-        <Divider style={{ backgroundColor: 'rgba(141,150,178,0.1)' }} />
-        <div style={{ padding: '20px', paddingTop: '25px' }}>
-          {tabs[this.props.activeTabId].render}
-        </div>
-      </Card>
+      <Title>
+        <span className="swap">Exchange your funds</span>
+        {this.props.activeTabId === 2 && (
+          <Button onClick={() => this.props.mountActiveTab(0)}>
+            New Order
+          </Button>
+        )}
+      </Title>
+      <Divider style={{ backgroundColor: 'rgba(141,150,178,0.1)' }} />
+      <div style={{ padding: '20px', paddingTop: '25px' }}>
+        {tabs[this.props.activeTabId].render}
+      </div>
     </ExchangeWrapper>
     );
   }

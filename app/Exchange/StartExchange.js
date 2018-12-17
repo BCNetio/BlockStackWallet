@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { has, head } from "ramda";
 import * as actions from "./Actions";
@@ -16,12 +16,19 @@ const Input = styled.input`
   padding-left: 20px;
   color: #fff;
   width: 194px;
+  @media (max-width: 768px) {
+    width: 40%;
+    min-width: 50px;
+  }
 `;
 
 const Label = styled.p`
   font-size: 11px;
   letter-spacing: 0.41px;
   line-height: 13px;
+  @media (max-width: 768px) {
+    margin-bottom: 10px;
+  }
 `;
 
 const Tooltip = styled.span`
@@ -30,6 +37,9 @@ const Tooltip = styled.span`
   letter-spacing: 0.2px;
   line-height: 9px;
   margin-left: 61px;
+  @media (max-width: 768px) {
+    margin-left: 0;
+  }
   &.error {
     color: red;
     display: block;
@@ -129,6 +139,31 @@ const Tabs = styled.div`
     }
   }
 `;
+
+const Row = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+  }
+
+  ${props =>
+    props.mt20 &&
+    css`
+      margin-top: 20px;
+    `}
+`
+
+const DoubleInputSelectWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: stretch;
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: flex-start;
+  }
+`
 
 class StartExchange extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -275,21 +310,9 @@ class StartExchange extends React.Component {
   render() {
     return this.props.wallets.length ? (
       <div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center"
-          }}
-        >
+        <Row>
           <Label>From</Label>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "stretch"
-            }}
-          >
+          <DoubleInputSelectWrapper>
             <Input onChange={this.onChangeAmount} value={this.state.amount} />
             <SelectWrapper className="arrow-down">
               <Select
@@ -299,26 +322,13 @@ class StartExchange extends React.Component {
                 handleMenuItemClick={this.handleMenuItemClick}
               />
             </SelectWrapper>
-          </div>
-        </div>
+          </DoubleInputSelectWrapper>
+        </Row>
         <Tooltip className="error">{this.state.error}</Tooltip>
         <Tooltip>Aviable amount: {this.props.balance}</Tooltip>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginTop: "20px"
-          }}
-        >
+        <Row mt20>
           <Label>To</Label>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "stretch"
-            }}
-          >
+          <DoubleInputSelectWrapper>
             <Input
               value={
                 this.state.amount
@@ -335,8 +345,8 @@ class StartExchange extends React.Component {
                 handleMenuItemClick={this.handleMenuItemClickTo}
               />
             </SelectWrapper>
-          </div>
-        </div>
+          </DoubleInputSelectWrapper>
+        </Row>
         <div style={{ marginTop: "35px", textAlign: "right" }}>
           <Next
             variant="outlined"
