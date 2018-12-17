@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Content = styled.div`
   display: flex;
@@ -12,5 +12,6 @@ export const Content = styled.div`
   }
   @media (max-width: 768px) {
     width: 100%;
+    order: 3;
   }
 `;

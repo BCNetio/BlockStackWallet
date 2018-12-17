@@ -11,8 +11,6 @@ import Fiat from "../Fiat/Fiat";
 import { config } from "../AppConfig";
 
 const LogoWrapper = styled.div`
-  width: 15%;
-  padding-left: 35px;
 `;
 
 const HeaderWrapper = styled.div`
@@ -20,25 +18,36 @@ const HeaderWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 40px 0px;
+  padding: 40px 20px;
   color: #fff;
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    order: 2;
+    padding: 40px 10px;
+    padding-top: 50px;
+  }
 `;
 
 const HeaderControl = styled.div`
-  width: 85%;
   display: flex;
-  padding-right: 20px;
   justify-content: space-between;
   align-items: center;
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
   .left {
-    width: 70%;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-  }
-  .right {
-    width: 32%;
-    text-align: right;
+    margin-right: 195px;
+    @media (max-width: 768px) {
+      margin-right: 20px;
+      width: 100%;
+      margin-bottom: 20px;
+      justify-content: flex-start;
+    }
   }
   .switch-wrapper {
     margin-left: 20px;
@@ -63,7 +72,7 @@ const HeaderControl = styled.div`
       color: #fff;
       text-decoration: none;
       &:after {
-        content: "";
+        content: '';
         display: block;
         position: absolute;
         top: 50%;
@@ -76,7 +85,6 @@ const HeaderControl = styled.div`
     }
   }
   .dropdawn-fiat-wrapper {
-    margin-left: 20px;
     margin-right: 20px;
     display: flex;
     align-items: center;
@@ -90,20 +98,21 @@ const HeaderControl = styled.div`
       img {
         object-fit: cover;
         width: 100%;
+        height: 100%;
       }
     }
     span {
       position: relative;
       &:after {
-        content: "";
+        content: '';
         display: block;
         position: absolute;
         top: 50%;
         right: -20px;
-        width: 9px;
+        width: 8px;
         height: 8px;
         transform: translateY(-50%) rotate(-90deg);
-        background: url(${IconArrowDown}) no-repeat;
+        background: url(${IconArrowDown}) no-repeat center/cover;
       }
     }
   }
@@ -118,7 +127,7 @@ const HeaderControl = styled.div`
       display: flex;
       align-items: center;
       &:after {
-        content: "";
+        content: '';
         display: block;
         position: absolute;
         top: 50%;
@@ -144,40 +153,41 @@ const HeaderControl = styled.div`
 
 const UserInfo = styled.div`
   position: relative;
-  > div {
-    display: inline-block;
-  }
   .user-info {
     display: flex;
     justify-content: flex-end;
     align-items: center;
     cursor: pointer;
-    padding-right: 25px;
+    @media (max-width: 768px) {
+      justify-content: flex-start;
+    }
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 50%;
+      right: 0;
+      width: 8px;
+      height: 8px;
+      transform: translateY(-50%) rotate(-90deg);
+      background: url(${IconArrowDown}) no-repeat center/cover;
+    }
     span {
       font-size: 14px;
       text-align: center;
       letter-spacing: 0.3px;
       margin-right: 15px;
       position: relative;
-      &:after {
-        content: "";
-        display: block;
-        position: absolute;
-        top: 50%;
-        right: -60px;
-        width: 9px;
-        height: 8px;
-        transform: translateY(-50%) rotate(-90deg);
-        background: url(${IconArrowDown}) no-repeat;
-      }
     }
     div {
       width: 29px;
       height: 29px;
       border-radius: 100%;
       overflow: hidden;
+      margin-right: 20px;
       img {
         width: 100%;
+        height: 100%;
         object-fit: cover;
       }
     }
@@ -193,7 +203,7 @@ const UserInfo = styled.div`
     border-radius: 5px;
     text-align: left;
     &:before {
-      content: "";
+      content: '';
       display: block;
       position: absolute;
       top: -9px;
@@ -217,7 +227,7 @@ const UserInfo = styled.div`
           padding: 5px 40px 5px 35px;
           display: block;
           &:before {
-            content: "";
+            content: '';
             display: block;
             position: absolute;
             top: 50%;
@@ -237,6 +247,7 @@ const UserInfo = styled.div`
     }
   }
 `;
+
 
 class ProfilePopUp extends React.Component {
   constructor(props) {
