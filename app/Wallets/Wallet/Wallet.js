@@ -9,12 +9,8 @@ import Transactions from "./Transactions";
 import WalletInfo from "./WalletInfo";
 import { Tokens } from "./Tokens";
 import Modal from "../../CommonComponents/Modal";
-import {
-  Content,
-  LeftColumnContainer,
-  MiddleColumnContainer,
-  RightColumnContainer
-} from "../../Views";
+import { Content } from "../../Views";
+import { Column } from "../../CommonComponents/ContentColumn/Index";
 
 class Wallet extends React.Component {
   constructor(props) {
@@ -52,7 +48,7 @@ class Wallet extends React.Component {
             />
           ) : null}
         </Modal>
-        <LeftColumnContainer>
+        <Column left>
           <WalletInfo
             callModal={this.callModal}
             closeModal={this.closeModal}
@@ -63,8 +59,8 @@ class Wallet extends React.Component {
             fetchTokens={this.props.fetchTokenInfo}
             callModal={this.callModal}
           />
-        </LeftColumnContainer>
-        <MiddleColumnContainer>
+        </Column>
+        <Column middle>
           <Operations wallet={this.wallet} />
           {wrapedWallet(
             this.props.chartData,
@@ -72,10 +68,10 @@ class Wallet extends React.Component {
             this.props.selectedFiat,
             this.wallet.type
           )}
-        </MiddleColumnContainer>
-        <RightColumnContainer>
+        </Column>
+        <Column right>
           <Transactions wid={this.props.match.params.id} />
-        </RightColumnContainer>
+        </Column>
       </Content>
     ) : (
       <CircularProgress />

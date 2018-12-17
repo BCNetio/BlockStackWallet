@@ -8,9 +8,8 @@ import { InputSearch, InputManualAddress, InputGrey, Input } from "./Input";
 import { Popup, PopupLayout } from "./Popup";
 import { Snackbar } from "./Snackbar";
 import { TabsWrapper } from "./TabsWrapper";
-import { MiddleColumnContainer } from "./MiddleColumnContainer";
-import { RightColumnContainer } from "./RightColumnContainer";
-import { LeftColumnContainer, BalanceCard } from "./LeftColumnContainer";
+import { Column } from "../CommonComponents/ContentColumn/Index";
+import { BalanceCard } from "../CommonComponents/BalanceCard.js";
 import { Content } from "./Content";
 
 import {
@@ -56,14 +55,8 @@ export { InputSearch, InputManualAddress, InputGrey };
 // container for main content
 export { Content };
 
-// container for left column inside Content
-export { LeftColumnContainer };
-
-// container for middle column inside Content
-export { MiddleColumnContainer };
-
-// container for right column inside Content
-export { RightColumnContainer };
+// columns for Cards at Content
+export { Column };
 
 // Balance card
 export { BalanceCard };

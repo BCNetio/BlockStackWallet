@@ -9,12 +9,9 @@ import { config, curNames } from "../AppConfig";
 import History from "./History";
 import Modal from "../CommonComponents/Modal";
 import NewsPanel from "./NewsCard/Container";
-import {
-  Content,
-  LeftColumnContainer,
-  MiddleColumnContainer,
-  RightColumnContainer
-} from "../Views";
+import { Content } from "../Views";
+import { Column } from "../CommonComponents/ContentColumn/Index";
+
 
 const mapDispatchToProps = dispatch => ({
   checkoutWallets: () => dispatch(actions.checkoutWalletList()),
@@ -103,7 +100,7 @@ class Dashboard extends React.Component {
             />
           ) : null}
         </Modal>
-        <LeftColumnContainer>
+        <Column left>
           <SummaryCash
             currencySum={this.props.totalBalance}
             selectedFiat={this.props.selectedFiat}
@@ -113,8 +110,8 @@ class Dashboard extends React.Component {
             closeModal={this.closeModal}
           />
           <NewsPanel />
-        </LeftColumnContainer>
-        <MiddleColumnContainer>
+        </Column>
+        <Column middle>
           {this.props.chartData &&
             wrapedWallet(
               this.props.chartData,
@@ -122,8 +119,8 @@ class Dashboard extends React.Component {
               this.props.selectedFiat
             )}
           <History dappyHistory={this.props.dappyHistory} />
-        </MiddleColumnContainer>
-        <RightColumnContainer>
+        </Column>
+        <Column right>
           <ListOfWallets
             callModal={this.callModal}
             closeModal={this.closeModal}
@@ -131,7 +128,7 @@ class Dashboard extends React.Component {
             course={this.props.course}
             wallets={this.props.wallets ? this.props.wallets : []}
           />
-        </RightColumnContainer>
+        </Column>
       </Content>
     );
   }

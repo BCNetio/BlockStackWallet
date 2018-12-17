@@ -2,8 +2,9 @@ import styled from 'styled-components';
 
 export const Content = styled.div`
   display: flex;
-  align-items: flex-start;
+  justify-content: space-between;
   width: 85%;
+  padding: 0 20px;
 
   @media (max-width: 1200px) {
     align-items: stretch;
@@ -13,5 +14,6 @@ export const Content = styled.div`
   @media (max-width: 768px) {
     width: 100%;
     order: 3;
+    padding: 0 10px;
   }
 `;
