@@ -6,13 +6,18 @@ import StartExchange from './StartExchange';
 import Confirmation from './Confirmation';
 import StatusExchange from './StatusExchange';
 import Divider from '@material-ui/core/Divider';
-
 import styled, { css } from 'styled-components';
+
+// Icons
 import IconSwap from '../images/common/icon-swap.svg';
+
+// Import components
+import { Button } from "./CommonComponents/Index";
 
 const styles = {
 };
 
+// Styled
 const ExchangeWrapper = styled.div`
   width: 450px;
   height: 380px;
@@ -50,17 +55,6 @@ const Title = styled.div`
       background-image: url(${IconSwap});
     }
   }
-`;
-
-const Button = styled.button`
-  border: 1px solid #7ed321;
-  border-radius: 14px;
-  background: transparent;
-  color: #8d96b2;
-  padding: 5px 20px;
-  cursor: pointer;
-  margin-right: 5px;
-  outline: none;
 `;
 
 const tabs = [
