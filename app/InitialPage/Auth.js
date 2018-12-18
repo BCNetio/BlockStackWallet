@@ -24,6 +24,9 @@ const Greetings = styled.div`
     width: 100%;
     text-align: right;
     padding-right: 45px;
+    @media (max-width: 768px) {
+      padding-right: 0;
+    }
   }
   .information {
     background-color: #2b3649;
