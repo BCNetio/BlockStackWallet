@@ -6,152 +6,22 @@ import styled from "styled-components";
 import * as actions from "./WalletList/Actions";
 import Modal from "../CommonComponents/Modal";
 import { SEND } from "./WalletList/RenderFunctions";
-import IconSupport from "../images/common/icon-support.svg";
-import IconArrowDown from "../images/common/icon-arrow-down.svg";
-import { AvaliableWallets } from "./WalletList/Views";
+
+
+// Import components
 import { InputSearch, Content } from "../Views";
+import { WalletsControl, Filter, Switcher } from "./WalletList/ControlPanel";
+import { AvaliableWallets } from "./WalletList/Views";
 
-const WalletsControl = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  @media (max-width: 768px) {
-    align-items: flex-start;
-    flex-direction: column;
-    & >input, >div{
-      margin-bottom: 20px;
-    }
-  }
-  .left {
-    width: 70%;
-    display: flex;
-    align-items: center;
-  }
-  .right {
-    width: 30%;
-    text-align: right;
-  }
-  .filter-wrapper{
-    margin-left: 15px;
-    @media (max-width: 768px) {
-      margin-left: 0;
-    }
-  }
-  .switch-wrapper {
-    margin-left: 20px;
-    margin-right: 20px;
-    @media (max-width: 768px) {
-      margin: 0;
-    }
-    .text {
-      font-size: 12px;
-      margin-left: 10px;
-      cursor: pointer;
-    }
-    label {
-      display: inline-block;
-      vertical-align: middle;
-    }
-  }
-  .support {
-    margin-left: 50px;
-    a {
-      font-size: 14px;
-      text-align: center;
-      letter-spacing: 0.3px;
-      position: relative;
-      color: #fff;
-      text-decoration: none;
-      &:after {
-        content: "";
-        display: block;
-        position: absolute;
-        top: 50%;
-        left: -30px;
-        width: 16px;
-        height: 13px;
-        transform: translateY(-50%);
-        background: url(${IconSupport}) no-repeat;
-      }
-    }
-  }
-  .dropdawn-fiat-wrapper {
-    margin-left: 20px;
-    margin-right: 20px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    div {
-      width: 14px;
-      height: 14px;
-      border-radius: 100%;
-      overflow: hidden;
-      margin-right: 10px;
-      img {
-        object-fit: cover;
-        width: 100%;
-      }
-    }
-    span {
-      position: relative;
-      &:after {
-        content: "";
-        display: block;
-        position: absolute;
-        top: 50%;
-        right: -20px;
-        width: 9px;
-        height: 8px;
-        transform: translateY(-50%) rotate(-90deg);
-        background: url(${IconArrowDown}) no-repeat;
-      }
-    }
-  }
-  .dropdawn-wallet-wrapper {
-    margin-left: 20px;
-    margin-right: 20px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    div {
-      position: relative;
-      display: flex;
-      align-items: center;
-      &:after {
-        content: "";
-        display: block;
-        position: absolute;
-        top: 50%;
-        right: -20px;
-        width: 9px;
-        height: 8px;
-        transform: translateY(-50%) rotate(-90deg);
-        background: url(${IconArrowDown}) no-repeat;
-      }
-      img {
-        width: 36px;
-        height: 36px;
-        margin-left: 15px;
-      }
-      span {
-        font-size: 16px;
-        text-align: right;
-        letter-spacing: 0.4px;
-      }
-    }
-  }
-`;
-
-const HeaderWrapper = styled.div`
-  width: 100%;
+// Styled
+const WalletsListWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding-bottom: 40px;
-  color: #fff;
-`;
-
+  align-items: stretch;
+  flex-direction: column;
+  width: 100%;
+`
+// Component
 const mapStateToProps = state => ({
   wallets: state.wallets.walletList.walletList,
   selectedWalletInfo: state.wallets.walletList.selectedWalletInfo,
@@ -273,57 +143,47 @@ class WalletList extends React.Component {
             />
           ) : null}
         </Modal>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "stretch",
-            flexDirection: "column",
-            width: "100%"
-          }}
-        >
-          <HeaderWrapper>
-            <WalletsControl>
-              <InputSearch walletListSearch
-                value={this.state.searchPattern}
-                onChange={this.handleSearch}
-                type="text"
-                placeholder="Search…"
-              />
-              <div className="filter-wrapper">
-                <label>
-                  <input
-                    className="checkbox"
-                    value={this.state.showZeroBalanced}
-                    onChange={this.handleShowZeroBalanced}
-                    type="checkbox"
-                    name="wallets-filter"
-                  />
-                  <span className="checkbox-custom header" />
-                  <span
-                    className="label"
-                    style={{ fontSize: "12px", lineHeight: "14px" }}
-                  >
-                    Hide zero balance
-                  </span>
-                </label>
-              </div>
-              <div className="switch-wrapper">
-                <label className="switch">
-                  <input
-                    type="checkbox"
-                    id="switch"
-                    value={this.state.separate}
-                    onClick={this.splitWallets}
-                  />
-                  <span className="slider round" />
-                </label>
-                <label className="text" htmlFor="switch">
-                  Use a separate wallet for each token
-                </label>
-              </div>
-            </WalletsControl>
-          </HeaderWrapper>
+        <WalletsListWrapper>
+          <WalletsControl>
+            <InputSearch walletListSearch
+              value={this.state.searchPattern}
+              onChange={this.handleSearch}
+              type="text"
+              placeholder="Search…"
+            />
+            <Filter>
+              <label>
+                <input
+                  className="checkbox"
+                  value={this.state.showZeroBalanced}
+                  onChange={this.handleShowZeroBalanced}
+                  type="checkbox"
+                  name="wallets-filter"
+                />
+                <span className="checkbox-custom header" />
+                <span
+                  className="label"
+                  style={{ fontSize: "12px", lineHeight: "14px" }}
+                >
+                  Hide zero balance
+                </span>
+              </label>
+            </Filter>
+            <Switcher>
+              <label className="switch">
+                <input
+                  type="checkbox"
+                  id="switch"
+                  value={this.state.separate}
+                  onClick={this.splitWallets}
+                />
+                <span className="slider round" />
+              </label>
+              <label className="text" htmlFor="switch">
+                Use a separate wallet for each token
+              </label>
+            </Switcher>
+          </WalletsControl>
           <AvaliableWallets
             closeModal={this.closeModal}
             walletList={this.state.walletList.reduce(this.hideZeroBalanced, [])}
@@ -332,7 +192,7 @@ class WalletList extends React.Component {
             course={this.props.course}
             selectedFiat={this.props.selectedFiat}
           />
-        </div>
+        </WalletsListWrapper>
       </Content>
     );
   }
