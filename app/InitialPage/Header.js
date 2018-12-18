@@ -202,6 +202,9 @@ const UserInfo = styled.div`
     padding-top: 15px;
     border-radius: 5px;
     text-align: left;
+    @media (max-width: 768px) {
+      right: auto;
+    }
     &:before {
       content: '';
       display: block;
@@ -226,6 +229,7 @@ const UserInfo = styled.div`
           position: relative;
           padding: 5px 40px 5px 35px;
           display: block;
+          white-space: nowrap;
           &:before {
             content: '';
             display: block;
