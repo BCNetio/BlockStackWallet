@@ -11,12 +11,18 @@ import IconArrowDown from "../images/common/icon-arrow-down.svg";
 import { AvaliableWallets } from "./WalletList/Views";
 import { InputSearch, Content } from "../Views";
 
-const HeaderControl = styled.div`
-  width: 85%;
+const WalletsControl = styled.div`
+  width: 100%;
   display: flex;
-  padding-right: 20px;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
+  @media (max-width: 768px) {
+    align-items: flex-start;
+    flex-direction: column;
+    & >input, >div{
+      margin-bottom: 20px;
+    }
+  }
   .left {
     width: 70%;
     display: flex;
@@ -26,9 +32,18 @@ const HeaderControl = styled.div`
     width: 30%;
     text-align: right;
   }
+  .filter-wrapper{
+    margin-left: 15px;
+    @media (max-width: 768px) {
+      margin-left: 0;
+    }
+  }
   .switch-wrapper {
     margin-left: 20px;
     margin-right: 20px;
+    @media (max-width: 768px) {
+      margin: 0;
+    }
     .text {
       font-size: 12px;
       margin-left: 10px;
@@ -268,16 +283,14 @@ class WalletList extends React.Component {
           }}
         >
           <HeaderWrapper>
-            <HeaderControl
-              style={{ justifyContent: "flex-start", flexWrap: "wrap" }}
-            >
-              <InputSearch
+            <WalletsControl>
+              <InputSearch walletListSearch
                 value={this.state.searchPattern}
                 onChange={this.handleSearch}
                 type="text"
                 placeholder="Search…"
               />
-              <div style={{ marginLeft: "15px" }}>
+              <div className="filter-wrapper">
                 <label>
                   <input
                     className="checkbox"
@@ -309,7 +322,7 @@ class WalletList extends React.Component {
                   Use a separate wallet for each token
                 </label>
               </div>
-            </HeaderControl>
+            </WalletsControl>
           </HeaderWrapper>
           <AvaliableWallets
             closeModal={this.closeModal}

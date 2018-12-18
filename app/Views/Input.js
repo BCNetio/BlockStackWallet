@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import IconSearch from "../images/common/icon-search.svg";
 import IconManualAddress from "../images/common/icon-manual-address.svg";
 
@@ -25,10 +25,21 @@ export const InputSearch = styled.input`
   border: none;
   padding: 10px;
   padding-left: 20px;
+  padding-right: 20px;
   color: #fff;
   position: relative;
   width: 137px;
-  background: #273041 url(${IconSearch}) no-repeat 90% 50%;
+  background: #273041 url(${IconSearch}) no-repeat 95% center;
+
+  ${props =>
+    props.walletListSearch &&
+    css`
+      @media (max-width: 768px) {
+        width: 100%;
+        max-width: 350px;
+        background-position: 98% center;
+      }
+    `}
 `;
 
 export const InputManualAddress = styled.input`
