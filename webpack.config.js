@@ -5,7 +5,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 require('dotenv').config();
 
 const publicFolder = path.resolve(__dirname, 'public');
@@ -45,18 +45,18 @@ const getPlugins = () => {
       filename: cssFilename,
       allChunks: true,
     }),
-    new UglifyJsPlugin({
-      uglifyOptions: {
-        keep_fnames: true,
-        keep_classnames: true,
-        mangle: {
-            reserved: [
-              'Buffer', 'BigInteger', 'Point', 'ECPubKey',
-              'ECKey', 'sha512_asm', 'asm', 'ECPair', 'HDNode'
-            ],
-        }
-      }
-    })
+    // new UglifyJsPlugin({
+    //   uglifyOptions: {
+    //     keep_fnames: true,
+    //     keep_classnames: true,
+    //     mangle: {
+    //         reserved: [
+    //           'Buffer', 'BigInteger', 'Point', 'ECPubKey',
+    //           'ECKey', 'sha512_asm', 'asm', 'ECPair', 'HDNode'
+    //         ],
+    //     }
+    //   }
+    // })
   ];
 
   return basePlugins.concat(
