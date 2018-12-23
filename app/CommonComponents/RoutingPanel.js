@@ -1,7 +1,7 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 
-import NavbarWrapper from '../InitialPage/Menu';
+import NavbarWrapper from "../InitialPage/Menu";
 
 const styles = {
   navItem: {
