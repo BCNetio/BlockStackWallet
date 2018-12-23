@@ -1,49 +1,50 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Typography from '@material-ui/core/Typography';
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import Typography from "@material-ui/core/Typography";
 
-import styled, { css } from 'styled-components';
+import styled, { css } from "styled-components";
 
 // Icons
-import IconDashboard from '../images/nav/icon-dashboard.svg';
-import IconDashboardHover from '../images/nav/icon-dashboard-hover.svg';
-import IconWallet from '../images/nav/icon-wallet.svg';
-import IconWalletHover from '../images/nav/icon-wallet-hover.svg';
-import IconExchange from '../images/nav/icon-exchange.svg';
-import IconExchangeHover from '../images/nav/icon-exchange-hover.svg';
+import IconDashboard from "../images/nav/icon-dashboard.svg";
+import IconDashboardHover from "../images/nav/icon-dashboard-hover.svg";
+import IconWallet from "../images/nav/icon-wallet.svg";
+import IconWalletHover from "../images/nav/icon-wallet-hover.svg";
+import IconExchange from "../images/nav/icon-exchange.svg";
+import IconExchangeHover from "../images/nav/icon-exchange-hover.svg";
 
 // Styled
 const Navbar = styled.div`
   width: 15%;
-  input[type=checkbox], >span{
+  input[type="checkbox"],
+  > span {
     display: none;
   }
-  nav{
+  nav {
     padding-left: 20px;
-    > div{
+    > div {
       padding: 0;
       margin-bottom: 30px;
     }
-    div{
+    div {
       p {
         text-transform: uppercase;
         font-size: 13px;
         font-weight: 500;
         letter-spacing: 0.24px;
-        color: #8D96B2;
+        color: #8d96b2;
         position: relative;
         padding-left: 40px;
         display: inline-block;
-        &:hover{
+        &:hover {
           color: #fff;
         }
-        &:before{
-          content: '';
+        &:before {
+          content: "";
           display: block;
           position: absolute;
           left: 0;
@@ -52,46 +53,46 @@ const Navbar = styled.div`
           background-repeat: no-repeat;
         }
       }
-      &:hover{
+      &:hover {
         background-color: transparent;
       }
-      &:first-child{
-        p{
-          &:before{
+      &:first-child {
+        p {
+          &:before {
             background-image: url(${IconDashboard});
             width: 17px;
             height: 17px;
           }
-          &:hover{
-            &:before{
+          &:hover {
+            &:before {
               background-image: url(${IconDashboardHover});
             }
           }
         }
       }
-      &:nth-child(2){
-        p{
-          &:before{
+      &:nth-child(2) {
+        p {
+          &:before {
             background-image: url(${IconWallet});
             width: 17px;
             height: 15px;
           }
-          &:hover{
-            &:before{
+          &:hover {
+            &:before {
               background-image: url(${IconWalletHover});
             }
           }
         }
       }
-      &:nth-child(3){
-        p{
-          &:before{
+      &:nth-child(3) {
+        p {
+          &:before {
             background-image: url(${IconExchange});
             width: 17px;
             height: 11px;
           }
-          &:hover{
-            &:before{
+          &:hover {
+            &:before {
               background-image: url(${IconExchangeHover});
             }
           }
@@ -112,7 +113,7 @@ const Navbar = styled.div`
     -webkit-user-select: none;
     user-select: none;
     order: 1;
-    input[type=checkbox]{
+    input[type="checkbox"] {
       display: block;
       width: 40px;
       height: 32px;
@@ -123,26 +124,26 @@ const Navbar = styled.div`
       opacity: 0;
       z-index: 2;
       -webkit-touch-callout: none;
-      &:checked ~ span{
+      &:checked ~ span {
         opacity: 1;
         transform: rotate(45deg) translate(-2px, -1px);
         background: #fff;
       }
-      &:checked ~ span:nth-last-child(3){
+      &:checked ~ span:nth-last-child(3) {
         opacity: 0;
         transform: rotate(0deg) scale(0.2, 0.2);
       }
-      &:checked ~ span:nth-last-child(2){
+      &:checked ~ span:nth-last-child(2) {
         transform: rotate(-45deg) translate(0, -1px);
       }
-      &:checked ~ nav{
+      &:checked ~ nav {
         transform: translate(0%, 0);
       }
-      &:not(:checked) ~ nav{
+      &:not(:checked) ~ nav {
         transform: translate(-100%, 0);
       }
     }
-    >span{
+    > span {
       display: block;
       width: 33px;
       height: 4px;
@@ -154,14 +155,14 @@ const Navbar = styled.div`
       transform-origin: 4px 0px;
       transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
         background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
-      &:first-child{
+      &:first-child {
         transform-origin: 0% 0%;
       }
-      &:nth-last-child(2){
+      &:nth-last-child(2) {
         transform-origin: 0% 100%;
       }
     }
-    nav{
+    nav {
       position: absolute;
       width: 100vw;
       margin-top: -100px;
@@ -173,27 +174,27 @@ const Navbar = styled.div`
       transform-origin: 0% 0%;
       transform: translate(-100%, 0);
       transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
-      div{
-        p{
+      div {
+        p {
           color: #fff;
         }
-        &:first-child{
-          p{
-            &:before{
+        &:first-child {
+          p {
+            &:before {
               background-image: url(${IconDashboardHover});
             }
           }
         }
-        &:nth-child(2){
-          p{
-            &:before{
+        &:nth-child(2) {
+          p {
+            &:before {
               background-image: url(${IconWalletHover});
             }
           }
         }
-        &:nth-child(3){
-          p{
-            &:before{
+        &:nth-child(3) {
+          p {
+            &:before {
               background-image: url(${IconExchangeHover});
             }
           }
@@ -208,16 +209,16 @@ class NavbarWrapper extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      is_checked: false,
+      is_checked: false
     };
     this.clickCheckbox = this.clickCheckbox.bind(this);
     this.clickMenu = this.clickMenu.bind(this);
   }
   clickCheckbox(event) {
-    this.setState({is_checked: !this.state.is_checked});
+    this.setState({ is_checked: !this.state.is_checked });
   }
   clickMenu(event) {
-    this.setState({is_checked: !this.state.is_checked});
+    this.setState({ is_checked: !this.state.is_checked });
   }
 
   render() {
@@ -228,13 +229,13 @@ class NavbarWrapper extends Component {
           onChange={this.clickCheckbox}
           checked={this.state.is_checked}
         />
-        <span></span>
-        <span></span>
-        <span></span>
+        <span />
+        <span />
+        <span />
         <List component="nav" onClick={this.clickMenu}>
-          <MenuItem text={'Dashboard'} destination={'/'} />
-          <MenuItem text={'Wallets'} destination={'/wallets'} />
-          <MenuItem text={'Exchange'} destination={'/exchange'} />
+          <MenuItem text={"Dashboard"} destination={"/"} />
+          <MenuItem text={"Wallets"} destination={"/wallets"} />
+          <MenuItem text={"Exchange"} destination={"/exchange"} />
         </List>
       </Navbar>
     );
@@ -245,11 +246,7 @@ const MenuItem = withRouter(({ history, text, destination }) => (
   <ListItem button onClick={() => history.push(destination)}>
     <ListItemText
       disableTypography
-      primary={
-        <Typography type="body2">
-          {text}
-        </Typography>
-      }
+      primary={<Typography type="body2">{text}</Typography>}
     />
   </ListItem>
 ));

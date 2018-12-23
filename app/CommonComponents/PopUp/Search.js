@@ -10,7 +10,7 @@ class SearchBar extends React.Component {
   onChangeSerachPredicate(e) {
     this.setState({ searchPredicate: e.target.value });
     this.props.onSearchItem(e.target.value);
-  };
+  }
 
   render() {
     return (

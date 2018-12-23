@@ -11,10 +11,8 @@ import styled from "styled-components";
 
 const styles = {
   navItem: {
-    color: '#FFFFFF',
-  },
+    color: "#FFFFFF"
+  }
 };
 
-export const RoutingPanel = withStyles(styles)(({ }) => (
-  <NavbarWrapper />
-));
+export const RoutingPanel = withStyles(styles)(({}) => <NavbarWrapper />);

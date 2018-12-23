@@ -7,7 +7,6 @@ import * as actions from "./WalletList/Actions";
 import Modal from "../CommonComponents/Modal";
 import { SEND } from "./WalletList/RenderFunctions";
 
-
 // Import components
 import { InputSearch, Content } from "../Views";
 import { WalletsControl, Filter, Switcher } from "./WalletList/ControlPanel";
@@ -20,7 +19,7 @@ const WalletsListWrapper = styled.div`
   align-items: stretch;
   flex-direction: column;
   width: 100%;
-`
+`;
 // Component
 const mapStateToProps = state => ({
   wallets: state.wallets.walletList.walletList,
@@ -145,7 +144,8 @@ class WalletList extends React.Component {
         </Modal>
         <WalletsListWrapper>
           <WalletsControl>
-            <InputSearch walletListSearch
+            <InputSearch
+              walletListSearch
               value={this.state.searchPattern}
               onChange={this.handleSearch}
               type="text"

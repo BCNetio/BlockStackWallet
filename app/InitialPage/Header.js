@@ -10,8 +10,7 @@ import IconLogOut from "../images/common/icon-log-out.svg";
 import Fiat from "../Fiat/Fiat";
 import { config } from "../AppConfig";
 
-const LogoWrapper = styled.div`
-`;
+const LogoWrapper = styled.div``;
 
 const HeaderWrapper = styled.div`
   width: 100%;
@@ -72,7 +71,7 @@ const HeaderControl = styled.div`
       color: #fff;
       text-decoration: none;
       &:after {
-        content: '';
+        content: "";
         display: block;
         position: absolute;
         top: 50%;
@@ -104,7 +103,7 @@ const HeaderControl = styled.div`
     span {
       position: relative;
       &:after {
-        content: '';
+        content: "";
         display: block;
         position: absolute;
         top: 50%;
@@ -127,7 +126,7 @@ const HeaderControl = styled.div`
       display: flex;
       align-items: center;
       &:after {
-        content: '';
+        content: "";
         display: block;
         position: absolute;
         top: 50%;
@@ -162,7 +161,7 @@ const UserInfo = styled.div`
       justify-content: flex-start;
     }
     &:after {
-      content: '';
+      content: "";
       display: block;
       position: absolute;
       top: 50%;
@@ -206,7 +205,7 @@ const UserInfo = styled.div`
       right: auto;
     }
     &:before {
-      content: '';
+      content: "";
       display: block;
       position: absolute;
       top: -9px;
@@ -231,7 +230,7 @@ const UserInfo = styled.div`
           display: block;
           white-space: nowrap;
           &:before {
-            content: '';
+            content: "";
             display: block;
             position: absolute;
             top: 50%;
@@ -251,7 +250,6 @@ const UserInfo = styled.div`
     }
   }
 `;
-
 
 class ProfilePopUp extends React.Component {
   constructor(props) {

@@ -15,7 +15,8 @@ export const WalletsControl = styled.div`
   @media (max-width: 768px) {
     align-items: flex-start;
     flex-direction: column;
-    & >input, >div{
+    & > input,
+    > div {
       margin-bottom: 20px;
     }
   }
@@ -26,7 +27,7 @@ export const Filter = styled.div`
   @media (max-width: 768px) {
     margin-left: 0;
   }
-`
+`;
 
 export const Switcher = styled.div`
   margin-left: 20px;
@@ -43,4 +44,4 @@ export const Switcher = styled.div`
     display: inline-block;
     vertical-align: middle;
   }
-`
+`;

@@ -18,7 +18,7 @@ export const Row = styled.div`
     css`
       margin-top: 20px;
     `}
-`
+`;
 
 // Wrapper for input + select
 export const DoubleInputSelectWrapper = styled.div`
@@ -29,7 +29,7 @@ export const DoubleInputSelectWrapper = styled.div`
     width: 100%;
     justify-content: flex-start;
   }
-`
+`;
 
 // Input for exchange
 export const Input = styled.input`
@@ -126,8 +126,8 @@ export const Tooltip = styled.span`
 
 // Button to next screen
 export const NextButtonWrapper = styled.div`
-    margin-top: 35px;
-    text-align: right;
+  margin-top: 35px;
+  text-align: right;
 `;
 
 export const Next = styled.button`

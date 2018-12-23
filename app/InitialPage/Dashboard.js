@@ -12,7 +12,6 @@ import NewsPanel from "./NewsCard/Container";
 import { Content } from "../Views";
 import { Column } from "../CommonComponents/ContentColumn/Index";
 
-
 const mapDispatchToProps = dispatch => ({
   checkoutWallets: () => dispatch(actions.checkoutWalletList()),
   deleteWallet: (walletList, wallet) =>

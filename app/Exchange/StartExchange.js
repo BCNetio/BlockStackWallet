@@ -17,8 +17,8 @@ import {
   SelectWrapper,
   Tabs,
   Row,
-  DoubleInputSelectWrapper }
-from "./CommonComponents/Index";
+  DoubleInputSelectWrapper
+} from "./CommonComponents/Index";
 
 // Component
 class StartExchange extends React.Component {
