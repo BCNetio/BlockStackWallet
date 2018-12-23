@@ -6,19 +6,10 @@ import { BackButton } from "../Views";
 import { makeTransaction } from "../Wallets/Wallet/Actions";
 import styled, { css } from "styled-components";
 
-const Tooltip = styled.span`
-  color: #8d96b2;
-  font-size: 8px;
-  letter-spacing: 0.2px;
-  line-height: 9px;
-  margin-left: 61px;
-  &.error {
-    color: red;
-    display: block;
-    margin-top: 10px;
-  }
-`;
+// Import components
+import { Tooltip, Button } from "./CommonComponents/Index";
 
+// Styled
 const Confirm = styled.div`
   .content {
     background-color: #343f53;
@@ -103,17 +94,6 @@ const Confirm = styled.div`
       width: 70%;
     }
   }
-`;
-
-const Button = styled.button`
-  border: 1px solid #7ed321;
-  border-radius: 14px;
-  background: transparent;
-  color: #8d96b2;
-  padding: 5px 20px;
-  cursor: pointer;
-  margin-right: 5px;
-  outline: none;
 `;
 
 class Confirmation extends React.Component {

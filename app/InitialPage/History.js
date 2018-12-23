@@ -14,6 +14,7 @@ const styles = {
     color: "#FFFFFF",
     fontSize: 12,
     textOverflow: "ellipsis",
+    marginTop: "20px",
     boxShadow: "0 25px 40px 0 rgba(0,0,0,0.3)",
     transition: "background-color 0.7s ease"
   },

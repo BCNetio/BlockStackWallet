@@ -11,7 +11,6 @@ export const layout = {
     fontSize: 12,
     textOverflow: "ellipsis",
     padding: "0 20px",
-    marginBottom: "20px",
     boxShadow: "0 25px 40px 0 rgba(0,0,0,0.3)"
   },
   button: {

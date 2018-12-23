@@ -1,135 +1,26 @@
 import React from "react";
 import { connect } from "react-redux";
-import styled from "styled-components";
+
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { has, head } from "ramda";
 import * as actions from "./Actions";
-import Select from "../CommonComponents/Select";
-import IconArrowDown from "../images/common/icon-arrow-down.svg";
 import { toSatoshi, toETH } from "../Providers/Wallets";
 
-const Input = styled.input`
-  border-radius: 2px 0 0 2px;
-  background-color: #1f2431;
-  border: none;
-  height: auto;
-  padding-left: 20px;
-  color: #fff;
-  width: 194px;
-`;
+// Import components
+import Select from "../CommonComponents/Select";
+import {
+  Input,
+  Label,
+  Tooltip,
+  NextButtonWrapper,
+  Next,
+  SelectWrapper,
+  Tabs,
+  Row,
+  DoubleInputSelectWrapper }
+from "./CommonComponents/Index";
 
-const Label = styled.p`
-  font-size: 11px;
-  letter-spacing: 0.41px;
-  line-height: 13px;
-`;
-
-const Tooltip = styled.span`
-  color: #8d96b2;
-  font-size: 8px;
-  letter-spacing: 0.2px;
-  line-height: 9px;
-  margin-left: 61px;
-  &.error {
-    color: red;
-    display: block;
-    margin-top: 10px;
-  }
-`;
-
-const Next = styled.button`
-  border: 1px solid #8d96b2;
-  border-radius: 14px;
-  background: transparent;
-  color: #8d96b2;
-  padding: 5px 20px;
-  cursor: pointer;
-  margin-right: 5px;
-  outline: none;
-`;
-
-const SelectWrapper = styled.div`
-  height: auto;
-  background-color: #273041;
-  position: relative;
-  cursor: pointer;
-  &:after {
-    content: "";
-    display: block;
-    height: 9px;
-    width: 6px;
-    position: absolute;
-    right: 10px;
-    top: 42%;
-    background: url(${IconArrowDown}) no-repeat;
-    transform: rotate(-90deg) translateY(-50%);
-  }
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.08);
-  }
-  > div {
-    padding: 8px 10px;
-    width: 156px;
-    > div:first-child {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      font-size: 11px;
-      letter-spacing: 0.4125px;
-      color: #ffffff;
-      div {
-        width: 20%;
-        height: 20px;
-        margin-right: 10px;
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: contain;
-        }
-      }
-      p {
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        padding-right: 20px;
-        width: 80%;
-      }
-    }
-  }
-`;
-
-const Tabs = styled.div`
-  border-top: 1px solid rgba(141, 150, 178, 0.1);
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-left: -20px;
-  position: absolute;
-  bottom: 0;
-  div {
-    width: 33.9%;
-    text-align: center;
-    padding: 15px 0;
-    &:not(:last-child) {
-      border-right: 1px solid rgba(141, 150, 178, 0.1);
-    }
-    p {
-      color: #8d96b2;
-      font-size: 10px;
-      letter-spacing: 0.25px;
-      line-height: 11px;
-      margin-bottom: 4px;
-    }
-    span {
-      color: #f1f1f1;
-      font-size: 10px;
-      letter-spacing: 0.25px;
-      line-height: 11px;
-      text-transform: uppercase;
-    }
-  }
-`;
-
+// Component
 class StartExchange extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.wallets.length && !has("wid", prevState.walletFrom)) {
@@ -275,21 +166,9 @@ class StartExchange extends React.Component {
   render() {
     return this.props.wallets.length ? (
       <div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center"
-          }}
-        >
+        <Row>
           <Label>From</Label>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "stretch"
-            }}
-          >
+          <DoubleInputSelectWrapper>
             <Input onChange={this.onChangeAmount} value={this.state.amount} />
             <SelectWrapper className="arrow-down">
               <Select
@@ -299,26 +178,13 @@ class StartExchange extends React.Component {
                 handleMenuItemClick={this.handleMenuItemClick}
               />
             </SelectWrapper>
-          </div>
-        </div>
+          </DoubleInputSelectWrapper>
+        </Row>
         <Tooltip className="error">{this.state.error}</Tooltip>
         <Tooltip>Aviable amount: {this.props.balance}</Tooltip>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginTop: "20px"
-          }}
-        >
+        <Row mt20>
           <Label>To</Label>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "stretch"
-            }}
-          >
+          <DoubleInputSelectWrapper>
             <Input
               value={
                 this.state.amount
@@ -335,9 +201,9 @@ class StartExchange extends React.Component {
                 handleMenuItemClick={this.handleMenuItemClickTo}
               />
             </SelectWrapper>
-          </div>
-        </div>
-        <div style={{ marginTop: "35px", textAlign: "right" }}>
+          </DoubleInputSelectWrapper>
+        </Row>
+        <NextButtonWrapper>
           <Next
             variant="outlined"
             onClick={() => this.toStepTwo(1)}
@@ -345,7 +211,7 @@ class StartExchange extends React.Component {
           >
             Next
           </Next>
-        </div>
+        </NextButtonWrapper>
         {has("limit", this.props.marketInfo) && (
           <Tabs>
             <div>

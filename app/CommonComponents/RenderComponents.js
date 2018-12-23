@@ -14,6 +14,9 @@ export const DropdawnWrapper = styled.div`
   width: 240px;
   margin-top: 10px;
   background-color: #fff;
+  @media (max-width: 768px) {
+    max-width: 145px;
+  }
   &:before {
     content: "";
     display: block;
