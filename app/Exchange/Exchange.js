@@ -8,8 +8,8 @@ import StatusExchange from './StatusExchange';
 import Divider from '@material-ui/core/Divider';
 import styled, { css } from 'styled-components';
 
-// Icons
-import IconSwap from '../images/common/icon-swap.svg';
+import styled from "styled-components";
+import IconSwap from "../images/common/icon-swap.svg";
 
 // Import components
 import { Button } from "./CommonComponents/Index";

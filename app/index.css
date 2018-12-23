@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700");
 
-/* body color*/
+/* body color */
 * {
   box-sizing: border-box;
 }
@@ -46,7 +46,7 @@ ul {
   list-style: none;
 }
 
-/* styles for scrollbar*/
+/* styles for scrollbar */
 .scroll-wrapper::-webkit-scrollbar {
   width: 10px;
 }

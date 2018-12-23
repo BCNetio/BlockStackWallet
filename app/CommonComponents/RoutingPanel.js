@@ -1,12 +1,13 @@
-import React from 'react';
+import React from "react";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 
-import DraftsIcon from '@material-ui/icons/Drafts';
-import AccountBalance from '@material-ui/icons/AccountBalanceWallet';
-import { withStyles } from '@material-ui/core/styles';
-import Exchange from '@material-ui/icons/SwapHoriz';
+import { withRouter } from "react-router-dom";
+import { withStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 
-// Import Component
-import NavbarWrapper from '../InitialPage/Menu';
+import styled from "styled-components";
 
 const styles = {
   navItem: {
