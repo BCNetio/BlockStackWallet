@@ -20,7 +20,7 @@
     "bip39": "^2.5.0",
     "bitcoinjs-lib": "^4.0.1",
     "bitcore-lib-cash": "^0.19.0",
-    "blockstack": "^18.2.0",
+    "blockstack": "^18.2.1",
     "chart.js": "^2.7.2",
     "classnames": "^2.2.5",
     "dotenv": "^4.0.0",
